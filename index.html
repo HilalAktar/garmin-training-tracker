@@ -190,31 +190,33 @@
     </div>
   </div>
 
-  <div class="view" id="view-kuvvet">
+  <div class="view" id="view-garmin">
+    <div class="tiles" id="garmin-tiles"></div>
     <div class="card">
-      <h2>Set kaydet 🏋️</h2>
-      <div class="sub">Salonda set arası hızlı giriş. Garmin Connect'e girdiğin antrenmanlar veri akışı başlayınca otomatik gelir — çakışırsa Garmin kaydı esas alınır.</div>
-      <div class="frm">
-        <div class="fld"><label for="l-date">Tarih</label><input type="date" id="l-date"></div>
-        <div class="fld" style="grid-column: span 2"><label for="l-ex">Hareket</label><input list="ex-list" id="l-ex" placeholder="örn. Barfiks"><datalist id="ex-list"></datalist></div>
-        <div class="fld"><label for="l-kg">Kg (+ek)</label><input type="number" step="0.5" id="l-kg" placeholder="0"></div>
-        <div class="fld"><label for="l-set">Set</label><input type="number" id="l-set" value="1" min="1"></div>
-        <div class="fld"><label for="l-rep">Tekrar</label><input type="number" id="l-rep" min="1" placeholder="8"></div>
-        <div class="fld fw"><label for="l-note">Not (ops.)</label><input id="l-note" placeholder="RPE, his, form notu…"></div>
-        <button class="btn fw" id="l-add">Kaydet</button>
-      </div>
-      <div id="log-feedback"></div>
+      <h2>Uyku skoru <span class="mini">son 14 gece</span></h2>
+      <div class="sub">Çubuğun üzerine gel: süre, kalite, dinlenik nabız ve uykuda Body Battery şarjı</div>
+      <div id="chart-sleep"></div>
+      <details><summary>Tablo görünümü</summary><div id="table-sleep"></div></details>
     </div>
     <div class="card">
-      <h2>Progressive overload</h2>
-      <div class="sub">Hareket seç — en ağır set + tahmini 1TM (Epley) gelişimi. Barfiks için kg = ek ağırlık.</div>
-      <div class="chip-row" id="ex-chips"></div>
-      <div id="chart-strength"></div>
-      <div id="pr-line" style="font-size:13px;color:var(--text-secondary);margin-top:8px"></div>
+      <h2>Yoğunluk dakikaları <span class="mini">haftalık · hedef 150</span></h2>
+      <div class="sub">Garmin mantığıyla nabızdan tahmin: tempolu dakikalar ×1, yüklü dakikalar ×2 sayılır</div>
+      <div id="chart-intensity"></div>
     </div>
     <div class="card">
-      <h2>Günlük</h2>
-      <div id="log-table"></div>
+      <h2>Dinlenik nabız <span class="mini">son 14 gün</span></h2>
+      <div class="sub">Gece ölçümü — düşük ve istikrarlı olması iyi toparlanma işareti</div>
+      <div id="chart-rhr"></div>
+    </div>
+    <div class="card">
+      <h2>Adımlar <span class="mini">son 14 gün</span></h2>
+      <div class="sub">Kısa yatay çizgi o günün Garmin hedefi — üzerine gel, sayıları gör</div>
+      <div id="chart-steps"></div>
+    </div>
+    <div class="card">
+      <h2>Body Battery <span class="mini">uyku sonrası seviye</span></h2>
+      <div class="sub">Sabaha kaçla uyandığın — 100'e yakın gün, yüklenmeye uygun gün</div>
+      <div id="chart-bb"></div>
     </div>
   </div>
 
@@ -405,7 +407,7 @@ const EMBEDDED_DATA = {
     {src:"strava", date:"2026-03-24", time:"18:37", name:"Evening Run", type:"Run", cat:"Koşu", sec:382, km:0.88, prs:2}
   ],
   wellness: {
-    sleep: [{"date":"2026-06-26","score":68,"durationH":6.05,"quality":"Fair"},{"date":"2026-06-27","score":85,"durationH":7.45,"quality":"Good"},{"date":"2026-06-28","score":29,"durationH":1.87,"quality":"Poor"},{"date":"2026-06-29","score":81,"durationH":6.6,"quality":"Good"},{"date":"2026-06-30","score":74,"durationH":5.93,"quality":"Fair"},{"date":"2026-07-01","score":78,"durationH":5.57,"quality":"Fair"},{"date":"2026-07-02","score":89,"durationH":6.77,"quality":"Good"},{"date":"2026-07-03","score":86,"durationH":7.0,"quality":"Good"},{"date":"2026-07-04","score":59,"durationH":5.6,"quality":"Poor"},{"date":"2026-07-05","score":80,"durationH":6.03,"quality":"Good"},{"date":"2026-07-06","score":53,"durationH":6.12,"quality":"Poor"},{"date":"2026-07-07","score":89,"durationH":6.53,"quality":"Good"},{"date":"2026-07-08","score":81,"durationH":5.98,"quality":"Good"},{"date":"2026-07-09","score":63,"durationH":7.2,"quality":"Fair"}],
+    sleep: [{"date":"2026-06-26","score":68,"durationH":6.05,"quality":"Fair","rhr":52,"bb":66,"resp":16.06},{"date":"2026-06-27","score":85,"durationH":7.45,"quality":"Good","rhr":52,"bb":85,"resp":16.1},{"date":"2026-06-28","score":29,"durationH":1.87,"quality":"Poor","rhr":56,"bb":20,"resp":16.45},{"date":"2026-06-29","score":81,"durationH":6.6,"quality":"Good","rhr":53,"bb":74,"resp":16.84},{"date":"2026-06-30","score":74,"durationH":5.93,"quality":"Fair","rhr":52,"bb":64,"resp":16.71},{"date":"2026-07-01","score":78,"durationH":5.57,"quality":"Fair","rhr":51,"bb":50,"resp":15.96},{"date":"2026-07-02","score":89,"durationH":6.77,"quality":"Good","rhr":51,"bb":71,"resp":16.15},{"date":"2026-07-03","score":86,"durationH":7.0,"quality":"Good","rhr":54,"bb":66,"resp":16.06},{"date":"2026-07-04","score":59,"durationH":5.6,"quality":"Poor","rhr":55,"bb":57,"resp":16.49},{"date":"2026-07-05","score":80,"durationH":6.03,"quality":"Good","rhr":50,"bb":70,"resp":15.58},{"date":"2026-07-06","score":53,"durationH":6.12,"quality":"Poor","rhr":54,"bb":57,"resp":16.14},{"date":"2026-07-07","score":89,"durationH":6.53,"quality":"Good","rhr":55,"bb":69,"resp":15.94},{"date":"2026-07-08","score":81,"durationH":5.98,"quality":"Good","rhr":56,"bb":61,"resp":15.58},{"date":"2026-07-09","score":63,"durationH":7.2,"quality":"Fair","rhr":57,"bb":42,"resp":16.75}],
     hrv: [{"date":"2026-06-19","avg":75,"status":"","weekAvg":70},{"date":"2026-06-20","avg":56,"status":"","weekAvg":68},{"date":"2026-06-21","avg":59,"status":"","weekAvg":64},{"date":"2026-06-22","avg":71,"status":"","weekAvg":64},{"date":"2026-06-23","avg":82,"status":"","weekAvg":66},{"date":"2026-06-24","avg":92,"status":"","weekAvg":71},{"date":"2026-06-25","avg":72,"status":"","weekAvg":72},{"date":"2026-06-26","avg":80,"status":"","weekAvg":72},{"date":"2026-06-27","avg":75,"status":"","weekAvg":75},{"date":"2026-06-28","avg":73,"status":"","weekAvg":78},{"date":"2026-06-29","avg":72,"status":"Dengeli","weekAvg":78},{"date":"2026-06-30","avg":72,"status":"Dengeli","weekAvg":76},{"date":"2026-07-01","avg":98,"status":"Yüksek","weekAvg":77},{"date":"2026-07-02","avg":87,"status":"Dengeli","weekAvg":79},{"date":"2026-07-03","avg":69,"status":"Dengeli","weekAvg":77},{"date":"2026-07-04","avg":68,"status":"Dengeli","weekAvg":76},{"date":"2026-07-05","avg":86,"status":"Dengeli","weekAvg":78},{"date":"2026-07-06","avg":70,"status":"Dengeli","weekAvg":78},{"date":"2026-07-07","avg":75,"status":"Dengeli","weekAvg":78},{"date":"2026-07-08","avg":72,"status":"Dengeli","weekAvg":75},{"date":"2026-07-09","avg":57,"status":"Düşük","weekAvg":71}],
     bodyBattery: [{"date":"2026-07-07","val":69},{"date":"2026-07-08","val":61},{"date":"2026-07-09","val":42}],
     readiness: [], stress: [],
@@ -519,7 +521,7 @@ const hideTip = () => tooltip.style.display = "none";
 
 /* ================= SEKMELER ================= */
 const TABS = [
-  ["pano","Pano","📊"], ["kuvvet","Kuvvet","🏋️"], ["beceri","Beceriler","🌟"],
+  ["pano","Pano","📊"], ["garmin","Garmin","⌚"], ["beceri","Beceriler","🌟"],
   ["hedef","Hedefler","🎯"], ["sohbet","AI Koç","💬"], ["ayarlar","Ayarlar","⚙️"]
 ];
 function buildTabs() {
@@ -558,13 +560,13 @@ function buildTiles() {
   ACTS.forEach(a => { const k = weekKey(a.date); weeks[k] = (weeks[k]||0) + a.sec/3600; });
   const wkeys = Object.keys(weeks).sort();
   const last4 = wkeys.slice(-4).reduce((a,k) => a + weeks[k], 0) / Math.min(4, wkeys.length);
-  const pull = allLogs().filter(l => l.ex.toLowerCase().includes("barfiks"));
-  const maxAdd = pull.length ? Math.max(...pull.map(l => +l.kg || 0)) : 0;
+  const wkNow = weekKey(today());
+  const intWeek = ACTS.filter(a => weekKey(a.date) === wkNow).reduce((a,x) => a + intensityOf(x), 0);
   const tiles = [
     ["Toplam süre", fmt1(totalH) + " sa", ACTS.length + " aktivite", ""],
     ["Son 4 hafta ort.", fmt1(last4) + " sa/hf", "haftalık hacim", "up"],
-    ["5K rekoru", "33:22", "hedef: 30:00 altı", ""],
-    ["Barfiks", "+" + maxAdd + " kg", "en ağır ek ağırlık", "up"]
+    ["5K rekoru", "33:22", "6:40/km · hedef 30:00 (6:00/km)", ""],
+    ["Yoğunluk dk", String(intWeek), "bu hafta · hedef 150", intWeek >= 150 ? "up" : ""]
   ];
   const rd = APP_DATA.wellness.readiness.at(-1);
   if (rd) tiles.push(["Hazırlık", String(rd.score), rd.level || "", rd.score >= 70 ? "up" : ""]);
@@ -902,142 +904,135 @@ function buildSrcPill() {
   p.appendChild(mk("ok","Strava "+s));
 }
 
-/* ================= KUVVET ================= */
-const EX_SUGGESTIONS = ["Barfiks","Weighted Pull-up","Squat","Deadlift","Romanian Deadlift","Bench Press","Overhead Press","Barbell Row","Hip Thrust","Bulgarian Split Squat","Lat Pulldown","Dips","Biceps Curl","Leg Press","Cable Row","Push-up","Pistol Squat"];
-let selectedEx = "Barfiks";
-
-/* Garmin setleri + elle girilenler. Çakışmada (aynı gün + aynı hareket) Garmin kazanır. */
-function allLogs() {
-  const g = (APP_DATA.garminSets || []).map(l => ({ ...l, src: "garmin" }));
-  const gk = new Set(g.map(l => l.date + "|" + l.ex.toLowerCase()));
-  const manual = DB.logs
-    .filter(l => !gk.has(l.date + "|" + l.ex.toLowerCase()))
-    .map(l => ({ ...l, src: "user", orig: l }));
-  return [...g, ...manual];
+/* ================= GARMİN SEKMESİ ================= */
+/* Yoğunluk dakikaları (Garmin mantığı, nabızdan tahmin): tempolu ×1, yüklü ×2 */
+function intensityOf(a) {
+  if (!a.avgHr) return 0;
+  const min = Math.round(a.sec/60);
+  if (a.avgHr >= 140) return min * 2;
+  if (a.avgHr >= 115) return min;
+  return 0;
 }
-
-function exNames() {
-  const s = new Set(allLogs().map(l => l.ex));
-  return [...s];
-}
-function buildExDatalist() {
-  const dl = document.getElementById("ex-list"); dl.textContent = "";
-  new Set([...exNames(), ...EX_SUGGESTIONS]).forEach(x => { const o = h("option"); o.value = x; dl.appendChild(o); });
-}
-function e1rm(kg, rep) { return kg * (1 + rep/30); }
-function buildStrengthChart() {
-  const chips = document.getElementById("ex-chips"); chips.textContent = "";
-  const names = exNames();
-  if (!names.includes(selectedEx)) selectedEx = names[0] || "Barfiks";
-  names.forEach(nm => {
-    const c = h("button","chip" + (nm === selectedEx ? " active" : ""), nm);
-    c.addEventListener("click", () => { selectedEx = nm; buildStrengthChart(); });
-    chips.appendChild(c);
-  });
-  const cw = document.getElementById("chart-strength"); cw.textContent = "";
-  const prLine = document.getElementById("pr-line"); prLine.textContent = "";
-  const rows = allLogs().filter(l => l.ex === selectedEx).slice().sort((a,b) => a.date.localeCompare(b.date));
-  if (!rows.length) { cw.appendChild(h("div","empty","Bu harekete kayıt yok. Yukarıdan ilk setini gir!")); return; }
-  // günlük en iyi set: en yüksek kg, eşitse en çok tekrar
-  const byDay = {};
-  rows.forEach(l => {
-    const curr = byDay[l.date];
-    if (!curr || (+l.kg > +curr.kg) || (+l.kg === +curr.kg && +l.rep > +curr.rep)) byDay[l.date] = l;
-  });
-  const days = Object.keys(byDay).sort();
-  const pts = days.map(d => ({ d, kg: +byDay[d].kg, rep: +byDay[d].rep, est: e1rm(+byDay[d].kg, +byDay[d].rep) }));
-  const isBW = pts.every(p => p.kg <= 20); // barfiks tarzı ek ağırlık
-  const maxV = Math.max(...pts.map(p => Math.max(p.est, p.kg, p.rep)), 5);
-  const W = 940, H = 250, m = { t:16, r:16, b:32, l:40 };
+function gBars(mount, items, o) {
+  const cw = document.getElementById(mount); cw.textContent = "";
+  if (!items.length) { cw.appendChild(h("div","empty","Garmin bağlayıcısından bu veri henüz akmadı — geldiğinde burada görünecek.")); return; }
+  o = o || {};
+  const rawMax = Math.max(...items.map(i => i.val), o.goalLine || 0);
+  const maxY = o.maxY || Math.ceil(rawMax * 1.12 / (o.step || 25)) * (o.step || 25);
+  const step = o.step || 25;
+  const W = 940, H = o.H || 240, m = { t:16, r:12, b:30, l:o.left || 44 };
   const iw = W-m.l-m.r, ih = H-m.t-m.b;
-  const X = i => pts.length === 1 ? m.l + iw/2 : m.l + (i/(pts.length-1))*iw;
-  const Y = v => m.t + ih - (v/(maxV*1.15))*ih;
-  const svg = el("svg",{viewBox:`0 0 ${W} ${H}`});
-  const stepY = maxV > 40 ? 20 : maxV > 12 ? 5 : 2;
-  for (let v = 0; v <= maxV*1.15; v += stepY) {
-    const y = Y(v);
-    svg.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y,y2:y,class:v===0?"baseline":"gridline"}));
-    const t = el("text",{x:m.l-8,y:y+4,"text-anchor":"end",class:"tick"}); t.textContent = v; svg.appendChild(t);
+  const Y = v => m.t + ih - (v/maxY)*ih;
+  const svg = el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img"});
+  for (let v = 0; v <= maxY; v += step) {
+    svg.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:Y(v),y2:Y(v),class:v===0?"baseline":"gridline"}));
+    const t = el("text",{x:m.l-8,y:Y(v)+4,"text-anchor":"end",class:"tick"}); t.textContent = v.toLocaleString("tr-TR"); svg.appendChild(t);
   }
-  const c1 = css("--s1"), c2 = css("--s2");
-  // legend (2 seri)
-  const lgd = [["En ağır set (kg)", c1], ["Tahmini 1TM", c2]];
-  lgd.forEach(([nm, cc], li) => {
-    svg.appendChild(el("rect",{x:m.l+li*160, y:2, width:10, height:10, rx:3, fill:cc}));
-    const t = el("text",{x:m.l+li*160+15, y:11, class:"dlabel"}); t.textContent = nm; svg.appendChild(t);
-  });
-  const line = (vals, color) => {
-    svg.appendChild(el("path",{d:vals.map((v,i)=>(i?"L":"M")+X(i).toFixed(1)+","+Y(v).toFixed(1)).join(" "),fill:"none",stroke:color,"stroke-width":2,"stroke-linejoin":"round","stroke-linecap":"round"}));
-  };
-  line(pts.map(p=>p.kg), c1);
-  line(pts.map(p=>p.est), c2);
-  pts.forEach((p,i) => {
-    [[p.kg,c1],[p.est,c2]].forEach(([v,cc]) => {
-      const g = el("g",{});
-      g.appendChild(el("circle",{cx:X(i),cy:Y(v),r:12,fill:"transparent"}));
-      g.appendChild(el("circle",{cx:X(i),cy:Y(v),r:4,fill:cc,stroke:css("--surface-1"),"stroke-width":2}));
-      g.addEventListener("pointermove", e => showTip(e, dLabel(p.d) + " · " + selectedEx, [
-        {color:c1, value:(isBW?"+":"")+p.kg+" kg × "+p.rep, name:"en iyi set"},
-        {color:c2, value:fmt1(p.est)+" kg", name:"tahmini 1TM"}
-      ]));
-      g.addEventListener("pointerleave", hideTip);
-      svg.appendChild(g);
-    });
-    const t = el("text",{x:X(i),y:H-8,"text-anchor":"middle",class:"tick"}); t.textContent = dLabel(p.d); svg.appendChild(t);
+  if (o.goalLine) {
+    svg.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:Y(o.goalLine),y2:Y(o.goalLine),stroke:css("--baseline"),"stroke-width":1.5}));
+    const t = el("text",{x:m.l+iw,y:Y(o.goalLine)-5,"text-anchor":"end",class:"dlabel"}); t.textContent = "hedef " + o.goalLine; svg.appendChild(t);
+  }
+  const n = items.length, band = iw/n, bw = Math.min(24, band*0.6);
+  const color = css("--s1");
+  items.forEach((it,i) => {
+    const x = m.l + band*i + (band-bw)/2;
+    const hpx = Math.max(1, (it.val/maxY)*ih), y1 = Y(it.val);
+    const rr = Math.min(4, hpx/2);
+    const g = el("g",{tabindex:"0"});
+    g.appendChild(el("rect",{x:m.l+band*i,y:m.t,width:band,height:ih,fill:"transparent"}));
+    g.appendChild(el("path",{d:`M${x},${y1+hpx} L${x},${y1+rr} Q${x},${y1} ${x+rr},${y1} L${x+bw-rr},${y1} Q${x+bw},${y1} ${x+bw},${y1+rr} L${x+bw},${y1+hpx} Z`, fill:color}));
+    if (it.goal) svg.appendChild(el("line",{x1:m.l+band*i+3,x2:m.l+band*(i+1)-3,y1:Y(it.goal),y2:Y(it.goal),stroke:css("--text-muted"),"stroke-width":2}));
+    const onmove = e => showTip(e, it.title, it.tip.map((r,idx) => ({color: idx===0 ? color : undefined, value: r.v, name: r.n})));
+    g.addEventListener("pointermove", onmove);
+    g.addEventListener("focus", () => onmove({clientX:innerWidth/2, clientY:innerHeight/3}));
+    g.addEventListener("pointerleave", hideTip); g.addEventListener("blur", hideTip);
+    svg.appendChild(g);
+    if (i % (o.labelEvery || 2) === 0) { const t = el("text",{x:m.l+band*i+band/2,y:H-8,"text-anchor":"middle",class:"tick"}); t.textContent = it.label; svg.appendChild(t); }
   });
   cw.appendChild(svg);
-  const best = pts.reduce((a,b) => b.est >= a.est ? b : a, pts[0]);
-  prLine.textContent = "PR: " + (isBW?"+":"") + best.kg + " kg × " + best.rep + " (" + dLabel(best.d) + ")" + (isBW ? " · Not: barfikste kg = vücut ağırlığına ek." : " · Tahmini 1TM " + fmt1(best.est) + " kg");
 }
-function buildLogTable() {
-  const tw = document.getElementById("log-table"); tw.textContent = "";
-  const logs = allLogs();
-  if (!logs.length) { tw.appendChild(h("div","empty","Henüz kayıt yok.")); return; }
-  const tbl = h("table"); const hr = h("tr");
-  ["Tarih","Hareket","Kg","Set×Tekrar","Not","Kaynak",""].forEach(x => hr.appendChild(h("th","",x))); tbl.appendChild(hr);
-  logs.slice().sort((a,b) => b.date.localeCompare(a.date)).slice(0,30).forEach(l => {
-    const tr = h("tr");
-    tr.appendChild(h("td","",dLabel(l.date)));
-    tr.appendChild(h("td","",l.ex));
-    tr.appendChild(h("td","",String(l.kg)));
-    tr.appendChild(h("td","",l.set + "×" + l.rep));
-    tr.appendChild(h("td","",l.note||"–"));
-    const tds = h("td");
-    tds.appendChild(h("span","badge " + (l.src === "garmin" ? "garmin" : "pr"), l.src === "garmin" ? "Garmin" : "elle"));
-    tr.appendChild(tds);
-    const td = h("td");
-    if (l.src === "user") {
-      const del = h("button","del","✕");
-      del.addEventListener("click", () => { DB.logs.splice(DB.logs.indexOf(l.orig),1); save("logs"); refreshStrength(); });
-      td.appendChild(del);
-    }
-    tr.appendChild(td);
-    tbl.appendChild(tr);
+function gLine(mount, items, o) {
+  const cw = document.getElementById(mount); cw.textContent = "";
+  if (items.length < 2) { cw.appendChild(h("div","empty","Garmin bağlayıcısından bu veri henüz akmadı — geldiğinde burada görünecek.")); return; }
+  o = o || {};
+  const vals = items.map(i => i.val);
+  const minV = Math.floor((Math.min(...vals)-2)/5)*5, maxV = Math.ceil((Math.max(...vals)+2)/5)*5;
+  const W = 940, H = o.H || 220, m = { t:16, r:16, b:30, l:44 };
+  const iw = W-m.l-m.r, ih = H-m.t-m.b;
+  const n = items.length, band = iw/n;
+  const X = i => m.l + band*i + band/2;
+  const Y = v => m.t + ih * (maxV - v) / (maxV - minV);
+  const svg = el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img"});
+  for (let v = minV; v <= maxV; v += 5) {
+    svg.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:Y(v),y2:Y(v),class:"gridline"}));
+    const t = el("text",{x:m.l-8,y:Y(v)+4,"text-anchor":"end",class:"tick"}); t.textContent = v; svg.appendChild(t);
+  }
+  const color = css("--s1");
+  svg.appendChild(el("path",{d:items.map((it,i)=>(i?"L":"M")+X(i).toFixed(1)+","+Y(it.val).toFixed(1)).join(" "),fill:"none",stroke:color,"stroke-width":2,"stroke-linejoin":"round","stroke-linecap":"round"}));
+  items.forEach((it,i) => {
+    const g = el("g",{tabindex:"0"});
+    g.appendChild(el("rect",{x:m.l+band*i,y:m.t,width:band,height:ih,fill:"transparent"}));
+    g.appendChild(el("circle",{cx:X(i),cy:Y(it.val),r:4,fill:color,stroke:css("--surface-1"),"stroke-width":2}));
+    const onmove = e => showTip(e, it.title, it.tip.map((r,idx) => ({color: idx===0 ? color : undefined, value: r.v, name: r.n})));
+    g.addEventListener("pointermove", onmove);
+    g.addEventListener("focus", () => onmove({clientX:innerWidth/2, clientY:innerHeight/3}));
+    g.addEventListener("pointerleave", hideTip); g.addEventListener("blur", hideTip);
+    svg.appendChild(g);
+    if (i % (o.labelEvery || 2) === 0) { const t = el("text",{x:X(i),y:H-8,"text-anchor":"middle",class:"tick"}); t.textContent = it.label; svg.appendChild(t); }
   });
-  tw.appendChild(tbl);
+  cw.appendChild(svg);
 }
-function refreshStrength() { buildExDatalist(); buildStrengthChart(); buildLogTable(); buildTiles(); }
-function initStrengthForm() {
-  document.getElementById("l-date").value = today();
-  document.getElementById("l-add").addEventListener("click", () => {
-    const ex = document.getElementById("l-ex").value.trim();
-    const kg = parseFloat(document.getElementById("l-kg").value) || 0;
-    const set = parseInt(document.getElementById("l-set").value) || 1;
-    const rep = parseInt(document.getElementById("l-rep").value);
-    const note = document.getElementById("l-note").value.trim();
-    const date = document.getElementById("l-date").value || today();
-    const fb = document.getElementById("log-feedback"); fb.textContent = "";
-    if (!ex || !rep) { fb.appendChild(h("div","empty","Hareket adı ve tekrar sayısı gerekli.")); return; }
-    DB.logs.push({ date, ex, kg, set, rep, note });
-    save("logs");
-    selectedEx = ex;
-    document.getElementById("l-note").value = "";
-    const prev = DB.logs.filter(l => l.ex === ex && l !== DB.logs[DB.logs.length-1]);
-    const isPR = prev.length && kg > Math.max(...prev.map(l => +l.kg));
-    const ok = h("div","ok-note", isPR ? "Kaydedildi — YENİ PR! ✦ Tebrikler!" : "Kaydedildi ✓");
-    fb.appendChild(ok); setTimeout(() => fb.textContent = "", 3000);
-    refreshStrength();
-  });
+function buildGarminTab() {
+  const w = APP_DATA.wellness;
+  const QUAL = { Good: "iyi", Fair: "orta", Poor: "zayıf" };
+  const gt = document.getElementById("garmin-tiles"); gt.textContent = "";
+  const mk = (l,v,s,cls) => { const t = h("div","tile"); t.appendChild(h("div","label",l)); t.appendChild(h("div","value",v)); if (s) t.appendChild(h("div","delta" + (cls?" "+cls:""), s)); return t; };
+  const sl = w.sleep || [];
+  if (sl.length) {
+    const avg = Math.round(sl.reduce((a,s)=>a+s.score,0)/sl.length);
+    gt.appendChild(mk("Uyku skoru (dün)", String(sl.at(-1).score), "14 gün ort. " + avg));
+    const rhrs = sl.filter(s => s.rhr);
+    if (rhrs.length) gt.appendChild(mk("Dinlenik nabız", rhrs.at(-1).rhr + "", "bpm · 14g ort " + Math.round(rhrs.reduce((a,s)=>a+s.rhr,0)/rhrs.length)));
+  }
+  const wkNow = weekKey(today());
+  const intWeek = ACTS.filter(a => weekKey(a.date) === wkNow).reduce((a,x) => a + intensityOf(x), 0);
+  gt.appendChild(mk("Yoğunluk dk", String(intWeek), "bu hafta · hedef 150", intWeek >= 150 ? "up" : ""));
+  const st = w.steps || [];
+  if (st.length) gt.appendChild(mk("Adım (bugün)", st.at(-1).steps.toLocaleString("tr-TR"), "14g ort. " + Math.round(st.reduce((a,s)=>a+s.steps,0)/st.length).toLocaleString("tr-TR")));
+
+  gBars("chart-sleep", sl.map(s => ({ label: dLabel(s.date), title: dLabel(s.date), val: s.score,
+    tip: [{v:String(s.score), n:"skor"}, {v:fmt1(s.durationH)+" sa", n:"süre"}, {v:QUAL[s.quality]||s.quality, n:"kalite"},
+      ...(s.rhr ? [{v:s.rhr+" bpm", n:"dinlenik nabız"}] : []), ...(s.resp ? [{v:String(s.resp), n:"solunum/dk"}] : [])] })),
+    { maxY: 100, step: 25, labelEvery: 2, H: 240 });
+
+  const byWeekI = {};
+  ACTS.forEach(a => { const k = weekKey(a.date); byWeekI[k] = (byWeekI[k]||0) + intensityOf(a); });
+  const iWeeks = Object.keys(byWeekI).sort().slice(-6);
+  gBars("chart-intensity", iWeeks.map(k => ({ label: rangeLabel(k), title: rangeLabel(k) + " haftası", val: byWeekI[k],
+    tip: [{v:String(byWeekI[k]), n:"yoğunluk dk"}, {v:"150", n:"haftalık hedef"}] })),
+    { goalLine: 150, step: 100, labelEvery: 1, H: 230 });
+
+  gLine("chart-rhr", sl.filter(s => s.rhr).map(s => ({ label: dLabel(s.date), title: dLabel(s.date), val: s.rhr,
+    tip: [{v:s.rhr+" bpm", n:"dinlenik nabız"}] })), { labelEvery: 2 });
+
+  gBars("chart-steps", st.map(s => ({ label: dLabel(s.date), title: dLabel(s.date), val: s.steps, goal: s.goal,
+    tip: [{v:s.steps.toLocaleString("tr-TR"), n:"adım"}, {v:s.goal.toLocaleString("tr-TR"), n:"hedef"}, ...(s.steps >= s.goal ? [{v:"hedef tamam ✓"}] : [])] })),
+    { step: 4000, labelEvery: 2, H: 240, left: 56 });
+
+  gBars("chart-bb", sl.filter(s => s.bb != null).map(s => ({ label: dLabel(s.date), title: dLabel(s.date), val: s.bb,
+    tip: [{v:String(s.bb), n:"uyanış seviyesi"}] })), { maxY: 100, step: 25, labelEvery: 2, H: 220 });
+
+  const tw = document.getElementById("table-sleep"); tw.textContent = "";
+  if (sl.length) {
+    const tbl = h("table"); const hr = h("tr");
+    ["Tarih","Skor","Süre","Kalite","Din. nabız","BB"].forEach(x => hr.appendChild(h("th","",x))); tbl.appendChild(hr);
+    sl.slice().reverse().forEach(s => {
+      const tr = h("tr");
+      [dLabel(s.date), String(s.score), fmt1(s.durationH)+" sa", QUAL[s.quality]||s.quality, s.rhr ? s.rhr+"" : "–", s.bb != null ? String(s.bb) : "–"].forEach(v => tr.appendChild(h("td","",v)));
+      tbl.appendChild(tr);
+    });
+    tw.appendChild(tbl);
+  }
 }
 
 /* ================= BECERİLER ================= */
@@ -1207,11 +1202,10 @@ function dataSummary() {
   });
   const stp = (APP_DATA.wellness.steps||[]).slice(-7);
   if (stp.length) L.push("Adımlar (son 7 gün): " + stp.map(s => s.date.slice(5)+": "+s.steps).join(", "));
-  const logsAll = allLogs();
-  if (logsAll.length) {
-    L.push("Kuvvet günlüğü (tarih|hareket|kg|set x tekrar|not|kaynak):");
-    logsAll.slice(-40).forEach(l => L.push(`${l.date}|${l.ex}|${l.kg}|${l.set}x${l.rep}|${l.note||"-"}|${l.src}`));
-  }
+  const wkI = weekKey(today());
+  L.push("Yoğunluk dakikaları bu hafta (tahmini): " + ACTS.filter(a=>weekKey(a.date)===wkI).reduce((a,x)=>a+intensityOf(x),0) + "/150.");
+  const sl7 = (APP_DATA.wellness.sleep||[]).slice(-7);
+  if (sl7.length) L.push("Uyku (son 7): " + sl7.map(s => s.date.slice(5)+": skor "+s.score+(s.rhr?" RHR "+s.rhr:"")).join("; "));
   if (DB.flex.length) {
     L.push("Esneklik kayıtları:");
     DB.flex.slice(-15).forEach(f => L.push(`${f.date}|${f.type}|${f.cm!=null?f.cm+"cm":"-"}|${f.note||"-"}`));
@@ -1226,7 +1220,7 @@ function dataSummary() {
     w.hrv.slice(-7).forEach(x => L.push(`HRV ${x.date}: ${x.avg}ms ${x.status||""}`));
     w.sleep.slice(-7).forEach(x => L.push(`uyku ${x.date}: ${x.score}`));
   } else L.push("Garmin sağlık verisi yok.");
-  L.push("Not: Garmin kuvvet seanslarında hareket bazlı döküm gelmiyor; sadece toplam set/tekrar var. Hareket bazlı kayıtlar kullanıcının elle girdikleridir.");
+  L.push("Not: Garmin kuvvet seanslarında sadece toplam set/tekrar geliyor (hareket dökümü bağlayıcıda yok).");
   return L.join("\n");
 }
 function systemPrompt() {
@@ -1279,7 +1273,7 @@ async function sendChat(text) {
 function initChat() {
   addMsg("bot","Selam Işıl! ✦ Koçun burada. Antrenmanların, barfiks PR'ların, spagat durumun, hedeflerin — hepsi elimde. Bugün ne konuşalım?");
   const sug = document.getElementById("suggests");
-  ["Bu haftamı değerlendir","Barfiks +10 kg için program öner","Psoas ve spagat için esneme rutini","5K 30:00 altı için plan","Fingerboard programım nasıl olmalı?"].forEach(q => {
+  ["Bu haftamı değerlendir","Uykum antrenmanımı nasıl etkiliyor?","Psoas ve spagat için esneme rutini","5K 30:00 altı için plan","Fingerboard programım nasıl olmalı?"].forEach(q => {
     const b = h("button","",q);
     b.addEventListener("click", () => sendChat(q));
     sug.appendChild(b);
@@ -1318,7 +1312,7 @@ function initSettings() {
   });
   const g = APP_DATA.activities.filter(a=>a.src==="garmin").length;
   const s = APP_DATA.activities.filter(a=>a.src==="strava").length;
-  document.getElementById("data-info").textContent = "Bağlayıcı verisi: " + APP_DATA.generated.replace("T"," ").slice(0,16) + " · Garmin " + (g||"0 (bekleniyor)") + " · Strava " + s + " · Elle girilen: " + DB.logs.length + " set, " + DB.flex.length + " esneklik, " + DB.skills.length + " beceri, " + DB.goals.length + " hedef";
+  document.getElementById("data-info").textContent = "Bağlayıcı verisi: " + APP_DATA.generated.replace("T"," ").slice(0,16) + " · Garmin " + (g||"0 (bekleniyor)") + " · Strava " + s + " · Elle girilen: " + DB.flex.length + " esneklik, " + DB.skills.length + " beceri, " + DB.goals.length + " hedef";
   // yedekleme
   document.getElementById("export-btn").addEventListener("click", () => {
     const blob = new Blob([JSON.stringify({ logs: DB.logs, skills: DB.skills, flex: DB.flex, goals: DB.goals, fingerboard: DB.fingerboard, exportedAt: new Date().toISOString() }, null, 2)], { type: "application/json" });
@@ -1338,7 +1332,7 @@ function initSettings() {
           if (Array.isArray(d[k])) { DB[k] = d[k]; save(k); }
         }
         bn.textContent = "Yedek yüklendi ✓"; bn.className = "ok-note";
-        refreshStrength(); buildSkills(); buildFlex(); buildGoals(); buildFB();
+        buildTiles(); buildSkills(); buildFlex(); buildGoals(); buildFB();
       } catch (e) { bn.textContent = "Geçersiz dosya: " + e.message; bn.className = "ok-note"; bn.style.color = "var(--warn)"; }
     };
     rd.readAsText(f);
@@ -1347,10 +1341,10 @@ function initSettings() {
 
 /* ================= BAŞLAT ================= */
 buildTabs(); buildHero(); buildTiles(); buildWellness(); buildCorr(); buildWeekly(); buildForm(); buildPace(); buildRecent(); buildSrcPill();
-buildExDatalist(); buildStrengthChart(); buildLogTable(); initStrengthForm();
+buildGarminTab();
 buildSkills(); initSkillForm(); buildFlex(); initFlexForm(); buildFB(); initFB();
 buildGoals(); initGoalForm(); initChat(); initSettings();
-window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { buildWeekly(); buildForm(); buildPace(); buildStrengthChart(); buildFlex(); buildCorr(); });
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { buildWeekly(); buildForm(); buildPace(); buildGarminTab(); buildFlex(); buildCorr(); });
 </script>
 </body>
 </html>
