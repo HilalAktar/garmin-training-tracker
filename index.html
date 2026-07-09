@@ -448,7 +448,7 @@ const fmt1 = n => n.toLocaleString("tr-TR", { minimumFractionDigits: 1, maximumF
 const fmtPace = s => Math.floor(s/60) + ":" + String(Math.round(s%60)).padStart(2,"0");
 const TR_MON = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
 const dLabel = iso => { const d = new Date(iso + "T00:00:00"); return d.getDate() + " " + TR_MON[d.getMonth()]; };
-const today = () => new Date().toISOString().slice(0,10);
+const today = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); };
 
 const mem = {};
 const store = {
@@ -481,7 +481,7 @@ function mergeActivities(list) {
 const ACTS = mergeActivities(APP_DATA.activities);
 const CATS = ["Koşu","Kuvvet","Kardiyo","Su sporları","Diğer"];
 const CATVARS = ["--s1","--s2","--s3","--s4","--s5"];
-const weekKey = iso => { const d = new Date(iso + "T00:00:00"); const day = (d.getDay()+6)%7; d.setDate(d.getDate()-day); return d.toISOString().slice(0,10); };
+const weekKey = iso => { const [y,mo,dd] = iso.split("-").map(Number); const d = new Date(Date.UTC(y, mo-1, dd)); const day = (d.getUTCDay()+6)%7; d.setUTCDate(d.getUTCDate()-day); return d.toISOString().slice(0,10); };
 
 /* ================= TOOLTIP ================= */
 const tooltip = document.getElementById("tooltip");
@@ -651,7 +651,7 @@ function buildWeekly() {
   ACTS.forEach(a => { const k = weekKey(a.date); (byWeek[k] = byWeek[k]||{})[a.cat] = (byWeek[k][a.cat]||0) + a.sec/3600; });
   const keys = Object.keys(byWeek).sort();
   const all = []; let cur = keys[0];
-  while (cur <= keys[keys.length-1]) { all.push(cur); const d = new Date(cur+"T00:00:00"); d.setDate(d.getDate()+7); cur = d.toISOString().slice(0,10); }
+  while (cur <= keys[keys.length-1]) { all.push(cur); const [y,mo,dd] = cur.split("-").map(Number); cur = new Date(Date.UTC(y, mo-1, dd+7)).toISOString().slice(0,10); }
   const rows = all.map(k => ({ k, label: dLabel(k), vals: CATS.map(c => (byWeek[k] && byWeek[k][c]) || 0) }));
   const maxY = Math.max(2, Math.ceil(Math.max(...rows.map(r => r.vals.reduce((a,b)=>a+b,0)))/2)*2);
   const W = 940, H = 290, m = { t:14, r:12, b:34, l:34 };
