@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Işıl · Antrenman Üssü</title>
+<style>
+  :root {
+    --page: #faf7f4; --surface-1: #fffdfb;
+    --text-primary: #191418; --text-secondary: #57505a; --text-muted: #8d868f;
+    --grid: #e8e2e0; --baseline: #cfc6c9; --border: rgba(25,20,24,0.10);
+    --good: #006300; --warn: #b45309;
+    --s1: #2a78d6; --s2: #1baf7a; --s3: #eda100; --s4: #008300; --s5: #4a3aa7;
+    --sunset: linear-gradient(120deg, #ff7a3d 0%, #f0509e 55%, #8b5cf6 100%);
+    --accent: #d6337f; --accent-soft: rgba(240,80,158,0.10);
+    --chat-user: #fbe7f1; --chat-bot: #f4f0f2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page: #121014; --surface-1: #1b181f;
+      --text-primary: #f7f4f8; --text-secondary: #c9c2cd; --text-muted: #8d868f;
+      --grid: #2d2933; --baseline: #3d3845; --border: rgba(255,255,255,0.10);
+      --good: #0ca30c; --warn: #fbbf24;
+      --s1: #3987e5; --s2: #199e70; --s3: #c98500; --s4: #008300; --s5: #9085e9;
+      --accent: #f0509e; --accent-soft: rgba(240,80,158,0.14);
+      --chat-user: #3a2233; --chat-bot: #262230;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--page); color: var(--text-primary); line-height: 1.45; padding-bottom: 70px; }
+  @media (min-width: 720px) { body { padding-bottom: 0; } }
+
+  .topbar { display: flex; align-items: center; gap: 16px; padding: 12px 20px; background: var(--surface-1); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 5; }
+  .brand { font-size: 17px; font-weight: 700; background: var(--sunset); -webkit-background-clip: text; background-clip: text; color: transparent; white-space: nowrap; }
+  .tabs { display: none; gap: 2px; }
+  @media (min-width: 720px) { .tabs { display: flex; } }
+  .tab { border: none; background: none; font: inherit; font-size: 13.5px; color: var(--text-secondary); padding: 7px 13px; border-radius: 8px; cursor: pointer; }
+  .tab.active { background: var(--accent); color: #fff; font-weight: 600; }
+  .tab:not(.active):hover { background: var(--grid); }
+  .src-pill { margin-left: auto; font-size: 11.5px; color: var(--text-secondary); display: flex; gap: 9px; align-items: center; white-space: nowrap; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 3px; }
+  .dot.ok { background: var(--good); } .dot.wait { background: var(--warn); }
+
+  .bottomnav { position: fixed; bottom: 0; left: 0; right: 0; display: flex; background: var(--surface-1); border-top: 1px solid var(--border); z-index: 10; padding-bottom: env(safe-area-inset-bottom); }
+  @media (min-width: 720px) { .bottomnav { display: none; } }
+  .bottomnav button { flex: 1; border: none; background: none; font: inherit; font-size: 10.5px; color: var(--text-muted); padding: 7px 2px 6px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .bottomnav button.active { color: var(--accent); font-weight: 600; }
+  .bottomnav .ic { font-size: 17px; line-height: 1; }
+
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 18px; }
+  .view { display: none; } .view.active { display: block; }
+  .hero { border-radius: 14px; padding: 16px 18px; margin-bottom: 16px; background: var(--sunset); color: #fff; }
+  .hero .hi { font-size: 15px; font-weight: 700; }
+  .hero .quote { font-size: 12.5px; opacity: .92; margin-top: 2px; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 16px; }
+  .tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; }
+  .tile .label { font-size: 12px; color: var(--text-secondary); }
+  .tile .value { font-size: 22px; font-weight: 650; margin-top: 2px; }
+  .tile .delta { font-size: 11.5px; margin-top: 2px; color: var(--text-muted); }
+  .tile .delta.up { color: var(--good); }
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; margin-bottom: 14px; }
+  .card h2 { font-size: 15px; font-weight: 650; }
+  .card h2 .mini { font-weight: 400; font-size: 12px; color: var(--text-muted); }
+  .card .sub { font-size: 12.5px; color: var(--text-secondary); margin: 2px 0 10px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
+  .legend .key { display: inline-flex; align-items: center; gap: 5px; }
+  .legend .swatch { width: 10px; height: 10px; border-radius: 3px; }
+  svg { display: block; width: 100%; height: auto; }
+  svg text { font-family: inherit; }
+  .tick { font-size: 11px; fill: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .dlabel { font-size: 11px; fill: var(--text-secondary); }
+  .dlabel.strong { fill: var(--text-primary); font-weight: 600; }
+  .gridline { stroke: var(--grid); stroke-width: 1; }
+  .baseline { stroke: var(--baseline); stroke-width: 1; }
+  #tooltip { position: fixed; pointer-events: none; z-index: 40; display: none; background: var(--surface-1); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,.18); padding: 8px 11px; font-size: 12.5px; max-width: 250px; }
+  #tooltip .t-title { color: var(--text-secondary); font-size: 11.5px; margin-bottom: 3px; }
+  #tooltip .t-row { display: flex; align-items: center; gap: 7px; margin-top: 2px; }
+  #tooltip .t-key { width: 12px; height: 2.5px; border-radius: 1px; flex: none; }
+  #tooltip .t-val { font-weight: 600; }
+  #tooltip .t-name { color: var(--text-secondary); }
+  details { margin-top: 10px; }
+  summary { font-size: 12.5px; color: var(--text-secondary); cursor: pointer; }
+  table { border-collapse: collapse; font-size: 12.5px; margin-top: 8px; width: 100%; }
+  th { text-align: left; color: var(--text-secondary); font-weight: 600; padding: 5px 8px 5px 0; border-bottom: 1px solid var(--grid); }
+  td { padding: 4px 8px 4px 0; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
+  .empty { border: 1px dashed var(--baseline); border-radius: 10px; padding: 14px; font-size: 13px; color: var(--text-secondary); }
+  .badge { display: inline-block; font-size: 10.5px; font-weight: 600; border-radius: 5px; padding: 1px 6px; margin-left: 5px; vertical-align: 1px; }
+  .badge.garmin { background: rgba(0,131,0,.13); color: var(--good); }
+  .badge.strava { background: rgba(235,104,52,.14); color: #c2410c; }
+  @media (prefers-color-scheme: dark) { .badge.strava { color: #fb923c; } }
+  .badge.pr { background: var(--accent-soft); color: var(--accent); }
+
+  /* forms */
+  .frm { display: grid; gap: 9px; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); align-items: end; margin-bottom: 10px; }
+  .frm .fw { grid-column: 1 / -1; }
+  .fld label { display: block; font-size: 11.5px; font-weight: 600; color: var(--text-secondary); margin-bottom: 3px; }
+  .fld input, .fld select, .fld textarea { width: 100%; font: inherit; font-size: 14px; padding: 9px 10px; border-radius: 9px; border: 1px solid var(--baseline); background: var(--surface-1); color: var(--text-primary); }
+  .btn { font: inherit; font-weight: 600; font-size: 13.5px; padding: 10px 16px; border: none; border-radius: 9px; background: var(--accent); color: #fff; cursor: pointer; }
+  .btn.ghost { background: none; border: 1px solid var(--baseline); color: var(--text-secondary); }
+  .btn.sm { padding: 5px 10px; font-size: 12px; }
+  .chip-row { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 10px; }
+  .chip { font: inherit; font-size: 12.5px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--baseline); background: var(--surface-1); color: var(--text-secondary); cursor: pointer; }
+  .chip.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+
+  /* skills */
+  .skill { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--grid); }
+  .skill:last-child { border-bottom: none; }
+  .skill .nm { flex: 1; font-size: 14px; }
+  .skill .st { font-size: 11.5px; font-weight: 600; border-radius: 999px; padding: 3px 10px; cursor: pointer; border: none; font-family: inherit; }
+  .st.done { background: rgba(0,131,0,.13); color: var(--good); }
+  .st.wip { background: var(--accent-soft); color: var(--accent); }
+  .st.goal { background: var(--grid); color: var(--text-secondary); }
+  .del { border: none; background: none; color: var(--text-muted); cursor: pointer; font-size: 15px; padding: 2px 6px; }
+
+  /* goals */
+  .goal-card { border: 1px solid var(--border); border-radius: 11px; padding: 12px 14px; margin-bottom: 10px; }
+  .goal-card .g-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; }
+  .goal-card .g-note { font-size: 12.5px; color: var(--text-secondary); margin-top: 2px; }
+  .meter { height: 8px; border-radius: 4px; background: var(--grid); margin-top: 9px; overflow: hidden; }
+  .meter > div { height: 100%; border-radius: 4px; background: var(--sunset); }
+
+  /* chat */
+  .chatbox { display: flex; flex-direction: column; height: calc(100vh - 230px); min-height: 380px; }
+  .msgs { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 4px 2px 12px; }
+  .msg { max-width: 82%; padding: 10px 13px; border-radius: 12px; font-size: 14px; white-space: pre-wrap; word-wrap: break-word; }
+  .msg.user { align-self: flex-end; background: var(--chat-user); }
+  .msg.bot { align-self: flex-start; background: var(--chat-bot); }
+  .msg.sys { align-self: center; background: none; color: var(--text-muted); font-size: 12.5px; text-align: center; }
+  .composer { display: flex; gap: 8px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .composer textarea { flex: 1; resize: none; font: inherit; font-size: 14px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--baseline); background: var(--surface-1); color: var(--text-primary); height: 44px; }
+  .composer button { font: inherit; font-weight: 600; font-size: 14px; padding: 0 18px; border: none; border-radius: 10px; background: var(--accent); color: #fff; cursor: pointer; }
+  .composer button:disabled { opacity: .5; }
+  .suggests { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 8px; }
+  .suggests button { font: inherit; font-size: 12px; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--baseline); background: var(--surface-1); color: var(--text-secondary); cursor: pointer; }
+  .suggests button:hover { border-color: var(--accent); color: var(--accent); }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+  .field input, .field select { width: 100%; max-width: 460px; font: inherit; font-size: 14px; padding: 9px 12px; border-radius: 9px; border: 1px solid var(--baseline); background: var(--surface-1); color: var(--text-primary); }
+  .field .hint { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .ok-note { font-size: 13px; color: var(--good); margin-top: 8px; }
+  a { color: var(--accent); }
+  .starline { font-size: 11.5px; color: var(--text-muted); letter-spacing: .14em; text-align: center; margin: 6px 0 2px; }
+</style>
+</head>
+<body data-palette="#2a78d6,#1baf7a,#eda100,#008300,#4a3aa7">
+<div class="topbar">
+  <div class="brand">Işıl · Antrenman Üssü ✦</div>
+  <div class="tabs" id="tabs-top"></div>
+  <div class="src-pill" id="src-pill"></div>
+</div>
+
+<div class="wrap">
+
+  <div class="view active" id="view-pano">
+    <div class="hero"><div class="hi" id="hero-hi"></div><div class="quote" id="hero-quote"></div></div>
+    <div class="tiles" id="tiles"></div>
+    <div class="card" id="card-wellness">
+      <h2>Günlük durum <span class="mini">(Garmin)</span></h2>
+      <div class="sub">Uyku · HRV · Body Battery · Antrenmana hazırlık</div>
+      <div id="wellness-body"></div>
+    </div>
+    <div class="card">
+      <h2>Haftalık antrenman hacmi</h2>
+      <div class="sub">Saat / hafta, spor grubuna göre</div>
+      <div class="legend" id="legend-weekly"></div>
+      <div id="chart-weekly"></div>
+      <details><summary>Tablo görünümü</summary><div id="table-weekly"></div></details>
+    </div>
+    <div class="card">
+      <h2>Koşu temposu gelişimi</h2>
+      <div class="sub">Ortalama tempo (dk/km) — eksen ters: yukarı = daha hızlı</div>
+      <div id="chart-pace"></div>
+      <details><summary>Tablo görünümü</summary><div id="table-pace"></div></details>
+    </div>
+    <div class="card">
+      <h2>Yük ↔ Toparlanma</h2>
+      <div class="sub">Gece HRV'n ve 7 günlük ortalaması — noktanın üzerine gel, o günkü antrenman yükünü gör</div>
+      <div id="chart-corr"></div>
+    </div>
+    <div class="card">
+      <h2>Son aktiviteler</h2>
+      <div class="sub">Garmin birincil — çakışan kayıtlarda Garmin esas alınır</div>
+      <div id="recent-list"></div>
+    </div>
+  </div>
+
+  <div class="view" id="view-kuvvet">
+    <div class="card">
+      <h2>Set kaydet 🏋️</h2>
+      <div class="sub">Salonda set arası hızlı giriş. Garmin Connect'e girdiğin antrenmanlar veri akışı başlayınca otomatik gelir — çakışırsa Garmin kaydı esas alınır.</div>
+      <div class="frm">
+        <div class="fld"><label for="l-date">Tarih</label><input type="date" id="l-date"></div>
+        <div class="fld" style="grid-column: span 2"><label for="l-ex">Hareket</label><input list="ex-list" id="l-ex" placeholder="örn. Barfiks"><datalist id="ex-list"></datalist></div>
+        <div class="fld"><label for="l-kg">Kg (+ek)</label><input type="number" step="0.5" id="l-kg" placeholder="0"></div>
+        <div class="fld"><label for="l-set">Set</label><input type="number" id="l-set" value="1" min="1"></div>
+        <div class="fld"><label for="l-rep">Tekrar</label><input type="number" id="l-rep" min="1" placeholder="8"></div>
+        <div class="fld fw"><label for="l-note">Not (ops.)</label><input id="l-note" placeholder="RPE, his, form notu…"></div>
+        <button class="btn fw" id="l-add">Kaydet</button>
+      </div>
+      <div id="log-feedback"></div>
+    </div>
+    <div class="card">
+      <h2>Progressive overload</h2>
+      <div class="sub">Hareket seç — en ağır set + tahmini 1TM (Epley) gelişimi. Barfiks için kg = ek ağırlık.</div>
+      <div class="chip-row" id="ex-chips"></div>
+      <div id="chart-strength"></div>
+      <div id="pr-line" style="font-size:13px;color:var(--text-secondary);margin-top:8px"></div>
+    </div>
+    <div class="card">
+      <h2>Günlük</h2>
+      <div id="log-table"></div>
+    </div>
+  </div>
+
+  <div class="view" id="view-beceri">
+    <div class="card">
+      <h2>Pole & Kalistenik becerileri 🌟</h2>
+      <div class="sub">Duruma tıklayınca değişir: hedef → çalışılıyor → yapıldı</div>
+      <div id="skill-list"></div>
+      <div class="frm" style="margin-top:10px">
+        <div class="fld" style="grid-column: span 2"><label for="s-name">Yeni beceri</label><input id="s-name" placeholder="örn. Iron X"></div>
+        <button class="btn" id="s-add">Ekle</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Esneklik takibi 🧘‍♀️</h2>
+      <div class="sub">Spagat: yerden yükseklik (cm) — 0 = tam oturuş. Psoas/quad gerginliği notunla birlikte izleniyor.</div>
+      <div class="frm">
+        <div class="fld"><label for="f-date">Tarih</label><input type="date" id="f-date"></div>
+        <div class="fld"><label for="f-type">Ölçüm</label><select id="f-type">
+          <option>Spagat sağ</option><option>Spagat sol</option><option>Yan spagat</option><option>Köprü (el-topuk cm)</option>
+        </select></div>
+        <div class="fld"><label for="f-cm">cm</label><input type="number" step="0.5" id="f-cm" placeholder="12"></div>
+        <div class="fld fw"><label for="f-note">Not</label><input id="f-note" placeholder="ısınma durumu, ağrı/gerginlik…"></div>
+        <button class="btn fw" id="f-add">Kaydet</button>
+      </div>
+      <div id="chart-flex"></div>
+      <div id="flex-table"></div>
+    </div>
+    <div class="card">
+      <h2>Tırmanış & Fingerboard 🧗‍♀️</h2>
+      <div class="sub">Hedef: haftada 2 fingerboard seansı (parmak tendon gelişimi)</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+        <button class="btn" id="fb-add">+ Bugün fingerboard yaptım</button>
+        <span id="fb-week" style="font-size:13.5px;color:var(--text-secondary)"></span>
+      </div>
+      <div id="fb-history" style="font-size:12.5px;color:var(--text-muted)"></div>
+    </div>
+  </div>
+
+  <div class="view" id="view-hedef">
+    <div class="card">
+      <h2>Hedefler 🎯</h2>
+      <div class="sub">İlerlemeyi sürgüyle güncelle — AI Koç hedeflerini bilir</div>
+      <div id="goal-list"></div>
+      <div class="frm" style="margin-top:10px">
+        <div class="fld" style="grid-column: span 2"><label for="g-name">Yeni hedef</label><input id="g-name" placeholder="örn. 10K bitirmek"></div>
+        <button class="btn" id="g-add">Ekle</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="view" id="view-sohbet">
+    <div class="card chatbox">
+      <div class="msgs" id="msgs"></div>
+      <div class="suggests" id="suggests"></div>
+      <div class="composer">
+        <textarea id="chat-input" placeholder="Koçuna sor… (Enter: gönder)" rows="1"></textarea>
+        <button id="send-btn">Gönder</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="view" id="view-ayarlar">
+    <div class="card">
+      <h2>Gemini API anahtarı</h2>
+      <div class="sub">AI Koç, Google Gemini'nin ücretsiz API'siyle çalışır.</div>
+      <div class="field">
+        <label for="api-key">API anahtarı</label>
+        <input type="password" id="api-key" placeholder="AIza…" autocomplete="off">
+        <div class="hint">Ücretsiz anahtar: <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> → "Create API key". Kredi kartı gerekmez. Anahtar yalnızca bu tarayıcıda saklanır.</div>
+      </div>
+      <div class="field">
+        <label for="model">Model</label>
+        <select id="model">
+          <option value="gemini-2.5-flash">gemini-2.5-flash (önerilen)</option>
+          <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite (daha yüksek ücretsiz limit)</option>
+          <option value="gemini-2.5-pro">gemini-2.5-pro (daha güçlü, limitli)</option>
+        </select>
+      </div>
+      <button class="btn" id="save-settings">Kaydet</button>
+      <button class="btn ghost" id="test-key" style="margin-left:8px">Bağlantıyı test et</button>
+      <div id="settings-note"></div>
+    </div>
+    <div class="card">
+      <h2>Verilerim</h2>
+      <div class="sub" id="data-info"></div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px">Elle girdiğin kayıtlar (setler, esneklik, beceriler, hedefler) yalnızca bu tarayıcıda saklanır. Telefon ↔ bilgisayar arasında taşımak veya yedeklemek için dışa/içe aktar:</p>
+      <button class="btn ghost" id="export-btn">⬇ Yedeği indir (JSON)</button>
+      <label class="btn ghost" style="display:inline-block;margin-left:8px;cursor:pointer">⬆ Yedek yükle<input type="file" id="import-file" accept=".json" style="display:none"></label>
+      <div id="backup-note"></div>
+      <p style="font-size:12.5px;color:var(--text-muted);margin-top:12px">Garmin/Strava verileri Claude tarafından güncellenir — Claude'a "uygulamayı güncelle" demen yeterli; sana yeni dosya gönderir, yedeğini içe aktarırsın (elle girdiklerin kaybolmaz).</p>
+    </div>
+  </div>
+
+  <div class="starline">✦ ✦ ✦</div>
+</div>
+
+<nav class="bottomnav" id="tabs-bottom"></nav>
+<div id="tooltip" role="status"></div>
+
+<script src="data.js"></script>
+<script>
+"use strict";
+/* ================= ÇEKİRDEK VERİ (Claude günceller) =================
+   Yayında (GitHub Pages) data.js varsa o kullanılır; yoksa gömülü veri. */
+const EMBEDDED_DATA = {
+  generated: "2026-07-09T14:30:00+03:00",
+  athlete: { name: "Işıl", city: "İstanbul", focus: "Koru (Maintain)",
+    interests: ["pole dance (exotic dahil)", "gym / progressive overload", "kalistenik", "anime", "motosiklet (Yamaha R25)", "paddle board (SUP)", "kaya tırmanışı & fingerboard", "koşu"],
+    profileNotes: [
+      "Pole: Ayesha yapabiliyor; exotic pole çalışıyor.",
+      "Esneklik: spagatı vardı, şu an kapalı. Ön bacak açılıyor; arka bacak quad/iç bacak gergin. Psoas kısalığından şüpheleniyor.",
+      "Barfiks: 7 tekrar vücut ağırlığı; +2,5 kg × 3; +6 kg × 1.",
+      "Fingerboard: parmak tendon gelişimi için haftada 2 seans hedefi.",
+      "Koşu hedefleri var (5K < 30:00 ana hedef)."
+    ] },
+  zones: { hrText: "Z1<125, Z2 125-154, Z3 155-169, Z4 170-184, Z5 185+" },
+  bests: { fiveK: "33:22 (21 May 2026)", oneK: "6:10 (2 Tem 2026)", m400: "2:20 (2 Tem 2026)" },
+  activities: [
+    {src:"garmin", id:"23525232418", date:"2026-07-08", time:"18:57", name:"Indoor Cycling", type:"Ride", cat:"Kardiyo", sec:1231, km:0, cal:93, avgHr:119, maxHr:138},
+    {src:"garmin", id:"23524887243", date:"2026-07-08", time:"18:04", name:"Güç", type:"WeightTraining", cat:"Kuvvet", sec:2787, km:0, cal:225, avgHr:126, maxHr:166, sets:13, reps:113},
+    {src:"garmin", id:"23520759746", date:"2026-07-07", time:"20:30", name:"BJJ", type:"BJJ", cat:"Diğer", sec:5400, km:0, cal:423, avgHr:134},
+    {src:"garmin", id:"23520787468", date:"2026-07-07", time:"18:40", name:"Calistenics", type:"Calisthenics", cat:"Kuvvet", sec:2400, km:0, cal:94},
+    {src:"garmin", id:"23499543084", date:"2026-07-06", time:"17:24", name:"Güç", type:"WeightTraining", cat:"Kuvvet", sec:2367, km:0, cal:175, avgHr:122, maxHr:164, sets:12, reps:74},
+    {src:"garmin", id:"23490554375", date:"2026-07-05", time:"19:11", name:"Konyaaltı Open Water Swimming", type:"Swim", cat:"Su sporları", sec:865, km:0.31, cal:98, avgHr:139, maxHr:165},
+    {src:"garmin", id:"23466955879", date:"2026-07-03", time:"18:10", name:"HIIT", type:"HIIT", cat:"Kuvvet", sec:2770, km:0, cal:191, avgHr:121, maxHr:165},
+    {src:"garmin", id:"23461289693", date:"2026-07-03", time:"08:53", name:"Indoor Cycling", type:"Ride", cat:"Kardiyo", sec:1744, km:10, cal:137, avgHr:122, maxHr:137},
+    {src:"garmin", id:"23457843176", date:"2026-07-02", time:"21:36", name:"Güç", type:"WeightTraining", cat:"Kuvvet", sec:3742, km:0, cal:172, avgHr:98, maxHr:145, sets:19, reps:80},
+    {src:"garmin", id:"23449653976", date:"2026-07-02", time:"08:27", name:"Konyaaltı Running", type:"Run", cat:"Koşu", sec:1212, km:3.01, cal:163, avgHr:163, maxHr:187, prs:9, note:"9 PR · 1K 6:10 · 400m 2:20"},
+    {src:"garmin", id:"23444794175", date:"2026-07-01", time:"20:29", name:"Pool Swim", type:"Swim", cat:"Su sporları", sec:242, km:0.18, cal:16, avgHr:102, maxHr:125},
+    {src:"garmin", id:"23444493502", date:"2026-07-01", time:"19:26", name:"Güç", type:"WeightTraining", cat:"Kuvvet", sec:2598, km:0, cal:180, avgHr:118, maxHr:163, sets:14, reps:124},
+    {src:"garmin", id:"23402854021", date:"2026-06-28", time:"06:00", name:"Antalya SUP", type:"SUP", cat:"Su sporları", sec:8056, km:3.92, cal:334, avgHr:95, maxHr:143},
+    {src:"garmin", id:"23399613722", date:"2026-06-27", time:"21:21", name:"Badminton", type:"Badminton", cat:"Diğer", sec:486, km:0.02, cal:46, avgHr:127, maxHr:159},
+    {src:"garmin", id:"23399053209", date:"2026-06-27", time:"20:04", name:"Antalya Open Water Swimming", type:"Swim", cat:"Su sporları", sec:867, km:0.31, cal:78, avgHr:121, maxHr:142},
+    {src:"garmin", id:"23388292694", date:"2026-06-26", time:"19:54", name:"Güç", type:"WeightTraining", cat:"Kuvvet", sec:3787, km:0, cal:243, avgHr:115, maxHr:162, sets:22, reps:157},
+    {src:"garmin", id:"23376223842", date:"2026-06-25", time:"17:39", name:"Indoor Cycling", type:"Ride", cat:"Kardiyo", sec:1855, km:10.27, cal:167, avgHr:129, maxHr:158},
+    {src:"garmin", id:"23361732062", date:"2026-06-24", time:"11:48", name:"Güç", type:"WeightTraining", cat:"Kuvvet", sec:3936, km:0, cal:250, avgHr:114, maxHr:153, sets:22, reps:216},
+    {src:"garmin", id:"23347871197", date:"2026-06-23", time:"08:38", name:"Indoor Cycling", type:"Ride", cat:"Kardiyo", sec:3553, km:20.76, cal:302, avgHr:129, maxHr:158},
+    {src:"garmin", id:"23290024144", date:"2026-06-18", time:"06:17", name:"İç mekan bisiklet", type:"Elliptical", cat:"Kardiyo", sec:3763, km:0, cal:289, avgHr:124, maxHr:151},
+    {src:"garmin", id:"23272677129", date:"2026-06-16", time:"19:58", name:"Elliptical", type:"Elliptical", cat:"Kardiyo", sec:1811, km:0, cal:175, avgHr:133, maxHr:168},
+    {src:"garmin", id:"23272114943", date:"2026-06-16", time:"18:56", name:"Güç", type:"WeightTraining", cat:"Kuvvet", sec:3333, km:0, cal:276, avgHr:132, maxHr:170},
+    {src:"garmin", id:"23259408470", date:"2026-06-15", time:"19:29", name:"Kardiyo", type:"Workout", cat:"Kuvvet", sec:1082, km:0, cal:138, avgHr:158, maxHr:183},
+    {src:"garmin", id:"23225321115", date:"2026-06-12", time:"19:58", name:"Elliptical", type:"Elliptical", cat:"Kardiyo", sec:604, km:0, cal:59, avgHr:129, maxHr:146},
+    {src:"garmin", id:"23225176473", date:"2026-06-12", time:"19:15", name:"HIIT", type:"HIIT", cat:"Kuvvet", sec:2457, km:0, cal:146, avgHr:109, maxHr:141},
+    {src:"garmin", id:"23211908378", date:"2026-06-11", time:"16:23", name:"Elliptical", type:"Elliptical", cat:"Kardiyo", sec:1505, km:0, cal:134, avgHr:128, maxHr:148},
+    {src:"garmin", id:"23211203444", date:"2026-06-11", time:"15:19", name:"Mobility (Fizik Tedavi)", type:"PhysicalTherapy", cat:"Diğer", sec:1128, km:0, cal:62, avgHr:101, maxHr:134},
+    {src:"garmin", id:"23203263853", date:"2026-06-10", time:"20:33", name:"Elliptical", type:"Elliptical", cat:"Kardiyo", sec:1806, km:0, cal:193, avgHr:140, maxHr:167},
+    {src:"garmin", id:"23202747235", date:"2026-06-10", time:"19:36", name:"Güç", type:"WeightTraining", cat:"Kuvvet", sec:3173, km:0, cal:186, avgHr:110, maxHr:150},
+    {src:"strava", date:"2026-07-08", time:"18:57", name:"Evening Ride", type:"Ride", cat:"Kardiyo", sec:1302, km:0, cal:93, effort:4},
+    {src:"strava", date:"2026-07-08", time:"18:04", name:"Evening Weight Training", type:"WeightTraining", cat:"Kuvvet", sec:2787, km:0, cal:225, effort:21},
+    {src:"strava", date:"2026-07-07", time:"20:30", name:"BJJ + kalistenik", type:"BJJ", cat:"Diğer", sec:5400, km:0},
+    {src:"strava", date:"2026-07-06", time:"17:24", name:"Afternoon Weight Training", type:"WeightTraining", cat:"Kuvvet", sec:2367, km:0, cal:175, effort:14},
+    {src:"strava", date:"2026-07-05", time:"19:11", name:"Evening Swim", type:"Swim", cat:"Su sporları", sec:865, km:0.31, cal:98, effort:17},
+    {src:"strava", date:"2026-07-03", time:"18:10", name:"Evening HIIT", type:"HIIT", cat:"Kuvvet", sec:2770, km:0, cal:191, effort:15},
+    {src:"strava", date:"2026-07-03", time:"08:53", name:"Morning Ride", type:"Ride", cat:"Kardiyo", sec:1759, km:0, cal:137, effort:6},
+    {src:"strava", date:"2026-07-02", time:"21:36", name:"Night Weight Training", type:"WeightTraining", cat:"Kuvvet", sec:3741, km:0, cal:172, effort:9},
+    {src:"strava", date:"2026-07-02", time:"08:27", name:"Morning Run", type:"Run", cat:"Koşu", sec:1211, km:3.01, cal:163, effort:47, avgHr:164, maxHr:187, prs:9, note:"9 PR · 1K 6:10 · 400m 2:20"},
+    {src:"strava", date:"2026-07-01", time:"20:29", name:"Evening Swim", type:"Swim", cat:"Su sporları", sec:184, km:0.18, cal:16},
+    {src:"strava", date:"2026-07-01", time:"19:26", name:"Evening Weight Training", type:"WeightTraining", cat:"Kuvvet", sec:2598, km:0, cal:180, effort:12},
+    {src:"strava", date:"2026-06-28", time:"06:00", name:"Morning SUP", type:"SUP", cat:"Su sporları", sec:5400, km:3.92, cal:334, effort:12},
+    {src:"strava", date:"2026-06-27", time:"21:21", name:"Night Badminton", type:"Badminton", cat:"Diğer", sec:492, km:0, cal:46, effort:3},
+    {src:"strava", date:"2026-06-27", time:"20:04", name:"Evening Swim", type:"Swim", cat:"Su sporları", sec:867, km:0.31, cal:78, effort:6},
+    {src:"strava", date:"2026-06-26", time:"19:54", name:"Evening Weight Training", type:"WeightTraining", cat:"Kuvvet", sec:3844, km:0, cal:243, effort:17},
+    {src:"strava", date:"2026-06-25", time:"17:39", name:"Afternoon Ride", type:"Ride", cat:"Kardiyo", sec:2343, km:10.27, cal:167, effort:14},
+    {src:"strava", date:"2026-06-24", time:"11:48", name:"Lunch Weight Training", type:"WeightTraining", cat:"Kuvvet", sec:4003, km:0, cal:250, effort:15},
+    {src:"strava", date:"2026-06-23", time:"08:38", name:"Morning Ride", type:"Ride", cat:"Kardiyo", sec:3699, km:20.76, cal:302, effort:25},
+    {src:"strava", date:"2026-06-18", time:"06:17", name:"Morning Elliptical", type:"Elliptical", cat:"Kardiyo", sec:3763, km:0, cal:289, effort:15},
+    {src:"strava", date:"2026-06-16", time:"19:58", name:"Evening Elliptical", type:"Elliptical", cat:"Kardiyo", sec:1811, km:0, cal:175, effort:14},
+    {src:"strava", date:"2026-06-16", time:"18:56", name:"Evening Weight Training", type:"WeightTraining", cat:"Kuvvet", sec:3333, km:0, cal:276, effort:29},
+    {src:"strava", date:"2026-06-15", time:"19:29", name:"Evening Workout", type:"Workout", cat:"Kuvvet", sec:1082, km:0, cal:138, effort:34},
+    {src:"strava", date:"2026-06-12", time:"19:58", name:"Evening Elliptical", type:"Elliptical", cat:"Kardiyo", sec:604, km:0, cal:59, effort:3},
+    {src:"strava", date:"2026-06-12", time:"19:15", name:"Evening HIIT", type:"HIIT", cat:"Kuvvet", sec:2457, km:0, cal:146, effort:7},
+    {src:"strava", date:"2026-06-11", time:"16:23", name:"Afternoon Elliptical", type:"Elliptical", cat:"Kardiyo", sec:1504, km:0, cal:134, effort:7},
+    {src:"strava", date:"2026-06-11", time:"15:19", name:"Fizik Tedavi", type:"PhysicalTherapy", cat:"Diğer", sec:1131, km:0, cal:62, effort:2},
+    {src:"strava", date:"2026-06-10", time:"20:33", name:"Evening Elliptical", type:"Elliptical", cat:"Kardiyo", sec:1900, km:0, cal:193, effort:20},
+    {src:"strava", date:"2026-06-10", time:"19:36", name:"Evening Weight Training", type:"WeightTraining", cat:"Kuvvet", sec:3173, km:0, cal:186, effort:10},
+    {src:"strava", date:"2026-06-03", time:"18:48", name:"Evening Run", type:"Run", cat:"Koşu", sec:1070, km:2.46, elev:26},
+    {src:"strava", date:"2026-05-27", time:"21:55", name:"Night Run", type:"Run", cat:"Koşu", sec:747, km:1.77},
+    {src:"strava", date:"2026-05-27", time:"21:28", name:"Aslında koştuk", type:"Run", cat:"Koşu", sec:1466, km:3.47},
+    {src:"strava", date:"2026-05-25", time:"16:22", name:"Belgrad ormanı", type:"Walk", cat:"Diğer", sec:8989, km:9.32, elev:153},
+    {src:"strava", date:"2026-05-23", time:"17:08", name:"Dümenden trail", type:"Run", cat:"Koşu", sec:2388, km:5.04, elev:114, prs:2, note:"Patika, 114 m tırmanış"},
+    {src:"strava", date:"2026-05-21", time:"18:20", name:"Evening Run", type:"Run", cat:"Koşu", sec:2034, km:5.08, prs:8, note:"5K rekoru 33:22"},
+    {src:"strava", date:"2026-05-17", time:"09:57", name:"Morning Run", type:"Run", cat:"Koşu", sec:1878, km:4.81, prs:6},
+    {src:"strava", date:"2026-05-04", time:"09:31", name:"Morning Run", type:"Run", cat:"Koşu", sec:2172, km:5.05, prs:11},
+    {src:"strava", date:"2026-04-28", time:"06:52", name:"Morning Run", type:"Run", cat:"Koşu", sec:866, km:2.21, prs:8},
+    {src:"strava", date:"2026-04-21", time:"07:34", name:"Morning Run", type:"Run", cat:"Koşu", sec:1448, km:3.75, prs:10},
+    {src:"strava", date:"2026-04-19", time:"07:59", name:"Morning Run", type:"Run", cat:"Koşu", sec:681, km:1.79, prs:8},
+    {src:"strava", date:"2026-03-24", time:"18:37", name:"Evening Run", type:"Run", cat:"Koşu", sec:382, km:0.88, prs:2}
+  ],
+  wellness: {
+    sleep: [{"date":"2026-06-26","score":68,"durationH":6.05,"quality":"Fair"},{"date":"2026-06-27","score":85,"durationH":7.45,"quality":"Good"},{"date":"2026-06-28","score":29,"durationH":1.87,"quality":"Poor"},{"date":"2026-06-29","score":81,"durationH":6.6,"quality":"Good"},{"date":"2026-06-30","score":74,"durationH":5.93,"quality":"Fair"},{"date":"2026-07-01","score":78,"durationH":5.57,"quality":"Fair"},{"date":"2026-07-02","score":89,"durationH":6.77,"quality":"Good"},{"date":"2026-07-03","score":86,"durationH":7.0,"quality":"Good"},{"date":"2026-07-04","score":59,"durationH":5.6,"quality":"Poor"},{"date":"2026-07-05","score":80,"durationH":6.03,"quality":"Good"},{"date":"2026-07-06","score":53,"durationH":6.12,"quality":"Poor"},{"date":"2026-07-07","score":89,"durationH":6.53,"quality":"Good"},{"date":"2026-07-08","score":81,"durationH":5.98,"quality":"Good"},{"date":"2026-07-09","score":63,"durationH":7.2,"quality":"Fair"}],
+    hrv: [{"date":"2026-06-19","avg":75,"status":"","weekAvg":70},{"date":"2026-06-20","avg":56,"status":"","weekAvg":68},{"date":"2026-06-21","avg":59,"status":"","weekAvg":64},{"date":"2026-06-22","avg":71,"status":"","weekAvg":64},{"date":"2026-06-23","avg":82,"status":"","weekAvg":66},{"date":"2026-06-24","avg":92,"status":"","weekAvg":71},{"date":"2026-06-25","avg":72,"status":"","weekAvg":72},{"date":"2026-06-26","avg":80,"status":"","weekAvg":72},{"date":"2026-06-27","avg":75,"status":"","weekAvg":75},{"date":"2026-06-28","avg":73,"status":"","weekAvg":78},{"date":"2026-06-29","avg":72,"status":"Dengeli","weekAvg":78},{"date":"2026-06-30","avg":72,"status":"Dengeli","weekAvg":76},{"date":"2026-07-01","avg":98,"status":"Yüksek","weekAvg":77},{"date":"2026-07-02","avg":87,"status":"Dengeli","weekAvg":79},{"date":"2026-07-03","avg":69,"status":"Dengeli","weekAvg":77},{"date":"2026-07-04","avg":68,"status":"Dengeli","weekAvg":76},{"date":"2026-07-05","avg":86,"status":"Dengeli","weekAvg":78},{"date":"2026-07-06","avg":70,"status":"Dengeli","weekAvg":78},{"date":"2026-07-07","avg":75,"status":"Dengeli","weekAvg":78},{"date":"2026-07-08","avg":72,"status":"Dengeli","weekAvg":75},{"date":"2026-07-09","avg":57,"status":"Düşük","weekAvg":71}],
+    bodyBattery: [{"date":"2026-07-07","val":69},{"date":"2026-07-08","val":61},{"date":"2026-07-09","val":42}],
+    readiness: [], stress: [],
+    steps: [{"date":"2026-06-26","steps":4590,"goal":9510},{"date":"2026-06-27","steps":8320,"goal":8530},{"date":"2026-06-28","steps":9709,"goal":8490},{"date":"2026-06-29","steps":4230,"goal":8620},{"date":"2026-06-30","steps":4070,"goal":8190},{"date":"2026-07-01","steps":7429,"goal":7370},{"date":"2026-07-02","steps":12112,"goal":7380},{"date":"2026-07-03","steps":5382,"goal":8330},{"date":"2026-07-04","steps":3403,"goal":8040},{"date":"2026-07-05","steps":11658,"goal":7120},{"date":"2026-07-06","steps":7564,"goal":7580},{"date":"2026-07-07","steps":7216,"goal":7580},{"date":"2026-07-08","steps":7081,"goal":7510},{"date":"2026-07-09","steps":896,"goal":7430}]
+  },
+  /* Garmin kuvvet setleri — Garmin Connect'e girilen antrenman detayları buraya akar (Claude doldurur).
+     Biçim: { date:"2026-07-10", ex:"Squat", kg:50, set:3, rep:8, note:"" } */
+  garminSets: []
+};
+const APP_DATA = (typeof window !== "undefined" && window.EXTERNAL_DATA) || EMBEDDED_DATA;
+
+/* Başlangıç kayıtları — ilk açılışta yüklenir, sonrası kullanıcıda */
+const SEED = {
+  logs: [
+    { date: "2026-07-08", ex: "Barfiks", kg: 0, set: 1, rep: 7, note: "vücut ağırlığı, son durum" },
+    { date: "2026-07-08", ex: "Barfiks", kg: 2.5, set: 1, rep: 3, note: "ek ağırlıkla" },
+    { date: "2026-07-08", ex: "Barfiks", kg: 6, set: 1, rep: 1, note: "ek ağırlık PR ✦" }
+  ],
+  skills: [
+    { name: "Ayesha", st: "done" },
+    { name: "Exotic flow rutini", st: "wip" },
+    { name: "Handspring", st: "goal" },
+    { name: "Brass Monkey", st: "goal" },
+    { name: "Ön spagat (yeniden)", st: "wip" },
+    { name: "Muscle-up", st: "goal" },
+    { name: "Handstand (serbest)", st: "wip" }
+  ],
+  flex: [
+    { date: "2026-07-09", type: "Spagat sağ", cm: null, note: "Başlangıç: spagat kapalı; ön bacak OK, arka bacak quad/iç bacak gergin, psoas kısa şüphesi" }
+  ],
+  goals: [
+    { name: "5K'yı 30:00 altında koşmak", pct: 55, note: "Rekor 33:22 — tempo çalışmalarıyla kapanır" },
+    { name: "Barfiks +10 kg × 1", pct: 60, note: "Şu an +6 kg × 1" },
+    { name: "Ön spagata geri dönmek", pct: 30, note: "Psoas + quad esnetme rutini" },
+    { name: "Handspring", pct: 20, note: "Omuz kuvveti + timing" }
+  ],
+  fingerboard: []
+};
+
+/* ================= YARDIMCILAR ================= */
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const NS = "http://www.w3.org/2000/svg";
+const el = (n, at) => { const e = document.createElementNS(NS, n); for (const k in at) e.setAttribute(k, at[k]); return e; };
+const h = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
+const fmt1 = n => n.toLocaleString("tr-TR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const fmtPace = s => Math.floor(s/60) + ":" + String(Math.round(s%60)).padStart(2,"0");
+const TR_MON = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
+const dLabel = iso => { const d = new Date(iso + "T00:00:00"); return d.getDate() + " " + TR_MON[d.getMonth()]; };
+const today = () => new Date().toISOString().slice(0,10);
+
+const mem = {};
+const store = {
+  get(k) { try { return window.localStorage.getItem(k) ?? mem[k] ?? null; } catch (e) { return mem[k] ?? null; } },
+  set(k, v) { mem[k] = v; try { window.localStorage.setItem(k, v); } catch (e) {} }
+};
+function loadJSON(k, seed) {
+  const raw = store.get(k);
+  if (raw == null) { store.set(k, JSON.stringify(seed)); return JSON.parse(JSON.stringify(seed)); }
+  try { return JSON.parse(raw); } catch (e) { return JSON.parse(JSON.stringify(seed)); }
+}
+const DB = {
+  logs: loadJSON("sg_logs", SEED.logs),
+  skills: loadJSON("sg_skills", SEED.skills),
+  flex: loadJSON("sg_flex", SEED.flex),
+  goals: loadJSON("sg_goals", SEED.goals),
+  fingerboard: loadJSON("sg_fb", SEED.fingerboard)
+};
+const save = k => store.set("sg_" + (k === "fingerboard" ? "fb" : k), JSON.stringify(DB[k]));
+
+function mergeActivities(list) {
+  const mins = t => { const [a,b] = t.split(":").map(Number); return a*60+b; };
+  const garmin = list.filter(a => a.src === "garmin");
+  const out = [...garmin];
+  for (const s of list.filter(a => a.src !== "garmin")) {
+    if (!garmin.find(g => g.date === s.date && g.cat === s.cat && Math.abs(mins(g.time) - mins(s.time)) <= 90)) out.push(s);
+  }
+  return out.sort((a,b) => (b.date + b.time).localeCompare(a.date + a.time));
+}
+const ACTS = mergeActivities(APP_DATA.activities);
+const CATS = ["Koşu","Kuvvet","Kardiyo","Su sporları","Diğer"];
+const CATVARS = ["--s1","--s2","--s3","--s4","--s5"];
+const weekKey = iso => { const d = new Date(iso + "T00:00:00"); const day = (d.getDay()+6)%7; d.setDate(d.getDate()-day); return d.toISOString().slice(0,10); };
+
+/* ================= TOOLTIP ================= */
+const tooltip = document.getElementById("tooltip");
+function showTip(evt, title, rows) {
+  tooltip.textContent = "";
+  tooltip.appendChild(h("div","t-title",title));
+  for (const r of rows) {
+    const row = h("div","t-row");
+    if (r.color) { const k = h("span","t-key"); k.style.background = r.color; row.appendChild(k); }
+    row.appendChild(h("span","t-val",r.value));
+    if (r.name) row.appendChild(h("span","t-name",r.name));
+    tooltip.appendChild(row);
+  }
+  tooltip.style.display = "block";
+  let x = evt.clientX + 14, y = evt.clientY + 14;
+  const r = tooltip.getBoundingClientRect();
+  if (x + r.width > innerWidth - 8) x = evt.clientX - r.width - 14;
+  if (y + r.height > innerHeight - 8) y = evt.clientY - r.height - 14;
+  tooltip.style.left = x + "px"; tooltip.style.top = y + "px";
+}
+const hideTip = () => tooltip.style.display = "none";
+
+/* ================= SEKMELER ================= */
+const TABS = [
+  ["pano","Pano","📊"], ["kuvvet","Kuvvet","🏋️"], ["beceri","Beceriler","🌟"],
+  ["hedef","Hedefler","🎯"], ["sohbet","AI Koç","💬"], ["ayarlar","Ayarlar","⚙️"]
+];
+function buildTabs() {
+  const top = document.getElementById("tabs-top"), bot = document.getElementById("tabs-bottom");
+  TABS.forEach(([id, label, icon], i) => {
+    const t = h("button","tab" + (i === 0 ? " active" : ""), label); t.dataset.view = id;
+    top.appendChild(t);
+    const b = h("button", i === 0 ? "active" : ""); b.dataset.view = id;
+    b.appendChild(h("span","ic",icon)); b.appendChild(document.createTextNode(label));
+    bot.appendChild(b);
+  });
+  document.querySelectorAll("[data-view]").forEach(btn => btn.addEventListener("click", () => {
+    document.querySelectorAll("#tabs-top .tab").forEach(x => x.classList.toggle("active", x.dataset.view === btn.dataset.view));
+    document.querySelectorAll("#tabs-bottom button").forEach(x => x.classList.toggle("active", x.dataset.view === btn.dataset.view));
+    document.querySelectorAll(".view").forEach(v => v.classList.toggle("active", v.id === "view-" + btn.dataset.view));
+  }));
+}
+
+/* ================= PANO ================= */
+const QUOTES = [
+  "Bugün de kendi rekorunla yarışıyorsun. Ganbatte! ✊",
+  "Ayesha'yı yapan kız her şeyi yapar.",
+  "Progressive overload: dün +6 kg'dı, yarın +10.",
+  "Küçük setler, büyük spagatlar.",
+  "Tendonlar sabır ister — fingerboard günü mü?"
+];
+function buildHero() {
+  document.getElementById("hero-hi").textContent = "Selam Işıl ✦";
+  const dayIdx = Math.floor(new Date().getTime() / 86400000) % QUOTES.length;
+  document.getElementById("hero-quote").textContent = QUOTES[dayIdx];
+}
+function buildTiles() {
+  const wrap = document.getElementById("tiles"); wrap.textContent = "";
+  const totalH = ACTS.reduce((a,x) => a + x.sec, 0)/3600;
+  const weeks = {};
+  ACTS.forEach(a => { const k = weekKey(a.date); weeks[k] = (weeks[k]||0) + a.sec/3600; });
+  const wkeys = Object.keys(weeks).sort();
+  const last4 = wkeys.slice(-4).reduce((a,k) => a + weeks[k], 0) / Math.min(4, wkeys.length);
+  const pull = allLogs().filter(l => l.ex.toLowerCase().includes("barfiks"));
+  const maxAdd = pull.length ? Math.max(...pull.map(l => +l.kg || 0)) : 0;
+  const tiles = [
+    ["Toplam süre", fmt1(totalH) + " sa", ACTS.length + " aktivite", ""],
+    ["Son 4 hafta ort.", fmt1(last4) + " sa/hf", "haftalık hacim", "up"],
+    ["5K rekoru", "33:22", "hedef: 30:00 altı", ""],
+    ["Barfiks", "+" + maxAdd + " kg", "en ağır ek ağırlık", "up"]
+  ];
+  const rd = APP_DATA.wellness.readiness.at(-1);
+  if (rd) tiles.push(["Hazırlık", String(rd.score), rd.level || "", rd.score >= 70 ? "up" : ""]);
+  else {
+    const hv = APP_DATA.wellness.hrv.at(-1);
+    if (hv && hv.status === "Düşük") tiles.push(["Toparlanma", "dikkat", "HRV bazalın altında — hafif gün olabilir", ""]);
+  }
+  for (const [label, value, delta, cls] of tiles) {
+    const t = h("div","tile");
+    t.appendChild(h("div","label",label));
+    t.appendChild(h("div","value",value));
+    if (delta) t.appendChild(h("div","delta" + (cls ? " " + cls : ""), (cls === "up" ? "↑ " : "") + delta));
+    wrap.appendChild(t);
+  }
+}
+function buildWellness() {
+  const body = document.getElementById("wellness-body"); body.textContent = "";
+  const w = APP_DATA.wellness;
+  if (!(w.sleep.length || w.hrv.length || w.bodyBattery.length || w.readiness.length)) {
+    const e = h("div","empty");
+    e.appendChild(h("b","","Garmin verisi bekleniyor. "));
+    e.appendChild(document.createTextNode("Amalgama bağlantısı kuruldu; veriler aktarılmaya başlayınca uyku, HRV, Body Battery ve hazırlık skorların burada görünecek. Claude otomatik kontrol ediyor."));
+    body.appendChild(e); return;
+  }
+  const QUAL = { Good: "iyi", Fair: "orta", Poor: "zayıf" };
+  const grid = h("div","tiles");
+  const mk = (label,val,sub) => { const t = h("div","tile"); t.appendChild(h("div","label",label)); t.appendChild(h("div","value",val)); if (sub) t.appendChild(h("div","delta",sub)); return t; };
+  const s = w.sleep.at(-1), hv = w.hrv.at(-1), bb = w.bodyBattery.at(-1), rd = w.readiness.at(-1), st = (w.steps||[]).at(-1);
+  if (s) grid.appendChild(mk("Uyku", s.score + "", (s.durationH ? fmt1(s.durationH) + " sa" : "") + (s.quality ? " · " + (QUAL[s.quality]||s.quality) : "")));
+  if (hv) grid.appendChild(mk("HRV (gece)", hv.avg + " ms", (hv.status||"") + (hv.weekAvg ? " · 7g ort " + hv.weekAvg : "")));
+  if (bb) grid.appendChild(mk("Body Battery", bb.val + "", "uyku sonrası"));
+  if (rd) grid.appendChild(mk("Hazırlık", rd.score + "", rd.level || ""));
+  if (st) grid.appendChild(mk("Adım (bugün)", st.steps.toLocaleString("tr-TR"), "hedef " + st.goal.toLocaleString("tr-TR")));
+  body.appendChild(grid);
+}
+function buildCorr() {
+  const cw = document.getElementById("chart-corr"); cw.textContent = "";
+  const w = APP_DATA.wellness;
+  const series = w.readiness.length ? w.readiness.slice(-21).map(r => ({date:r.date, val:r.score, extra:r.level||""}))
+               : w.hrv.length ? w.hrv.slice(-21).map(r => ({date:r.date, val:r.avg, wk:r.weekAvg, extra:r.status||""})) : null;
+  const isHrv = !w.readiness.length;
+  if (!series) {
+    const e = h("div","empty");
+    e.appendChild(document.createTextNode("Bu grafik Garmin verisi gelince açılır: günlük antrenman yükün ile toparlanma sinyallerin (HRV / readiness) yan yana çizilecek."));
+    cw.appendChild(e); return;
+  }
+  const days = {};
+  ACTS.forEach(a => { days[a.date] = (days[a.date]||0) + a.sec/3600; });
+  const maxV = isHrv ? Math.max(...series.map(s=>s.val), 100) + 10 : 100;
+  const W = 940, H = 260, m = { t:24, r:14, b:30, l:40 };
+  const iw = W-m.l-m.r, ih = H-m.t-m.b;
+  const svg = el("svg",{viewBox:`0 0 ${W} ${H}`, role:"img", "aria-label":"Toparlanma gelişimi"});
+  const n = series.length, band = iw/Math.max(n,1);
+  const stepY = isHrv ? 25 : 25;
+  for (let v = 0; v <= maxV; v += stepY) {
+    const y = m.t + ih - (v/maxV)*ih;
+    svg.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y,y2:y,class:v===0?"baseline":"gridline"}));
+    const t = el("text",{x:m.l-8,y:y+4,"text-anchor":"end",class:"tick"}); t.textContent = v; svg.appendChild(t);
+  }
+  const c1 = css("--s1"), c2 = css("--s2");
+  // legend
+  const lgd = isHrv ? [["Gece HRV (ms)", c1], ["7 gün ort.", c2]] : [["Readiness", c1]];
+  lgd.forEach(([nm, cc], li) => {
+    svg.appendChild(el("rect",{x:m.l+li*150, y:4, width:10, height:10, rx:3, fill:cc}));
+    const t = el("text",{x:m.l+li*150+15, y:13, class:"dlabel"}); t.textContent = nm; svg.appendChild(t);
+  });
+  const X = i => m.l + band*i + band/2, Y = v => m.t + ih - (v/maxV)*ih;
+  if (isHrv) {
+    const wkPts = series.filter(s => s.wk);
+    svg.appendChild(el("path",{d:wkPts.map((s,i)=>(i?"L":"M")+X(series.indexOf(s))+","+Y(s.wk)).join(" "),fill:"none",stroke:c2,"stroke-width":2,"stroke-linejoin":"round"}));
+  }
+  svg.appendChild(el("path",{d:series.map((s,i)=>(i?"L":"M")+X(i)+","+Y(s.val)).join(" "),fill:"none",stroke:c1,"stroke-width":2,"stroke-linejoin":"round"}));
+  series.forEach((s,i) => {
+    const g = el("g",{tabindex:"0"});
+    g.appendChild(el("rect",{x:m.l+band*i,y:m.t,width:band,height:ih,fill:"transparent"}));
+    g.appendChild(el("circle",{cx:X(i),cy:Y(s.val),r:4,fill:c1,stroke:css("--surface-1"),"stroke-width":2}));
+    const onmove = e => {
+      const rows = [{color:c1, value:s.val + (isHrv?" ms":""), name:isHrv?"gece HRV":"readiness"}];
+      if (s.wk) rows.push({color:c2, value:s.wk+" ms", name:"7g ort."});
+      if (s.extra) rows.push({value:s.extra});
+      rows.push({value: fmt1(days[s.date]||0) + " sa", name:"o günkü antrenman"});
+      showTip(e, dLabel(s.date), rows);
+    };
+    g.addEventListener("pointermove", onmove);
+    g.addEventListener("focus", () => onmove({clientX:innerWidth/2, clientY:innerHeight/3}));
+    g.addEventListener("pointerleave", hideTip); g.addEventListener("blur", hideTip);
+    svg.appendChild(g);
+    if (i % Math.ceil(n/7) === 0) { const t = el("text",{x:X(i),y:H-8,"text-anchor":"middle",class:"tick"}); t.textContent = dLabel(s.date); svg.appendChild(t); }
+  });
+  cw.appendChild(svg);
+}
+function buildWeekly() {
+  const cw = document.getElementById("chart-weekly"); cw.textContent = "";
+  const lg = document.getElementById("legend-weekly"); lg.textContent = "";
+  CATS.forEach((c,i) => { const k = h("span","key"); const sw = h("span","swatch"); sw.style.background = css(CATVARS[i]); k.appendChild(sw); k.appendChild(document.createTextNode(c)); lg.appendChild(k); });
+  const byWeek = {};
+  ACTS.forEach(a => { const k = weekKey(a.date); (byWeek[k] = byWeek[k]||{})[a.cat] = (byWeek[k][a.cat]||0) + a.sec/3600; });
+  const keys = Object.keys(byWeek).sort();
+  const all = []; let cur = keys[0];
+  while (cur <= keys[keys.length-1]) { all.push(cur); const d = new Date(cur+"T00:00:00"); d.setDate(d.getDate()+7); cur = d.toISOString().slice(0,10); }
+  const rows = all.map(k => ({ k, label: dLabel(k), vals: CATS.map(c => (byWeek[k] && byWeek[k][c]) || 0) }));
+  const maxY = Math.max(2, Math.ceil(Math.max(...rows.map(r => r.vals.reduce((a,b)=>a+b,0)))/2)*2);
+  const W = 940, H = 290, m = { t:14, r:12, b:34, l:34 };
+  const iw = W-m.l-m.r, ih = H-m.t-m.b;
+  const svg = el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Haftalık antrenman hacmi"});
+  for (let v = 0; v <= maxY; v += 2) {
+    const y = m.t + ih - (v/maxY)*ih;
+    svg.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y,y2:y,class:v===0?"baseline":"gridline"}));
+    const t = el("text",{x:m.l-8,y:y+4,"text-anchor":"end",class:"tick"}); t.textContent = v; svg.appendChild(t);
+  }
+  const n = rows.length, band = iw/n, bw = Math.min(24, band*0.62), gap = 2;
+  const maxIdx = rows.reduce((mi,r,i) => r.vals.reduce((a,b)=>a+b,0) > rows[mi].vals.reduce((a,b)=>a+b,0) ? i : mi, 0);
+  rows.forEach((r,i) => {
+    const x = m.l + band*i + (band-bw)/2;
+    const total = r.vals.reduce((a,b)=>a+b,0);
+    let acc = 0;
+    const g = el("g",{tabindex: total>0?"0":"-1"});
+    g.appendChild(el("rect",{x:m.l+band*i,y:m.t,width:band,height:ih,fill:"transparent"}));
+    r.vals.forEach((v,s) => {
+      if (v <= 0) return;
+      const hpx = (v/maxY)*ih, y1 = m.t + ih - (acc/maxY)*ih - hpx;
+      acc += v;
+      const isTop = Math.abs(acc-total) < 1e-9;
+      if (isTop) {
+        const rr = Math.min(4, hpx/2);
+        g.appendChild(el("path",{d:`M${x},${y1+hpx} L${x},${y1+rr} Q${x},${y1} ${x+rr},${y1} L${x+bw-rr},${y1} Q${x+bw},${y1} ${x+bw},${y1+rr} L${x+bw},${y1+hpx} Z`, fill:css(CATVARS[s])}));
+      } else g.appendChild(el("rect",{x,y:y1+gap,width:bw,height:Math.max(1,hpx-gap),fill:css(CATVARS[s])}));
+    });
+    if (total > 0 && (i === n-1 || i === maxIdx)) {
+      const t = el("text",{x:x+bw/2,y:m.t+ih-(total/maxY)*ih-6,"text-anchor":"middle",class:"dlabel strong"});
+      t.textContent = fmt1(total); svg.appendChild(t);
+    }
+    const onmove = e => {
+      const tr = [];
+      for (let s = 4; s >= 0; s--) if (r.vals[s] > 0) tr.push({color:css(CATVARS[s]), value:fmt1(r.vals[s])+" sa", name:CATS[s]});
+      tr.push({value:fmt1(total)+" sa", name:"toplam"});
+      showTip(e, r.label + " haftası", tr);
+    };
+    g.addEventListener("pointermove", onmove);
+    g.addEventListener("focus", () => onmove({clientX:innerWidth/2, clientY:innerHeight/3}));
+    g.addEventListener("pointerleave", hideTip); g.addEventListener("blur", hideTip);
+    svg.appendChild(g);
+    if (i % 2 === 0) { const t = el("text",{x:m.l+band*i+band/2,y:H-10,"text-anchor":"middle",class:"tick"}); t.textContent = r.label; svg.appendChild(t); }
+  });
+  cw.appendChild(svg);
+  const tw = document.getElementById("table-weekly"); tw.textContent = "";
+  const tbl = h("table"); const hr = h("tr");
+  ["Hafta",...CATS,"Toplam"].forEach(x => hr.appendChild(h("th","",x))); tbl.appendChild(hr);
+  rows.forEach(r => {
+    const tr = h("tr"); tr.appendChild(h("td","",r.label));
+    let tot = 0; r.vals.forEach(v => { tot += v; tr.appendChild(h("td","", v?fmt1(v):"–")); });
+    tr.appendChild(h("td","",fmt1(tot))); tbl.appendChild(tr);
+  });
+  tw.appendChild(tbl);
+}
+function buildPace() {
+  const cw = document.getElementById("chart-pace"); cw.textContent = "";
+  const runs = ACTS.filter(a => a.cat === "Koşu" && a.km >= 0.5).slice().reverse();
+  if (!runs.length) { cw.appendChild(h("div","empty","Koşu verisi yok.")); return; }
+  const t0 = new Date(runs[0].date+"T00:00:00").getTime();
+  const pts = runs.map(r => ({ r, day:(new Date(r.date+"T00:00:00").getTime()-t0)/86400000, pace:r.sec/r.km }));
+  const maxDay = Math.max(...pts.map(p=>p.day),1);
+  const paces = pts.map(p=>p.pace);
+  const minP = Math.floor(Math.min(...paces)/30)*30-10, maxP = Math.ceil(Math.max(...paces)/30)*30+10;
+  const W = 940, H = 270, m = { t:16, r:16, b:34, l:44 };
+  const iw = W-m.l-m.r, ih = H-m.t-m.b;
+  const X = d => m.l + (d/maxDay)*iw, Y = p => m.t + ((p-minP)/(maxP-minP))*ih;
+  const svg = el("svg",{viewBox:`0 0 ${W} ${H}`,role:"img","aria-label":"Koşu temposu"});
+  for (let p = Math.ceil(minP/30)*30; p <= maxP; p += 30) {
+    const y = Y(p);
+    svg.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y,y2:y,class:"gridline"}));
+    const t = el("text",{x:m.l-8,y:y+4,"text-anchor":"end",class:"tick"}); t.textContent = fmtPace(p); svg.appendChild(t);
+  }
+  svg.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:m.t+ih,y2:m.t+ih,class:"baseline"}));
+  const step = Math.max(1, Math.floor(pts.length/5));
+  pts.forEach((p,i) => { if (i % step === 0 || i === pts.length-1) { const t = el("text",{x:X(p.day),y:H-10,"text-anchor":"middle",class:"tick"}); t.textContent = dLabel(p.r.date); svg.appendChild(t); } });
+  const color = css("--s1");
+  svg.appendChild(el("path",{d:pts.map((p,i)=>(i?"L":"M")+X(p.day).toFixed(1)+","+Y(p.pace).toFixed(1)).join(" "),fill:"none",stroke:color,"stroke-width":2,"stroke-linejoin":"round","stroke-linecap":"round"}));
+  pts.forEach(p => {
+    const x = X(p.day), y = Y(p.pace);
+    const g = el("g",{tabindex:"0"});
+    g.appendChild(el("circle",{cx:x,cy:y,r:12,fill:"transparent"}));
+    g.appendChild(el("circle",{cx:x,cy:y,r:4.5,fill:color,stroke:css("--surface-1"),"stroke-width":2}));
+    const onmove = e => {
+      const rows = [{color, value:fmtPace(p.pace)+" /km", name:p.r.km.toLocaleString("tr-TR")+" km"}];
+      if (p.r.avgHr) rows.push({value:"♥ "+p.r.avgHr, name:"ort. nabız"});
+      if (p.r.note) rows.push({value:p.r.note});
+      showTip(e, dLabel(p.r.date)+" · "+p.r.name, rows);
+    };
+    g.addEventListener("pointermove", onmove);
+    g.addEventListener("focus", () => onmove({clientX:innerWidth/2, clientY:innerHeight/3}));
+    g.addEventListener("pointerleave", hideTip); g.addEventListener("blur", hideTip);
+    svg.appendChild(g);
+  });
+  const last = pts[pts.length-1];
+  const le = el("text",{x:X(last.day)-8,y:Y(last.pace)-10,"text-anchor":"end",class:"dlabel strong"});
+  le.textContent = fmtPace(last.pace); svg.appendChild(le);
+  cw.appendChild(svg);
+  const tw = document.getElementById("table-pace"); tw.textContent = "";
+  const tbl = h("table"); const hr = h("tr");
+  ["Tarih","km","Tempo","Not"].forEach(x => hr.appendChild(h("th","",x))); tbl.appendChild(hr);
+  pts.forEach(p => {
+    const tr = h("tr");
+    [dLabel(p.r.date), p.r.km.toLocaleString("tr-TR"), fmtPace(p.pace), p.r.note||"–"].forEach(v => tr.appendChild(h("td","",v)));
+    tbl.appendChild(tr);
+  });
+  tw.appendChild(tbl);
+}
+function buildRecent() {
+  const list = document.getElementById("recent-list"); list.textContent = "";
+  const tbl = h("table"); const hr = h("tr");
+  ["Tarih","Aktivite","Süre","Detay","Kaynak"].forEach(x => hr.appendChild(h("th","",x))); tbl.appendChild(hr);
+  ACTS.slice(0,10).forEach(a => {
+    const tr = h("tr");
+    tr.appendChild(h("td","", dLabel(a.date)+" "+a.time));
+    tr.appendChild(h("td","", a.name));
+    tr.appendChild(h("td","", Math.round(a.sec/60)+" dk"));
+    const det = [];
+    if (a.km) det.push(a.km.toLocaleString("tr-TR")+" km");
+    if (a.avgHr) det.push("♥ "+a.avgHr);
+    if (a.sets) det.push(a.sets+" set · "+a.reps+" tekrar");
+    if (a.prs) det.push(a.prs+" PR");
+    tr.appendChild(h("td","", det.join(" · ")||"–"));
+    const td = h("td"); td.appendChild(h("span","badge "+(a.src==="garmin"?"garmin":"strava"), a.src==="garmin"?"Garmin":"Strava")); tr.appendChild(td);
+    tbl.appendChild(tr);
+  });
+  list.appendChild(tbl);
+}
+function buildSrcPill() {
+  const p = document.getElementById("src-pill"); p.textContent = "";
+  const g = APP_DATA.activities.filter(a=>a.src==="garmin").length;
+  const s = APP_DATA.activities.filter(a=>a.src==="strava").length;
+  const mk = (cls,txt) => { const sp = h("span"); sp.appendChild(h("span","dot "+cls)); sp.appendChild(document.createTextNode(txt)); return sp; };
+  p.appendChild(mk(g>0?"ok":"wait","Garmin " + (g>0?g:"⏳")));
+  p.appendChild(mk("ok","Strava "+s));
+}
+
+/* ================= KUVVET ================= */
+const EX_SUGGESTIONS = ["Barfiks","Weighted Pull-up","Squat","Deadlift","Romanian Deadlift","Bench Press","Overhead Press","Barbell Row","Hip Thrust","Bulgarian Split Squat","Lat Pulldown","Dips","Biceps Curl","Leg Press","Cable Row","Push-up","Pistol Squat"];
+let selectedEx = "Barfiks";
+
+/* Garmin setleri + elle girilenler. Çakışmada (aynı gün + aynı hareket) Garmin kazanır. */
+function allLogs() {
+  const g = (APP_DATA.garminSets || []).map(l => ({ ...l, src: "garmin" }));
+  const gk = new Set(g.map(l => l.date + "|" + l.ex.toLowerCase()));
+  const manual = DB.logs
+    .filter(l => !gk.has(l.date + "|" + l.ex.toLowerCase()))
+    .map(l => ({ ...l, src: "user", orig: l }));
+  return [...g, ...manual];
+}
+
+function exNames() {
+  const s = new Set(allLogs().map(l => l.ex));
+  return [...s];
+}
+function buildExDatalist() {
+  const dl = document.getElementById("ex-list"); dl.textContent = "";
+  new Set([...exNames(), ...EX_SUGGESTIONS]).forEach(x => { const o = h("option"); o.value = x; dl.appendChild(o); });
+}
+function e1rm(kg, rep) { return kg * (1 + rep/30); }
+function buildStrengthChart() {
+  const chips = document.getElementById("ex-chips"); chips.textContent = "";
+  const names = exNames();
+  if (!names.includes(selectedEx)) selectedEx = names[0] || "Barfiks";
+  names.forEach(nm => {
+    const c = h("button","chip" + (nm === selectedEx ? " active" : ""), nm);
+    c.addEventListener("click", () => { selectedEx = nm; buildStrengthChart(); });
+    chips.appendChild(c);
+  });
+  const cw = document.getElementById("chart-strength"); cw.textContent = "";
+  const prLine = document.getElementById("pr-line"); prLine.textContent = "";
+  const rows = allLogs().filter(l => l.ex === selectedEx).slice().sort((a,b) => a.date.localeCompare(b.date));
+  if (!rows.length) { cw.appendChild(h("div","empty","Bu harekete kayıt yok. Yukarıdan ilk setini gir!")); return; }
+  // günlük en iyi set: en yüksek kg, eşitse en çok tekrar
+  const byDay = {};
+  rows.forEach(l => {
+    const curr = byDay[l.date];
+    if (!curr || (+l.kg > +curr.kg) || (+l.kg === +curr.kg && +l.rep > +curr.rep)) byDay[l.date] = l;
+  });
+  const days = Object.keys(byDay).sort();
+  const pts = days.map(d => ({ d, kg: +byDay[d].kg, rep: +byDay[d].rep, est: e1rm(+byDay[d].kg, +byDay[d].rep) }));
+  const isBW = pts.every(p => p.kg <= 20); // barfiks tarzı ek ağırlık
+  const maxV = Math.max(...pts.map(p => Math.max(p.est, p.kg, p.rep)), 5);
+  const W = 940, H = 250, m = { t:16, r:16, b:32, l:40 };
+  const iw = W-m.l-m.r, ih = H-m.t-m.b;
+  const X = i => pts.length === 1 ? m.l + iw/2 : m.l + (i/(pts.length-1))*iw;
+  const Y = v => m.t + ih - (v/(maxV*1.15))*ih;
+  const svg = el("svg",{viewBox:`0 0 ${W} ${H}`});
+  const stepY = maxV > 40 ? 20 : maxV > 12 ? 5 : 2;
+  for (let v = 0; v <= maxV*1.15; v += stepY) {
+    const y = Y(v);
+    svg.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y,y2:y,class:v===0?"baseline":"gridline"}));
+    const t = el("text",{x:m.l-8,y:y+4,"text-anchor":"end",class:"tick"}); t.textContent = v; svg.appendChild(t);
+  }
+  const c1 = css("--s1"), c2 = css("--s2");
+  // legend (2 seri)
+  const lgd = [["En ağır set (kg)", c1], ["Tahmini 1TM", c2]];
+  lgd.forEach(([nm, cc], li) => {
+    svg.appendChild(el("rect",{x:m.l+li*160, y:2, width:10, height:10, rx:3, fill:cc}));
+    const t = el("text",{x:m.l+li*160+15, y:11, class:"dlabel"}); t.textContent = nm; svg.appendChild(t);
+  });
+  const line = (vals, color) => {
+    svg.appendChild(el("path",{d:vals.map((v,i)=>(i?"L":"M")+X(i).toFixed(1)+","+Y(v).toFixed(1)).join(" "),fill:"none",stroke:color,"stroke-width":2,"stroke-linejoin":"round","stroke-linecap":"round"}));
+  };
+  line(pts.map(p=>p.kg), c1);
+  line(pts.map(p=>p.est), c2);
+  pts.forEach((p,i) => {
+    [[p.kg,c1],[p.est,c2]].forEach(([v,cc]) => {
+      const g = el("g",{});
+      g.appendChild(el("circle",{cx:X(i),cy:Y(v),r:12,fill:"transparent"}));
+      g.appendChild(el("circle",{cx:X(i),cy:Y(v),r:4,fill:cc,stroke:css("--surface-1"),"stroke-width":2}));
+      g.addEventListener("pointermove", e => showTip(e, dLabel(p.d) + " · " + selectedEx, [
+        {color:c1, value:(isBW?"+":"")+p.kg+" kg × "+p.rep, name:"en iyi set"},
+        {color:c2, value:fmt1(p.est)+" kg", name:"tahmini 1TM"}
+      ]));
+      g.addEventListener("pointerleave", hideTip);
+      svg.appendChild(g);
+    });
+    const t = el("text",{x:X(i),y:H-8,"text-anchor":"middle",class:"tick"}); t.textContent = dLabel(p.d); svg.appendChild(t);
+  });
+  cw.appendChild(svg);
+  const best = pts.reduce((a,b) => b.est >= a.est ? b : a, pts[0]);
+  prLine.textContent = "PR: " + (isBW?"+":"") + best.kg + " kg × " + best.rep + " (" + dLabel(best.d) + ")" + (isBW ? " · Not: barfikste kg = vücut ağırlığına ek." : " · Tahmini 1TM " + fmt1(best.est) + " kg");
+}
+function buildLogTable() {
+  const tw = document.getElementById("log-table"); tw.textContent = "";
+  const logs = allLogs();
+  if (!logs.length) { tw.appendChild(h("div","empty","Henüz kayıt yok.")); return; }
+  const tbl = h("table"); const hr = h("tr");
+  ["Tarih","Hareket","Kg","Set×Tekrar","Not","Kaynak",""].forEach(x => hr.appendChild(h("th","",x))); tbl.appendChild(hr);
+  logs.slice().sort((a,b) => b.date.localeCompare(a.date)).slice(0,30).forEach(l => {
+    const tr = h("tr");
+    tr.appendChild(h("td","",dLabel(l.date)));
+    tr.appendChild(h("td","",l.ex));
+    tr.appendChild(h("td","",String(l.kg)));
+    tr.appendChild(h("td","",l.set + "×" + l.rep));
+    tr.appendChild(h("td","",l.note||"–"));
+    const tds = h("td");
+    tds.appendChild(h("span","badge " + (l.src === "garmin" ? "garmin" : "pr"), l.src === "garmin" ? "Garmin" : "elle"));
+    tr.appendChild(tds);
+    const td = h("td");
+    if (l.src === "user") {
+      const del = h("button","del","✕");
+      del.addEventListener("click", () => { DB.logs.splice(DB.logs.indexOf(l.orig),1); save("logs"); refreshStrength(); });
+      td.appendChild(del);
+    }
+    tr.appendChild(td);
+    tbl.appendChild(tr);
+  });
+  tw.appendChild(tbl);
+}
+function refreshStrength() { buildExDatalist(); buildStrengthChart(); buildLogTable(); buildTiles(); }
+function initStrengthForm() {
+  document.getElementById("l-date").value = today();
+  document.getElementById("l-add").addEventListener("click", () => {
+    const ex = document.getElementById("l-ex").value.trim();
+    const kg = parseFloat(document.getElementById("l-kg").value) || 0;
+    const set = parseInt(document.getElementById("l-set").value) || 1;
+    const rep = parseInt(document.getElementById("l-rep").value);
+    const note = document.getElementById("l-note").value.trim();
+    const date = document.getElementById("l-date").value || today();
+    const fb = document.getElementById("log-feedback"); fb.textContent = "";
+    if (!ex || !rep) { fb.appendChild(h("div","empty","Hareket adı ve tekrar sayısı gerekli.")); return; }
+    DB.logs.push({ date, ex, kg, set, rep, note });
+    save("logs");
+    selectedEx = ex;
+    document.getElementById("l-note").value = "";
+    const prev = DB.logs.filter(l => l.ex === ex && l !== DB.logs[DB.logs.length-1]);
+    const isPR = prev.length && kg > Math.max(...prev.map(l => +l.kg));
+    const ok = h("div","ok-note", isPR ? "Kaydedildi — YENİ PR! ✦ Tebrikler!" : "Kaydedildi ✓");
+    fb.appendChild(ok); setTimeout(() => fb.textContent = "", 3000);
+    refreshStrength();
+  });
+}
+
+/* ================= BECERİLER ================= */
+const ST_CYCLE = { goal: "wip", wip: "done", done: "goal" };
+const ST_LABEL = { done: "yapıldı ✓", wip: "çalışılıyor", goal: "hedef" };
+function buildSkills() {
+  const list = document.getElementById("skill-list"); list.textContent = "";
+  DB.skills.forEach(s => {
+    const row = h("div","skill");
+    row.appendChild(h("span","nm",s.name));
+    const st = h("button","st " + s.st, ST_LABEL[s.st]);
+    st.addEventListener("click", () => { s.st = ST_CYCLE[s.st]; save("skills"); buildSkills(); });
+    row.appendChild(st);
+    const del = h("button","del","✕");
+    del.addEventListener("click", () => { DB.skills.splice(DB.skills.indexOf(s),1); save("skills"); buildSkills(); });
+    row.appendChild(del);
+    list.appendChild(row);
+  });
+}
+function initSkillForm() {
+  document.getElementById("s-add").addEventListener("click", () => {
+    const nm = document.getElementById("s-name").value.trim();
+    if (!nm) return;
+    DB.skills.push({ name: nm, st: "goal" });
+    document.getElementById("s-name").value = "";
+    save("skills"); buildSkills();
+  });
+}
+
+/* ================= ESNEKLİK ================= */
+function buildFlex() {
+  const cw = document.getElementById("chart-flex"); cw.textContent = "";
+  const tw = document.getElementById("flex-table"); tw.textContent = "";
+  const rows = DB.flex.filter(f => f.cm != null).sort((a,b) => a.date.localeCompare(b.date));
+  const types = [...new Set(rows.map(r => r.type))];
+  if (rows.length >= 2) {
+    const W = 940, H = 220, m = { t:14, r:16, b:30, l:36 };
+    const iw = W-m.l-m.r, ih = H-m.t-m.b;
+    const maxV = Math.max(...rows.map(r => +r.cm), 10);
+    const dates = [...new Set(rows.map(r => r.date))].sort();
+    const X = d => dates.length === 1 ? m.l+iw/2 : m.l + (dates.indexOf(d)/(dates.length-1))*iw;
+    const Y = v => m.t + ih - ((maxV - v)/maxV)*ih; // ters: 0 cm (tam spagat) üstte
+    const svg = el("svg",{viewBox:`0 0 ${W} ${H}`});
+    for (let v = 0; v <= maxV; v += Math.ceil(maxV/4)) {
+      const y = Y(v);
+      svg.appendChild(el("line",{x1:m.l,x2:m.l+iw,y1:y,y2:y,class:"gridline"}));
+      const t = el("text",{x:m.l-8,y:y+4,"text-anchor":"end",class:"tick"}); t.textContent = v; svg.appendChild(t);
+    }
+    // legend
+    types.slice(0,4).forEach((tp, li) => {
+      const cc = css(CATVARS[li]);
+      svg.appendChild(el("rect",{x:m.l+li*150, y:0, width:10, height:10, rx:3, fill:cc}));
+      const t = el("text",{x:m.l+li*150+15, y:9, class:"dlabel"}); t.textContent = tp; svg.appendChild(t);
+    });
+    types.slice(0,4).forEach((tp, li) => {
+      const cc = css(CATVARS[li]);
+      const series = rows.filter(r => r.type === tp);
+      svg.appendChild(el("path",{d:series.map((r,i)=>(i?"L":"M")+X(r.date).toFixed(1)+","+Y(+r.cm).toFixed(1)).join(" "),fill:"none",stroke:cc,"stroke-width":2,"stroke-linejoin":"round"}));
+      series.forEach(r => {
+        const g = el("g",{});
+        g.appendChild(el("circle",{cx:X(r.date),cy:Y(+r.cm),r:12,fill:"transparent"}));
+        g.appendChild(el("circle",{cx:X(r.date),cy:Y(+r.cm),r:4,fill:cc,stroke:css("--surface-1"),"stroke-width":2}));
+        g.addEventListener("pointermove", e => showTip(e, dLabel(r.date)+" · "+r.type, [{color:cc, value:r.cm+" cm", name:"yerden"}, ...(r.note?[{value:r.note}]:[])]));
+        g.addEventListener("pointerleave", hideTip);
+        svg.appendChild(g);
+      });
+    });
+    dates.forEach((d,i) => { if (i % Math.ceil(dates.length/6) === 0) { const t = el("text",{x:X(d),y:H-8,"text-anchor":"middle",class:"tick"}); t.textContent = dLabel(d); svg.appendChild(t); } });
+    cw.appendChild(svg);
+  } else {
+    cw.appendChild(h("div","empty","İlk ölçümünü gir — spagatta yerden yüksekliği (cm) düzenli ölçersen gelişimi burada çizeceğim. İpucu: her ölçümü aynı ısınma durumunda yap ki kıyas doğru olsun."));
+  }
+  if (DB.flex.length) {
+    const tbl = h("table"); const hr = h("tr");
+    ["Tarih","Ölçüm","cm","Not",""].forEach(x => hr.appendChild(h("th","",x))); tbl.appendChild(hr);
+    DB.flex.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,15).forEach(f => {
+      const tr = h("tr");
+      tr.appendChild(h("td","",dLabel(f.date)));
+      tr.appendChild(h("td","",f.type||"–"));
+      tr.appendChild(h("td","",f.cm != null ? String(f.cm) : "–"));
+      tr.appendChild(h("td","",f.note||"–"));
+      const td = h("td"); const del = h("button","del","✕");
+      del.addEventListener("click", () => { DB.flex.splice(DB.flex.indexOf(f),1); save("flex"); buildFlex(); });
+      td.appendChild(del); tr.appendChild(td);
+      tbl.appendChild(tr);
+    });
+    tw.appendChild(tbl);
+  }
+}
+function initFlexForm() {
+  document.getElementById("f-date").value = today();
+  document.getElementById("f-add").addEventListener("click", () => {
+    const cmRaw = document.getElementById("f-cm").value;
+    DB.flex.push({
+      date: document.getElementById("f-date").value || today(),
+      type: document.getElementById("f-type").value,
+      cm: cmRaw === "" ? null : parseFloat(cmRaw),
+      note: document.getElementById("f-note").value.trim()
+    });
+    save("flex");
+    document.getElementById("f-cm").value = ""; document.getElementById("f-note").value = "";
+    buildFlex();
+  });
+}
+
+/* ================= FINGERBOARD ================= */
+function buildFB() {
+  const wk = weekKey(today());
+  const thisWeek = DB.fingerboard.filter(d => weekKey(d) === wk).length;
+  const elW = document.getElementById("fb-week");
+  elW.textContent = "Bu hafta: " + thisWeek + " / 2 " + (thisWeek >= 2 ? "— hedef tamam! ✦" : "");
+  elW.style.color = thisWeek >= 2 ? "var(--good)" : "var(--text-secondary)";
+  const hist = document.getElementById("fb-history");
+  hist.textContent = DB.fingerboard.length ? "Geçmiş: " + DB.fingerboard.slice(-10).map(dLabel).join(" · ") : "Henüz kayıt yok.";
+}
+function initFB() {
+  document.getElementById("fb-add").addEventListener("click", () => {
+    if (!DB.fingerboard.includes(today())) { DB.fingerboard.push(today()); save("fingerboard"); }
+    buildFB();
+  });
+}
+
+/* ================= HEDEFLER ================= */
+function buildGoals() {
+  const list = document.getElementById("goal-list"); list.textContent = "";
+  DB.goals.forEach(g => {
+    const card = h("div","goal-card");
+    const title = h("div","g-title");
+    title.appendChild(document.createTextNode(g.name));
+    const del = h("button","del","✕"); del.style.marginLeft = "auto";
+    del.addEventListener("click", () => { DB.goals.splice(DB.goals.indexOf(g),1); save("goals"); buildGoals(); });
+    title.appendChild(del);
+    card.appendChild(title);
+    if (g.note) card.appendChild(h("div","g-note",g.note));
+    const meter = h("div","meter"); const fill = h("div"); fill.style.width = (g.pct||0)+"%"; meter.appendChild(fill);
+    card.appendChild(meter);
+    const rng = h("input"); rng.type = "range"; rng.min = 0; rng.max = 100; rng.value = g.pct||0; rng.style.width = "100%"; rng.style.marginTop = "6px"; rng.setAttribute("aria-label","İlerleme: "+g.name);
+    rng.addEventListener("input", () => { g.pct = +rng.value; fill.style.width = g.pct+"%"; });
+    rng.addEventListener("change", () => save("goals"));
+    card.appendChild(rng);
+    list.appendChild(card);
+  });
+}
+function initGoalForm() {
+  document.getElementById("g-add").addEventListener("click", () => {
+    const nm = document.getElementById("g-name").value.trim();
+    if (!nm) return;
+    DB.goals.push({ name: nm, pct: 0, note: "" });
+    document.getElementById("g-name").value = "";
+    save("goals"); buildGoals();
+  });
+}
+
+/* ================= AI KOÇ ================= */
+function dataSummary() {
+  const L = [];
+  L.push(`Sporcu: Işıl (İstanbul). İlgi alanları: ${APP_DATA.athlete.interests.join(", ")}.`);
+  APP_DATA.athlete.profileNotes.forEach(n => L.push("Profil: " + n));
+  L.push(`Rekorlar: 5K ${APP_DATA.bests.fiveK}, 1K ${APP_DATA.bests.oneK}, 400m ${APP_DATA.bests.m400}. Nabız bölgeleri: ${APP_DATA.zones.hrText}.`);
+  const byWeek = {};
+  ACTS.forEach(a => { const k = weekKey(a.date); byWeek[k] = (byWeek[k]||0) + a.sec/3600; });
+  L.push("Haftalık hacim (son 6): " + Object.entries(byWeek).sort().slice(-6).map(([k,v]) => dLabel(k)+" "+fmt1(v)+"sa").join(", "));
+  L.push("Aktiviteler (tarih|tür|dk|detay):");
+  ACTS.forEach(a => {
+    const det = [a.km?a.km+"km":"", a.avgHr?"HR"+a.avgHr:"", a.sets?a.sets+"set/"+a.reps+"tekrar":"", a.effort?"efor"+a.effort:"", a.prs?a.prs+"PR":"", a.note||""].filter(Boolean).join(",");
+    L.push(`${a.date}|${a.type}|${Math.round(a.sec/60)}|${det||"-"}`);
+  });
+  const stp = (APP_DATA.wellness.steps||[]).slice(-7);
+  if (stp.length) L.push("Adımlar (son 7 gün): " + stp.map(s => s.date.slice(5)+": "+s.steps).join(", "));
+  const logsAll = allLogs();
+  if (logsAll.length) {
+    L.push("Kuvvet günlüğü (tarih|hareket|kg|set x tekrar|not|kaynak):");
+    logsAll.slice(-40).forEach(l => L.push(`${l.date}|${l.ex}|${l.kg}|${l.set}x${l.rep}|${l.note||"-"}|${l.src}`));
+  }
+  if (DB.flex.length) {
+    L.push("Esneklik kayıtları:");
+    DB.flex.slice(-15).forEach(f => L.push(`${f.date}|${f.type}|${f.cm!=null?f.cm+"cm":"-"}|${f.note||"-"}`));
+  }
+  L.push("Beceriler: " + DB.skills.map(s => s.name+"("+ST_LABEL[s.st]+")").join(", "));
+  L.push("Hedefler: " + DB.goals.map(g => g.name+" %"+(g.pct||0)).join("; "));
+  const wk = weekKey(today());
+  L.push("Fingerboard bu hafta: " + DB.fingerboard.filter(d=>weekKey(d)===wk).length + "/2.");
+  const w = APP_DATA.wellness;
+  if (w.readiness.length || w.hrv.length) {
+    w.readiness.slice(-7).forEach(x => L.push(`readiness ${x.date}: ${x.score}`));
+    w.hrv.slice(-7).forEach(x => L.push(`HRV ${x.date}: ${x.avg}ms ${x.status||""}`));
+    w.sleep.slice(-7).forEach(x => L.push(`uyku ${x.date}: ${x.score}`));
+  } else L.push("Garmin sağlık verisi yok.");
+  L.push("Not: Garmin kuvvet seanslarında hareket bazlı döküm gelmiyor; sadece toplam set/tekrar var. Hareket bazlı kayıtlar kullanıcının elle girdikleridir.");
+  return L.join("\n");
+}
+function systemPrompt() {
+  return `Sen Işıl'ın kişisel antrenörü ve koçusun. Türkçe konuş; samimi, motive edici ama gerçekçi ol — arada hafif espri ve (yerinde) anime göndermeleri yapabilirsin, abartma. Aşağıdaki gerçek verilere dayan; veride olmayanı uydurma, bilmiyorsan söyle. Prensiplerin: progressive overload kademeli olmalı, toparlanma (uyku/HRV/readiness) antrenman kadar önemli, tendon işi (fingerboard) aceleye gelmez, esneklikte ağrı sinyali durdurucudur. Sakatlık/ağrı konularında fizyoterapist veya doktora yönlendir. Bugün: ${new Date().toLocaleDateString("tr-TR")}.\n\n=== VERİLER ===\n${dataSummary()}`;
+}
+const chat = { history: [], busy: false };
+function addMsg(role, text) {
+  const m = h("div","msg "+role, text);
+  document.getElementById("msgs").appendChild(m);
+  m.scrollIntoView({behavior:"smooth", block:"end"});
+  return m;
+}
+async function sendChat(text) {
+  if (chat.busy || !text.trim()) return;
+  const key = store.get("gemini_key");
+  if (!key) { addMsg("sys","Önce Ayarlar'dan Gemini API anahtarını gir (ücretsiz: aistudio.google.com/apikey)."); return; }
+  chat.busy = true; document.getElementById("send-btn").disabled = true;
+  addMsg("user", text);
+  chat.history.push({role:"user", text});
+  const thinking = addMsg("bot","…");
+  try {
+    const model = store.get("gemini_model") || "gemini-2.5-flash";
+    const body = {
+      system_instruction: { parts: [{ text: systemPrompt() }] },
+      contents: chat.history.map(m => ({ role: m.role==="user"?"user":"model", parts:[{text:m.text}] })),
+      generationConfig: { temperature: 0.6, maxOutputTokens: 1024 }
+    };
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(key)}`, {
+      method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body)
+    });
+    if (!resp.ok) {
+      let msg = "Hata ("+resp.status+").";
+      if (resp.status === 429) msg = "Ücretsiz limit doldu — 1 dk bekle veya Ayarlar'dan gemini-2.5-flash-lite'a geç.";
+      else if (resp.status === 400 || resp.status === 403) msg = "API anahtarı geçersiz görünüyor — Ayarlar'dan kontrol et.";
+      thinking.textContent = msg; thinking.className = "msg sys";
+      chat.history.pop(); return;
+    }
+    const data = await resp.json();
+    const out = data.candidates?.[0]?.content?.parts?.map(p=>p.text).join("") || "(boş yanıt)";
+    thinking.textContent = out;
+    chat.history.push({role:"model", text:out});
+  } catch (e) {
+    thinking.className = "msg sys";
+    thinking.textContent = "Bağlantı hatası: " + e.message;
+    chat.history.pop();
+  } finally {
+    chat.busy = false; document.getElementById("send-btn").disabled = false;
+  }
+}
+function initChat() {
+  addMsg("bot","Selam Işıl! ✦ Koçun burada. Antrenmanların, barfiks PR'ların, spagat durumun, hedeflerin — hepsi elimde. Bugün ne konuşalım?");
+  const sug = document.getElementById("suggests");
+  ["Bu haftamı değerlendir","Barfiks +10 kg için program öner","Psoas ve spagat için esneme rutini","5K 30:00 altı için plan","Fingerboard programım nasıl olmalı?"].forEach(q => {
+    const b = h("button","",q);
+    b.addEventListener("click", () => sendChat(q));
+    sug.appendChild(b);
+  });
+  const input = document.getElementById("chat-input");
+  document.getElementById("send-btn").addEventListener("click", () => { const v = input.value; input.value = ""; sendChat(v); });
+  input.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); const v = input.value; input.value = ""; sendChat(v); } });
+}
+
+/* ================= AYARLAR ================= */
+function initSettings() {
+  const keyIn = document.getElementById("api-key");
+  const modelSel = document.getElementById("model");
+  const note = document.getElementById("settings-note");
+  if (store.get("gemini_key")) keyIn.value = store.get("gemini_key");
+  if (store.get("gemini_model")) modelSel.value = store.get("gemini_model");
+  document.getElementById("save-settings").addEventListener("click", () => {
+    store.set("gemini_key", keyIn.value.trim());
+    store.set("gemini_model", modelSel.value);
+    note.textContent = "Kaydedildi ✓"; note.className = "ok-note";
+    setTimeout(() => note.textContent = "", 2500);
+  });
+  document.getElementById("test-key").addEventListener("click", async () => {
+    const k = keyIn.value.trim();
+    note.className = "ok-note"; note.style.color = "";
+    if (!k) { note.style.color = "var(--warn)"; note.textContent = "Önce anahtarı gir."; return; }
+    note.textContent = "Deneniyor…";
+    try {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelSel.value)}:generateContent?key=${encodeURIComponent(k)}`, {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({ contents:[{role:"user",parts:[{text:"merhaba"}]}], generationConfig:{maxOutputTokens:5} })
+      });
+      if (r.ok) note.textContent = "✓ Bağlantı başarılı — AI Koç hazır.";
+      else { note.style.color = "var(--warn)"; note.textContent = "Anahtar çalışmadı (HTTP "+r.status+")."; }
+    } catch (e) { note.style.color = "var(--warn)"; note.textContent = "Bağlantı hatası: "+e.message; }
+  });
+  const g = APP_DATA.activities.filter(a=>a.src==="garmin").length;
+  const s = APP_DATA.activities.filter(a=>a.src==="strava").length;
+  document.getElementById("data-info").textContent = "Bağlayıcı verisi: " + APP_DATA.generated.replace("T"," ").slice(0,16) + " · Garmin " + (g||"0 (bekleniyor)") + " · Strava " + s + " · Elle girilen: " + DB.logs.length + " set, " + DB.flex.length + " esneklik, " + DB.skills.length + " beceri, " + DB.goals.length + " hedef";
+  // yedekleme
+  document.getElementById("export-btn").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify({ logs: DB.logs, skills: DB.skills, flex: DB.flex, goals: DB.goals, fingerboard: DB.fingerboard, exportedAt: new Date().toISOString() }, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "isil-antrenman-yedek-" + today() + ".json";
+    a.click(); URL.revokeObjectURL(a.href);
+  });
+  document.getElementById("import-file").addEventListener("change", ev => {
+    const f = ev.target.files[0]; if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => {
+      const bn = document.getElementById("backup-note");
+      try {
+        const d = JSON.parse(rd.result);
+        for (const k of ["logs","skills","flex","goals","fingerboard"]) {
+          if (Array.isArray(d[k])) { DB[k] = d[k]; save(k); }
+        }
+        bn.textContent = "Yedek yüklendi ✓"; bn.className = "ok-note";
+        refreshStrength(); buildSkills(); buildFlex(); buildGoals(); buildFB();
+      } catch (e) { bn.textContent = "Geçersiz dosya: " + e.message; bn.className = "ok-note"; bn.style.color = "var(--warn)"; }
+    };
+    rd.readAsText(f);
+  });
+}
+
+/* ================= BAŞLAT ================= */
+buildTabs(); buildHero(); buildTiles(); buildWellness(); buildCorr(); buildWeekly(); buildPace(); buildRecent(); buildSrcPill();
+buildExDatalist(); buildStrengthChart(); buildLogTable(); initStrengthForm();
+buildSkills(); initSkillForm(); buildFlex(); initFlexForm(); buildFB(); initFB();
+buildGoals(); initGoalForm(); initChat(); initSettings();
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { buildWeekly(); buildPace(); buildStrengthChart(); buildFlex(); buildCorr(); });
+</script>
+</body>
+</html>
