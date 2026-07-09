@@ -140,6 +140,18 @@
   .ok-note { font-size: 13px; color: var(--good); margin-top: 8px; }
   a { color: var(--accent); }
   .starline { font-size: 11.5px; color: var(--text-muted); letter-spacing: .14em; text-align: center; margin: 6px 0 2px; }
+  /* Garmin "At a Glance" kartları */
+  .glance { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .gcard { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 13px 15px 11px; display: flex; flex-direction: column; gap: 7px; min-height: 150px; }
+  .gcard .gh { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 600; color: var(--text-secondary); }
+  .gcard .gbig { font-size: 23px; font-weight: 650; display: flex; align-items: center; }
+  .gcard .gsub { font-size: 11.5px; color: var(--text-muted); }
+  .gcard .gfoot { border-top: 1px solid var(--grid); padding-top: 6px; font-size: 10.5px; color: var(--text-muted); margin-top: auto; }
+  .gcard .dotb { width: 11px; height: 11px; border-radius: 50%; display: inline-block; margin-right: 7px; flex: none; }
+  .gring { align-self: center; margin: 2px 0; }
+  .gdays { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .gdays .hit { color: var(--good); font-weight: 700; }
+  .gdays .today { color: var(--text-primary); font-weight: 700; }
 </style>
 </head>
 <body data-palette="#2a78d6,#1baf7a,#eda100,#008300,#4a3aa7">
@@ -191,7 +203,7 @@
   </div>
 
   <div class="view" id="view-garmin">
-    <div class="tiles" id="garmin-tiles"></div>
+    <div class="glance" id="garmin-glance"></div>
     <div class="card">
       <h2>Uyku skoru <span class="mini">son 14 gece</span></h2>
       <div class="sub">Çubuğun üzerine gel: süre, kalite, dinlenik nabız ve uykuda Body Battery şarjı</div>
@@ -982,23 +994,141 @@ function gLine(mount, items, o) {
   });
   cw.appendChild(svg);
 }
+/* Garmin Connect tarzı yardımcılar */
+function ringSVG(val, max, colorVar, display) {
+  const size = 92, r = 37, c = 2*Math.PI*r, sw = 8.5;
+  const pct = Math.max(0, Math.min(1, val/max));
+  const svg = el("svg",{width:size, height:size, viewBox:`0 0 ${size} ${size}`, class:"gring", role:"img"});
+  svg.appendChild(el("circle",{cx:46, cy:46, r, fill:"none", stroke:css("--grid"), "stroke-width":sw}));
+  if (pct > 0) svg.appendChild(el("circle",{cx:46, cy:46, r, fill:"none", stroke:css(colorVar||"--s1"), "stroke-width":sw, "stroke-linecap":"round", "stroke-dasharray":`${(c*pct).toFixed(1)} ${c.toFixed(1)}`, transform:"rotate(-90 46 46)"}));
+  const txt = display != null ? display : String(val);
+  const t = el("text",{x:46, y:52, "text-anchor":"middle", style:"font-size:" + (String(txt).length > 4 ? 15 : 21) + "px;font-weight:650;fill:var(--text-primary)"});
+  t.textContent = txt; svg.appendChild(t);
+  return svg;
+}
+function sparkSVG(vals, colorVar) {
+  const w = 180, hh = 32;
+  const svg = el("svg",{width:"100%", height:hh, viewBox:`0 0 ${w} ${hh}`, preserveAspectRatio:"none"});
+  if (vals.length < 2) return svg;
+  const mn = Math.min(...vals), mx = Math.max(...vals), rng = mx - mn || 1;
+  svg.appendChild(el("path",{d:vals.map((v,i)=>(i?"L":"M")+(i/(vals.length-1)*w).toFixed(1)+","+(hh-4-((v-mn)/rng)*(hh-8)).toFixed(1)).join(" "), fill:"none", stroke:css(colorVar||"--s1"), "stroke-width":1.5, "vector-effect":"non-scaling-stroke"}));
+  return svg;
+}
+function gcard(icon, title, build) {
+  const c = h("div","gcard");
+  const hd = h("div","gh");
+  hd.appendChild(h("span","",icon)); hd.appendChild(document.createTextNode(title));
+  c.appendChild(hd);
+  build(c);
+  return c;
+}
 function buildGarminTab() {
   const w = APP_DATA.wellness;
   const QUAL = { Good: "iyi", Fair: "orta", Poor: "zayıf" };
-  const gt = document.getElementById("garmin-tiles"); gt.textContent = "";
-  const mk = (l,v,s,cls) => { const t = h("div","tile"); t.appendChild(h("div","label",l)); t.appendChild(h("div","value",v)); if (s) t.appendChild(h("div","delta" + (cls?" "+cls:""), s)); return t; };
   const sl = w.sleep || [];
-  if (sl.length) {
-    const avg = Math.round(sl.reduce((a,s)=>a+s.score,0)/sl.length);
-    gt.appendChild(mk("Uyku skoru (dün)", String(sl.at(-1).score), "14 gün ort. " + avg));
-    const rhrs = sl.filter(s => s.rhr);
-    if (rhrs.length) gt.appendChild(mk("Dinlenik nabız", rhrs.at(-1).rhr + "", "bpm · 14g ort " + Math.round(rhrs.reduce((a,s)=>a+s.rhr,0)/rhrs.length)));
-  }
+  const rhrsAll = sl.filter(s => s.rhr);
+  const st = w.steps || [];
+  const hv = w.hrv || [];
   const wkNow = weekKey(today());
   const intWeek = ACTS.filter(a => weekKey(a.date) === wkNow).reduce((a,x) => a + intensityOf(x), 0);
-  gt.appendChild(mk("Yoğunluk dk", String(intWeek), "bu hafta · hedef 150", intWeek >= 150 ? "up" : ""));
-  const st = w.steps || [];
-  if (st.length) gt.appendChild(mk("Adım (bugün)", st.at(-1).steps.toLocaleString("tr-TR"), "14g ort. " + Math.round(st.reduce((a,s)=>a+s.steps,0)/st.length).toLocaleString("tr-TR")));
+  const gl = document.getElementById("garmin-glance"); gl.textContent = "";
+
+  if (rhrsAll.length) gl.appendChild(gcard("❤️","Nabız", c => {
+    c.appendChild(h("div","gbig", rhrsAll.at(-1).rhr + " bpm"));
+    const a7 = Math.round(rhrsAll.slice(-7).reduce((a,s)=>a+s.rhr,0)/Math.min(7,rhrsAll.length));
+    c.appendChild(h("div","gsub","dinlenik · 7g ort " + a7 + " bpm"));
+    c.appendChild(sparkSVG(rhrsAll.map(s=>s.rhr)));
+    c.appendChild(h("div","gfoot","Son 14 gün"));
+  }));
+
+  if (hv.length) gl.appendChild(gcard("💓","HRV Durumu", c => {
+    const last = hv.at(-1);
+    const row = h("div","gbig");
+    const dot = h("span","dotb");
+    dot.style.background = last.status === "Düşük" ? css("--warn") : last.status === "Yüksek" ? css("--s1") : css("--good");
+    row.appendChild(dot); row.appendChild(document.createTextNode(last.status || "–"));
+    c.appendChild(row);
+    c.appendChild(h("div","gsub", last.avg + " ms son gece · 7g ort " + (last.weekAvg || "–") + " ms"));
+    c.appendChild(sparkSVG(hv.map(x=>x.avg)));
+    c.appendChild(h("div","gfoot","Son 3 hafta"));
+  }));
+
+  // Antrenman durumu (fitness eğiliminden)
+  {
+    const daily = {};
+    ACTS.forEach(a => { daily[a.date] = (daily[a.date]||0) + loadOf(a); });
+    const dts = Object.keys(daily).sort();
+    if (dts.length) {
+      const kA = 1-Math.exp(-1/7), kC = 1-Math.exp(-1/42);
+      let ctl = 0, atl = 0; const hist = [];
+      let cur = dts[0]; const end = today();
+      while (cur <= end) { const l = daily[cur]||0; ctl += (l-ctl)*kC; atl += (l-atl)*kA; hist.push(ctl); cur = addDays(cur,1); }
+      const frm = ctl - atl, trend = ctl - (hist[hist.length-8] || 0);
+      let stt = "Koruma", cVar = "--s1";
+      if (frm < -15) { stt = "Zorlayıcı"; cVar = "--warn"; }
+      else if (trend > 0.8) { stt = "Verimli"; cVar = "--good"; }
+      else if (trend < -0.8) { stt = "Toparlanma"; cVar = "--s5"; }
+      gl.appendChild(gcard("🏃‍♀️","Antrenman Durumu", c => {
+        const row = h("div","gbig");
+        const dot = h("span","dotb"); dot.style.background = css(cVar);
+        row.appendChild(dot); row.appendChild(document.createTextNode(stt));
+        c.appendChild(row);
+        c.appendChild(h("div","gsub","fitness " + fmt1(ctl) + " · form " + fmt1(frm)));
+        c.appendChild(sparkSVG(hist.slice(-28)));
+        c.appendChild(h("div","gfoot","Son 4 hafta"));
+      }));
+    }
+  }
+
+  if (sl.length && sl.at(-1).bb != null) gl.appendChild(gcard("🔋","Body Battery", c => {
+    c.appendChild(ringSVG(sl.at(-1).bb, 100, "--s1"));
+    c.appendChild(h("div","gsub","uyku sonrası seviye"));
+    c.appendChild(h("div","gfoot","Bu sabah"));
+  }));
+
+  if (st.length) gl.appendChild(gcard("👣","Adımlar", c => {
+    const t = st.at(-1);
+    c.appendChild(ringSVG(t.steps, t.goal, "--s1", t.steps.toLocaleString("tr-TR")));
+    c.appendChild(h("div","gsub","hedef " + t.goal.toLocaleString("tr-TR")));
+    const days = h("div","gdays");
+    const DTR = ["P","S","Ç","P","C","C","P"];
+    st.slice(-7).forEach((s,i,arr) => {
+      const [y,mo,dd] = s.date.split("-").map(Number);
+      const wd = new Date(Date.UTC(y,mo-1,dd)).getUTCDay();
+      const cell = h("span", (i === arr.length-1 ? "today " : "") + (s.steps >= s.goal ? "hit" : ""), s.steps >= s.goal ? "✓" : DTR[(wd+6)%7]);
+      days.appendChild(cell);
+    });
+    c.appendChild(days);
+    c.appendChild(h("div","gfoot","Son 7 gün"));
+  }));
+
+  gl.appendChild(gcard("⏱️","Yoğunluk Dakikaları", c => {
+    c.appendChild(ringSVG(intWeek, 150, intWeek >= 150 ? "--good" : "--s1"));
+    c.appendChild(h("div","gsub","haftalık hedef 150" + (intWeek >= 150 ? " · tamam ✓" : "")));
+    c.appendChild(h("div","gfoot","Bu hafta (Pzt–Paz)"));
+  }));
+
+  if (sl.length) gl.appendChild(gcard("😴","Uyku Skoru", c => {
+    const s = sl.at(-1);
+    c.appendChild(ringSVG(s.score, 100, "--s1"));
+    c.appendChild(h("div","gsub", fmt1(s.durationH) + " sa · " + (QUAL[s.quality]||s.quality)));
+    c.appendChild(h("div","gfoot","Dün gece"));
+  }));
+
+  {
+    const calToday = ACTS.filter(a => a.date === today()).reduce((a,x)=>a+(x.cal||0),0);
+    const calWeek = ACTS.filter(a => weekKey(a.date) === wkNow).reduce((a,x)=>a+(x.cal||0),0);
+    const byDayC = {};
+    ACTS.forEach(a => { byDayC[a.date] = (byDayC[a.date]||0) + (a.cal||0); });
+    const cals = [];
+    for (let i = 13; i >= 0; i--) cals.push(byDayC[addDays(today(), -i)] || 0);
+    gl.appendChild(gcard("🔥","Aktif Kalori", c => {
+      c.appendChild(h("div","gbig", (calToday || calWeek).toLocaleString("tr-TR")));
+      c.appendChild(h("div","gsub", calToday ? "bugün · bu hafta " + calWeek.toLocaleString("tr-TR") : "bu hafta toplam"));
+      c.appendChild(sparkSVG(cals));
+      c.appendChild(h("div","gfoot","Son 14 gün · antrenmanlardan"));
+    }));
+  }
 
   gBars("chart-sleep", sl.map(s => ({ label: dLabel(s.date), title: dLabel(s.date), val: s.score,
     tip: [{v:String(s.score), n:"skor"}, {v:fmt1(s.durationH)+" sa", n:"süre"}, {v:QUAL[s.quality]||s.quality, n:"kalite"},
