@@ -3,14 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Işıl · Antrenman Üssü</title>
+<title>Işıl · Garmin Antrenman Takip</title>
 <style>
   :root {
     --page: #faf7f4; --surface-1: #fffdfb;
     --text-primary: #191418; --text-secondary: #57505a; --text-muted: #8d868f;
     --grid: #e8e2e0; --baseline: #cfc6c9; --border: rgba(25,20,24,0.10);
     --good: #006300; --warn: #b45309;
-    --s1: #2a78d6; --s2: #1baf7a; --s3: #eda100; --s4: #008300; --s5: #4a3aa7;
+    /* Kategori renkleri — dataviz doğrulayıcısıyla ölçüldü (bitişik çiftler: tam geçiş).
+       Sıra: Koşu · Kuvvet · Kardiyo · Su sporları · Esneklik · Pole · Tırmanış · Diğer */
+    --s1: #2563eb; --s2: #059669; --s3: #c2740a; --s4: #0891b2;
+    --s5: #7c3aed; --s6: #db2777; --s7: #ea580c; --s8: #0d9488;
     --sunset: linear-gradient(120deg, #ff7a3d 0%, #f0509e 55%, #8b5cf6 100%);
     --accent: #d6337f; --accent-soft: rgba(240,80,158,0.10);
     --chat-user: #fbe7f1; --chat-bot: #f4f0f2;
@@ -21,7 +24,9 @@
       --text-primary: #f7f4f8; --text-secondary: #c9c2cd; --text-muted: #8d868f;
       --grid: #2d2933; --baseline: #3d3845; --border: rgba(255,255,255,0.10);
       --good: #0ca30c; --warn: #fbbf24;
-      --s1: #3987e5; --s2: #199e70; --s3: #c98500; --s4: #008300; --s5: #9085e9;
+      /* Koyu tema kendi adımlarını taşır — açık temanın çevrilmişi DEĞİL, ayrı ölçüldü */
+      --s1: #3b82f6; --s2: #0d9d6d; --s3: #d97706; --s4: #0899b5;
+      --s5: #8b5cf6; --s6: #ec4899; --s7: #ee6410; --s8: #0e9b8f;
       --accent: #f0509e; --accent-soft: rgba(240,80,158,0.14);
       --chat-user: #3a2233; --chat-bot: #262230;
     }
@@ -154,9 +159,9 @@
   .gdays .today { color: var(--text-primary); font-weight: 700; }
 </style>
 </head>
-<body data-palette="#2a78d6,#1baf7a,#eda100,#008300,#4a3aa7">
+<body data-palette="#2563eb,#059669,#c2740a,#0891b2,#7c3aed,#db2777,#ea580c,#0d9488">
 <div class="topbar">
-  <div class="brand">Işıl · Antrenman Üssü ✦</div>
+  <div class="brand">Işıl · Garmin Antrenman Takip ✦</div>
   <div class="tabs" id="tabs-top"></div>
   <div class="src-pill" id="src-pill"></div>
 </div>
@@ -280,6 +285,20 @@
     </div>
   </div>
 
+  <div class="view" id="view-motor">
+    <div class="glance" id="motor-glance"></div>
+    <div class="card">
+      <h2>Aylık mesafe <span class="mini">km</span></h2>
+      <div class="sub">Motosiklet antrenman sayılmaz — hacim ve form hesabına girmez, burada kendi başına durur</div>
+      <div id="chart-motor-km"></div>
+    </div>
+    <div class="card">
+      <h2>Sürüşler 🏍️</h2>
+      <div class="sub">Yamaha R25 · Garmin'in kaydettiği sürüşler</div>
+      <div id="motor-list"></div>
+    </div>
+  </div>
+
   <div class="view" id="view-sohbet">
     <div class="card chatbox">
       <div class="msgs" id="msgs"></div>
@@ -319,7 +338,7 @@
       <button class="btn ghost" id="export-btn">⬇ Yedeği indir (JSON)</button>
       <label class="btn ghost" style="display:inline-block;margin-left:8px;cursor:pointer">⬆ Yedek yükle<input type="file" id="import-file" accept=".json" style="display:none"></label>
       <div id="backup-note"></div>
-      <p style="font-size:12.5px;color:var(--text-muted);margin-top:12px">Garmin/Strava verileri Claude tarafından güncellenir — Claude'a "uygulamayı güncelle" demen yeterli; sana yeni dosya gönderir, yedeğini içe aktarırsın (elle girdiklerin kaybolmaz).</p>
+      <p style="font-size:12.5px;color:var(--text-muted);margin-top:12px">Antrenman ve sağlık verisi ayrı bir veri dosyasından okunur; dosya yenilendiğinde sayfa güncel veriyi gösterir. Elle girdiklerin (beceri, esneklik, hedef) bu tarayıcıda saklanır ve veri yenilenmesinden etkilenmez.</p>
     </div>
   </div>
 
@@ -332,8 +351,8 @@
 <script src="data.js"></script>
 <script>
 "use strict";
-/* ================= ÇEKİRDEK VERİ (Claude günceller) =================
-   Yayında (GitHub Pages) data.js varsa o kullanılır; yoksa gömülü veri. */
+/* ================= ÇEKİRDEK VERİ =================
+   data.js varsa o kullanılır; yoksa aşağıdaki gömülü veriye düşülür. */
 const EMBEDDED_DATA = {
   generated: "2026-07-09T14:30:00+03:00",
   athlete: { name: "Işıl", city: "İstanbul", focus: "Koru (Maintain)",
@@ -425,7 +444,7 @@ const EMBEDDED_DATA = {
     readiness: [], stress: [],
     steps: [{"date":"2026-06-26","steps":4590,"goal":9510},{"date":"2026-06-27","steps":8320,"goal":8530},{"date":"2026-06-28","steps":9709,"goal":8490},{"date":"2026-06-29","steps":4230,"goal":8620},{"date":"2026-06-30","steps":4070,"goal":8190},{"date":"2026-07-01","steps":7429,"goal":7370},{"date":"2026-07-02","steps":12112,"goal":7380},{"date":"2026-07-03","steps":5382,"goal":8330},{"date":"2026-07-04","steps":3403,"goal":8040},{"date":"2026-07-05","steps":11658,"goal":7120},{"date":"2026-07-06","steps":7564,"goal":7580},{"date":"2026-07-07","steps":7216,"goal":7580},{"date":"2026-07-08","steps":7081,"goal":7510},{"date":"2026-07-09","steps":896,"goal":7430}]
   },
-  /* Garmin kuvvet setleri — Garmin Connect'e girilen antrenman detayları buraya akar (Claude doldurur).
+  /* Garmin kuvvet setleri — Garmin Connect'e girilen antrenman detayları buraya akar.
      Biçim: { date:"2026-07-10", ex:"Squat", kg:50, set:3, rep:8, note:"" } */
   garminSets: []
 };
@@ -506,8 +525,11 @@ function mergeActivities(list) {
   return out.sort((a,b) => (b.date + b.time).localeCompare(a.date + a.time));
 }
 const ACTS = mergeActivities(APP_DATA.activities);
-const CATS = ["Koşu","Kuvvet","Kardiyo","Su sporları","Diğer"];
-const CATVARS = ["--s1","--s2","--s3","--s4","--s5"];
+/* Kategoriler hedefleri yansıtır (5K · barfiks · spagat · handspring), hacmi değil.
+   Pole ve Tırmanış az saat tutar ama ana uğraş — "Diğer"e gömülmesinler diye ayrı.
+   Motosiklet burada YOK: antrenman değil, kendi sekmesinde (APP_DATA.motor). */
+const CATS = ["Koşu","Kuvvet","Kardiyo","Su sporları","Esneklik","Pole","Tırmanış","Diğer"];
+const CATVARS = ["--s1","--s2","--s3","--s4","--s5","--s6","--s7","--s8"];
 const weekKey = iso => { const [y,mo,dd] = iso.split("-").map(Number); const d = new Date(Date.UTC(y, mo-1, dd)); const day = (d.getUTCDay()+6)%7; d.setUTCDate(d.getUTCDate()-day); return d.toISOString().slice(0,10); };
 
 /* ================= TOOLTIP ================= */
@@ -534,7 +556,8 @@ const hideTip = () => tooltip.style.display = "none";
 /* ================= SEKMELER ================= */
 const TABS = [
   ["pano","Pano","📊"], ["garmin","Garmin","⌚"], ["beceri","Beceriler","🌟"],
-  ["hedef","Hedefler","🎯"], ["sohbet","AI Koç","💬"], ["ayarlar","Ayarlar","⚙️"]
+  ["hedef","Hedefler","🎯"], ["motor","Motor","🏍️"], ["sohbet","AI Koç","💬"],
+  ["ayarlar","Ayarlar","⚙️"]
 ];
 function buildTabs() {
   const top = document.getElementById("tabs-top"), bot = document.getElementById("tabs-bottom");
@@ -584,7 +607,9 @@ function buildTiles() {
   if (rd) tiles.push(["Hazırlık", String(rd.score), rd.level || "", rd.score >= 70 ? "up" : ""]);
   else {
     const hv = APP_DATA.wellness.hrv.at(-1);
-    if (hv && hv.status === "Düşük") tiles.push(["Toparlanma", "dikkat", "HRV bazalın altında — hafif gün olabilir", ""]);
+    if (hv && (hv.status === "Düşük" || hv.status === "Dengesiz")) tiles.push(["Toparlanma", "dikkat",
+      hv.status === "Düşük" ? "HRV bazalın altında — hafif gün olabilir"
+                            : "HRV dengesiz — vücut hâlâ oturtuyor, zorlamadan bak", ""]);
   }
   for (const [label, value, delta, cls] of tiles) {
     const t = h("div","tile");
@@ -600,7 +625,7 @@ function buildWellness() {
   if (!(w.sleep.length || w.hrv.length || w.bodyBattery.length || w.readiness.length)) {
     const e = h("div","empty");
     e.appendChild(h("b","","Garmin verisi bekleniyor. "));
-    e.appendChild(document.createTextNode("Amalgama bağlantısı kuruldu; veriler aktarılmaya başlayınca uyku, HRV, Body Battery ve hazırlık skorların burada görünecek. Claude otomatik kontrol ediyor."));
+    e.appendChild(document.createTextNode("Veri dosyası yenilendiğinde uyku, HRV, Body Battery ve hazırlık skorların burada görünecek."));
     body.appendChild(e); return;
   }
   const QUAL = { Good: "iyi", Fair: "orta", Poor: "zayıf" };
@@ -1022,6 +1047,87 @@ function gcard(icon, title, build) {
   build(c);
   return c;
 }
+/* ================= MOTOR =================
+   Motosiklet antrenman değildir: ACTS'e girmez, hacim/form/yük hesaplarına
+   karışmaz. Yalnız burada, kendi başına gösterilir. */
+function buildMotorTab() {
+  const M = (APP_DATA.motor || []).slice().sort((a,b) => (b.date+b.time).localeCompare(a.date+a.time));
+  const gl = document.getElementById("motor-glance"); gl.textContent = "";
+  const list = document.getElementById("motor-list"); list.textContent = "";
+
+  if (!M.length) {
+    gl.appendChild(h("div","empty","Garmin'de motosiklet sürüşü kaydı yok — bir sürüş kaydettiğinde burada görünecek."));
+    document.getElementById("chart-motor-km").textContent = "";
+    return;
+  }
+
+  const totKm  = M.reduce((a,m) => a + (m.km||0), 0);
+  const totSec = M.reduce((a,m) => a + m.sec, 0);
+  const hrs    = M.filter(m => m.avgHr);
+  const longest = M.reduce((a,m) => (m.km||0) > (a.km||0) ? m : a, M[0]);
+
+  gl.appendChild(gcard("🛣️","Mesafe", c => {
+    c.appendChild(h("div","gbig", Math.round(totKm).toLocaleString("tr-TR") + " km"));
+    c.appendChild(h("div","gsub", M.length + " sürüş · ortalama " + fmt1(totKm/M.length) + " km"));
+    c.appendChild(sparkSVG(M.slice().reverse().map(m => m.km||0), "--s7"));
+  }));
+
+  gl.appendChild(gcard("⏱️","Süre", c => {
+    c.appendChild(h("div","gbig", fmt1(totSec/3600) + " sa"));
+    c.appendChild(h("div","gsub","toplam · en uzun " + Math.round(longest.sec/60) + " dk"));
+  }));
+
+  if (hrs.length) {
+    const avg = Math.round(hrs.reduce((a,m) => a + m.avgHr, 0) / hrs.length);
+    const mx  = Math.max(...M.filter(m => m.maxHr).map(m => m.maxHr));
+    gl.appendChild(gcard("❤️","Nabız", c => {
+      c.appendChild(h("div","gbig", avg + " bpm"));
+      c.appendChild(h("div","gsub","sürüş ortalaması · en yüksek " + mx));
+      c.appendChild(sparkSVG(hrs.slice().reverse().map(m => m.avgHr), "--s7"));
+    }));
+  }
+
+  gl.appendChild(gcard("📅","Son sürüş", c => {
+    c.appendChild(h("div","gbig", dLabel(M[0].date)));
+    const gun = Math.round((new Date(today()) - new Date(M[0].date)) / 86400000);
+    c.appendChild(h("div","gsub", (gun <= 0 ? "bugün" : gun + " gün önce") + " · " + fmt1(M[0].km) + " km"));
+  }));
+
+  /* Aylık km — ilk sürüşün ayından bugüne, boş aylar dahil */
+  const byMonth = {};
+  M.forEach(m => { const k = m.date.slice(0,7); byMonth[k] = (byMonth[k]||0) + (m.km||0); });
+  const keys = Object.keys(byMonth).sort();
+  const months = []; let cur = keys[0];
+  const last = today().slice(0,7);
+  while (cur <= last) {
+    months.push(cur);
+    let [y,mo] = cur.split("-").map(Number);
+    mo++; if (mo > 12) { mo = 1; y++; }
+    cur = y + "-" + String(mo).padStart(2,"0");
+  }
+  const MON = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
+  gBars("chart-motor-km", months.map(k => {
+    const km = Math.round(byMonth[k] || 0);
+    const n = M.filter(m => m.date.slice(0,7) === k).length;
+    return { label: MON[+k.slice(5,7)-1], title: MON[+k.slice(5,7)-1] + " " + k.slice(0,4),
+             val: km, tip: [{v: km.toLocaleString("tr-TR"), n:"km"}, {v:n, n:"sürüş"}] };
+  }), { step: 50, labelEvery: 1, H: 220 });
+
+  const tbl = h("table"); const hr = h("tr");
+  ["Tarih","Sürüş","Süre","Mesafe","Nabız"].forEach(x => hr.appendChild(h("th","",x)));
+  tbl.appendChild(hr);
+  M.forEach(m => {
+    const tr = h("tr");
+    tr.appendChild(h("td","", dLabel(m.date) + " " + m.time));
+    tr.appendChild(h("td","", m.name));
+    tr.appendChild(h("td","", Math.round(m.sec/60) + " dk"));
+    tr.appendChild(h("td","", m.km ? fmt1(m.km) + " km" : "–"));
+    tr.appendChild(h("td","", m.avgHr ? "♥ " + m.avgHr + (m.maxHr ? " / " + m.maxHr : "") : "–"));
+    tbl.appendChild(tr);
+  });
+  list.appendChild(tbl);
+}
+
 function buildGarminTab() {
   const w = APP_DATA.wellness;
   const QUAL = { Good: "iyi", Fair: "orta", Poor: "zayıf" };
@@ -1045,7 +1151,8 @@ function buildGarminTab() {
     const last = hv.at(-1);
     const row = h("div","gbig");
     const dot = h("span","dotb");
-    dot.style.background = last.status === "Düşük" ? css("--warn") : last.status === "Yüksek" ? css("--s1") : css("--good");
+    dot.style.background = (last.status === "Düşük" || last.status === "Dengesiz") ? css("--warn")
+                         : last.status === "Yüksek" ? css("--s1") : css("--good");
     row.appendChild(dot); row.appendChild(document.createTextNode(last.status || "–"));
     c.appendChild(row);
     c.appendChild(h("div","gsub", last.avg + " ms son gece · 7g ort " + (last.weekAvg || "–") + " ms"));
@@ -1471,10 +1578,10 @@ function initSettings() {
 
 /* ================= BAŞLAT ================= */
 buildTabs(); buildHero(); buildTiles(); buildWellness(); buildCorr(); buildWeekly(); buildForm(); buildPace(); buildRecent(); buildSrcPill();
-buildGarminTab();
+buildGarminTab(); buildMotorTab();
 buildSkills(); initSkillForm(); buildFlex(); initFlexForm(); buildFB(); initFB();
 buildGoals(); initGoalForm(); initChat(); initSettings();
-window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { buildWeekly(); buildForm(); buildPace(); buildGarminTab(); buildFlex(); buildCorr(); });
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { buildWeekly(); buildForm(); buildPace(); buildGarminTab(); buildMotorTab(); buildFlex(); buildCorr(); });
 </script>
 </body>
 </html>
