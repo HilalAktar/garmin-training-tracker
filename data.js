@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-08-24T18:23:53+03:00",
+ "generated": "2026-08-26T12:06:05+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,38 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24099598506",
+   "date": "2026-08-24",
+   "time": "19:43",
+   "name": "Güç",
+   "type": "WeightTraining",
+   "cat": "Kuvvet",
+   "sec": 925,
+   "km": 0.0,
+   "cal": 66,
+   "avgHr": 116,
+   "maxHr": 160,
+   "sets": 5,
+   "reps": 42
+  },
+  {
+   "src": "garmin",
+   "id": "24099293847",
+   "date": "2026-08-24",
+   "time": "19:13",
+   "name": "Güç",
+   "type": "WeightTraining",
+   "cat": "Kuvvet",
+   "sec": 1494,
+   "km": 0.0,
+   "cal": 126,
+   "avgHr": 128,
+   "maxHr": 166,
+   "sets": 8,
+   "reps": 49
+  },
   {
    "src": "garmin",
    "id": "24077955673",
@@ -1729,6 +1761,24 @@ window.EXTERNAL_DATA = {
     "rhr": 53,
     "resp": 16.1,
     "bb": 91
+   },
+   {
+    "date": "2026-08-25",
+    "score": 89,
+    "durationH": 7.8,
+    "quality": "Good",
+    "rhr": 52,
+    "resp": 16.2,
+    "bb": 100
+   },
+   {
+    "date": "2026-08-26",
+    "score": 81,
+    "durationH": 6.1,
+    "quality": "Good",
+    "rhr": 52,
+    "resp": 15.3,
+    "bb": 94
    }
   ],
   "hrv": [
@@ -2115,6 +2165,18 @@ window.EXTERNAL_DATA = {
     "avg": 72,
     "status": "Dengeli",
     "weekAvg": 69
+   },
+   {
+    "date": "2026-08-25",
+    "avg": 82,
+    "status": "Dengeli",
+    "weekAvg": 71
+   },
+   {
+    "date": "2026-08-26",
+    "avg": 85,
+    "status": "Dengeli",
+    "weekAvg": 74
    }
   ],
   "bodyBattery": [
@@ -2377,6 +2439,14 @@ window.EXTERNAL_DATA = {
    {
     "date": "2026-08-24",
     "val": 91
+   },
+   {
+    "date": "2026-08-25",
+    "val": 100
+   },
+   {
+    "date": "2026-08-26",
+    "val": 94
    }
   ],
   "readiness": [],
@@ -2704,8 +2774,18 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-08-24",
-    "steps": 2349,
+    "steps": 4840,
     "goal": 6820
+   },
+   {
+    "date": "2026-08-25",
+    "steps": 3538,
+    "goal": 6630
+   },
+   {
+    "date": "2026-08-26",
+    "steps": 62,
+    "goal": 6020
    }
   ]
  },
