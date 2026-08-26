@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-08-26T12:06:05+03:00",
+ "generated": "2026-08-26T21:00:14+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,50 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24125011103",
+   "date": "2026-08-26",
+   "time": "18:04",
+   "name": "Indoor Cycling",
+   "type": "Ride",
+   "cat": "Kardiyo",
+   "sec": 1656,
+   "km": 0.0,
+   "cal": 166,
+   "avgHr": 136,
+   "maxHr": 157
+  },
+  {
+   "src": "garmin",
+   "id": "24124620568",
+   "date": "2026-08-26",
+   "time": "17:17",
+   "name": "Güç",
+   "type": "WeightTraining",
+   "cat": "Kuvvet",
+   "sec": 2734,
+   "km": 0.0,
+   "cal": 132,
+   "avgHr": 99,
+   "maxHr": 144,
+   "sets": 20,
+   "reps": 179
+  },
+  {
+   "src": "garmin",
+   "id": "24124033405",
+   "date": "2026-08-26",
+   "time": "16:57",
+   "name": "Mobility",
+   "type": "PhysicalTherapy",
+   "cat": "Esneklik",
+   "sec": 945,
+   "km": 0.0,
+   "cal": 73,
+   "avgHr": 119,
+   "maxHr": 151
+  },
   {
    "src": "garmin",
    "id": "24099598506",
@@ -1778,7 +1822,7 @@ window.EXTERNAL_DATA = {
     "quality": "Good",
     "rhr": 52,
     "resp": 15.3,
-    "bb": 94
+    "bb": 96
    }
   ],
   "hrv": [
@@ -2446,7 +2490,7 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-08-26",
-    "val": 94
+    "val": 96
    }
   ],
   "readiness": [],
@@ -2784,7 +2828,7 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-08-26",
-    "steps": 62,
+    "steps": 3323,
     "goal": 6020
    }
   ]
