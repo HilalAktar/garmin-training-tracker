@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-08-29T21:00:16+03:00",
+ "generated": "2026-08-30T21:00:24+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,33 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24168055578",
+   "date": "2026-08-30",
+   "time": "08:59",
+   "name": "Antalya Open Water Swimming",
+   "type": "Swim",
+   "cat": "Su sporları",
+   "sec": 1665,
+   "km": 0.72,
+   "cal": 110,
+   "avgHr": 108,
+   "maxHr": 150
+  },
+  {
+   "src": "garmin",
+   "id": "24168581254",
+   "date": "2026-08-29",
+   "time": "11:30",
+   "name": "Rock Climbing",
+   "type": "Climbing",
+   "cat": "Tırmanış",
+   "sec": 3600,
+   "km": 0.0,
+   "cal": 275,
+   "note": "elle girildi"
+  },
   {
    "src": "garmin",
    "id": "24132540017",
@@ -1864,6 +1891,15 @@ window.EXTERNAL_DATA = {
     "rhr": 53,
     "resp": 15.8,
     "bb": 81
+   },
+   {
+    "date": "2026-08-30",
+    "score": 75,
+    "durationH": 6.8,
+    "quality": "Fair",
+    "rhr": 56,
+    "resp": 15.1,
+    "bb": 59
    }
   ],
   "hrv": [
@@ -2280,6 +2316,12 @@ window.EXTERNAL_DATA = {
     "avg": 65,
     "status": "Dengeli",
     "weekAvg": 72
+   },
+   {
+    "date": "2026-08-30",
+    "avg": 62,
+    "status": "Dengeli",
+    "weekAvg": 73
    }
   ],
   "bodyBattery": [
@@ -2562,6 +2604,10 @@ window.EXTERNAL_DATA = {
    {
     "date": "2026-08-29",
     "val": 81
+   },
+   {
+    "date": "2026-08-30",
+    "val": 59
    }
   ],
   "readiness": [],
@@ -2914,8 +2960,13 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-08-29",
-    "steps": 4971,
+    "steps": 9628,
     "goal": 6430
+   },
+   {
+    "date": "2026-08-30",
+    "steps": 7778,
+    "goal": 6750
    }
   ]
  },
