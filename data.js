@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-09-07T10:13:58+03:00",
+ "generated": "2026-09-07T21:00:18+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,48 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24273338000",
+   "date": "2026-09-07",
+   "time": "19:14",
+   "name": "Aydin Open Water Swimming",
+   "type": "Swim",
+   "cat": "Su sporları",
+   "sec": 870,
+   "km": 0.22,
+   "cal": 35,
+   "avgHr": 86,
+   "maxHr": 127
+  },
+  {
+   "src": "garmin",
+   "id": "24272908300",
+   "date": "2026-09-07",
+   "time": "18:18",
+   "name": "Kusadasi Cycling",
+   "type": "Ride",
+   "cat": "Kardiyo",
+   "sec": 751,
+   "km": 2.06,
+   "cal": 48,
+   "avgHr": 110,
+   "maxHr": 127
+  },
+  {
+   "src": "garmin",
+   "id": "24271704297",
+   "date": "2026-09-07",
+   "time": "17:28",
+   "name": "Kusadasi Cycling",
+   "type": "Ride",
+   "cat": "Kardiyo",
+   "sec": 846,
+   "km": 2.81,
+   "cal": 93,
+   "avgHr": 142,
+   "maxHr": 162
+  },
   {
    "src": "garmin",
    "id": "24267369376",
@@ -3275,7 +3317,7 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-09-07",
-    "steps": 113,
+    "steps": 5961,
     "goal": 7050
    }
   ]
