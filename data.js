@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-09-04T21:00:14+03:00",
+ "generated": "2026-09-07T10:13:58+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,20 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24267369376",
+   "date": "2026-09-07",
+   "time": "08:02",
+   "name": "Kusadasi Cycling",
+   "type": "Ride",
+   "cat": "Kardiyo",
+   "sec": 1593,
+   "km": 6.11,
+   "cal": 140,
+   "avgHr": 128,
+   "maxHr": 158
+  },
   {
    "src": "garmin",
    "id": "24226723904",
@@ -2049,6 +2063,33 @@ window.EXTERNAL_DATA = {
     "rhr": 55,
     "resp": 16.0,
     "bb": 97
+   },
+   {
+    "date": "2026-09-05",
+    "score": 69,
+    "durationH": 5.9,
+    "quality": "Fair",
+    "rhr": 54,
+    "resp": 15.5,
+    "bb": 84
+   },
+   {
+    "date": "2026-09-06",
+    "score": 50,
+    "durationH": 3.4,
+    "quality": "Poor",
+    "rhr": 54,
+    "resp": 15.3,
+    "bb": 77
+   },
+   {
+    "date": "2026-09-07",
+    "score": 85,
+    "durationH": 7.1,
+    "quality": "Good",
+    "rhr": 53,
+    "resp": 16.7,
+    "bb": 100
    }
   ],
   "hrv": [
@@ -2501,6 +2542,24 @@ window.EXTERNAL_DATA = {
     "avg": 75,
     "status": "Dengeli",
     "weekAvg": 72
+   },
+   {
+    "date": "2026-09-05",
+    "avg": 66,
+    "status": "Dengeli",
+    "weekAvg": 73
+   },
+   {
+    "date": "2026-09-06",
+    "avg": 88,
+    "status": "Dengeli",
+    "weekAvg": 76
+   },
+   {
+    "date": "2026-09-07",
+    "avg": 81,
+    "status": "Dengeli",
+    "weekAvg": 77
    }
   ],
   "bodyBattery": [
@@ -2807,6 +2866,18 @@ window.EXTERNAL_DATA = {
    {
     "date": "2026-09-04",
     "val": 97
+   },
+   {
+    "date": "2026-09-05",
+    "val": 84
+   },
+   {
+    "date": "2026-09-06",
+    "val": 77
+   },
+   {
+    "date": "2026-09-07",
+    "val": 100
    }
   ],
   "readiness": [],
@@ -3189,8 +3260,23 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-09-04",
-    "steps": 2408,
+    "steps": 12928,
     "goal": 6440
+   },
+   {
+    "date": "2026-09-05",
+    "steps": 7237,
+    "goal": 7090
+   },
+   {
+    "date": "2026-09-06",
+    "steps": 6400,
+    "goal": 7120
+   },
+   {
+    "date": "2026-09-07",
+    "steps": 113,
+    "goal": 7050
    }
   ]
  },
