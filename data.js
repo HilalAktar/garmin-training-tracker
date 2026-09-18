@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-09-13T21:00:18+03:00",
+ "generated": "2026-09-18T21:00:15+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,48 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24387041219",
+   "date": "2026-09-16",
+   "time": "16:15",
+   "name": "Žabljak Hiking",
+   "type": "Other",
+   "cat": "Diğer",
+   "sec": 10590,
+   "km": 7.51,
+   "cal": 489,
+   "avgHr": 103,
+   "maxHr": 141
+  },
+  {
+   "src": "garmin",
+   "id": "24371951668",
+   "date": "2026-09-15",
+   "time": "14:28",
+   "name": "Budva Hiking",
+   "type": "Other",
+   "cat": "Diğer",
+   "sec": 10457,
+   "km": 4.69,
+   "cal": 643,
+   "avgHr": 126,
+   "maxHr": 176
+  },
+  {
+   "src": "garmin",
+   "id": "24350943043",
+   "date": "2026-09-13",
+   "time": "16:42",
+   "name": "Antalya Apnea",
+   "type": "Other",
+   "cat": "Diğer",
+   "sec": 518,
+   "km": 0.02,
+   "cal": 25,
+   "avgHr": 90,
+   "maxHr": 109
+  },
   {
    "src": "garmin",
    "id": "24345874693",
@@ -2275,6 +2317,42 @@ window.EXTERNAL_DATA = {
     "rhr": 53,
     "resp": 16.2,
     "bb": 89
+   },
+   {
+    "date": "2026-09-15",
+    "score": 88,
+    "durationH": 7.8,
+    "quality": "Good",
+    "rhr": 53,
+    "resp": 16.2,
+    "bb": 97
+   },
+   {
+    "date": "2026-09-16",
+    "score": 65,
+    "durationH": 5.1,
+    "quality": "Fair",
+    "rhr": 60,
+    "resp": 17.0,
+    "bb": 51
+   },
+   {
+    "date": "2026-09-17",
+    "score": 56,
+    "durationH": 7.6,
+    "quality": "Poor",
+    "rhr": 57,
+    "resp": 16.1,
+    "bb": 86
+   },
+   {
+    "date": "2026-09-18",
+    "score": 77,
+    "durationH": 6.9,
+    "quality": "Fair",
+    "rhr": 60,
+    "resp": 15.0,
+    "bb": 80
    }
   ],
   "hrv": [
@@ -2775,6 +2853,30 @@ window.EXTERNAL_DATA = {
     "avg": 73,
     "status": "Dengesiz",
     "weekAvg": 63
+   },
+   {
+    "date": "2026-09-15",
+    "avg": 78,
+    "status": "Dengesiz",
+    "weekAvg": 63
+   },
+   {
+    "date": "2026-09-16",
+    "avg": 56,
+    "status": "Dengesiz",
+    "weekAvg": 62
+   },
+   {
+    "date": "2026-09-17",
+    "avg": 73,
+    "status": "Dengeli",
+    "weekAvg": 67
+   },
+   {
+    "date": "2026-09-18",
+    "avg": 68,
+    "status": "Dengeli",
+    "weekAvg": 67
    }
   ],
   "bodyBattery": [
@@ -3117,6 +3219,26 @@ window.EXTERNAL_DATA = {
    {
     "date": "2026-09-13",
     "val": 89
+   },
+   {
+    "date": "2026-09-14",
+    "val": 64
+   },
+   {
+    "date": "2026-09-15",
+    "val": 97
+   },
+   {
+    "date": "2026-09-16",
+    "val": 51
+   },
+   {
+    "date": "2026-09-17",
+    "val": 86
+   },
+   {
+    "date": "2026-09-18",
+    "val": 80
    }
   ],
   "readiness": [],
@@ -3544,8 +3666,33 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-09-13",
-    "steps": 3315,
+    "steps": 3640,
     "goal": 6480
+   },
+   {
+    "date": "2026-09-14",
+    "steps": 13167,
+    "goal": 6200
+   },
+   {
+    "date": "2026-09-15",
+    "steps": 25826,
+    "goal": 6900
+   },
+   {
+    "date": "2026-09-16",
+    "steps": 18947,
+    "goal": 8900
+   },
+   {
+    "date": "2026-09-17",
+    "steps": 9083,
+    "goal": 10900
+   },
+   {
+    "date": "2026-09-18",
+    "steps": 5655,
+    "goal": 10720
    }
   ]
  },
