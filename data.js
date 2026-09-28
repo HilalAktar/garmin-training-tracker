@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-09-27T10:01:58+03:00",
+ "generated": "2026-09-28T21:00:19+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,22 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24532300819",
+   "date": "2026-09-28",
+   "time": "20:12",
+   "name": "Güç",
+   "type": "WeightTraining",
+   "cat": "Kuvvet",
+   "sec": 2606,
+   "km": 0.0,
+   "cal": 137,
+   "avgHr": 106,
+   "maxHr": 160,
+   "sets": 12,
+   "reps": 101
+  },
   {
    "src": "garmin",
    "id": "24497252592",
@@ -2453,6 +2469,24 @@ window.EXTERNAL_DATA = {
     "rhr": 57,
     "resp": 15.6,
     "bb": 79
+   },
+   {
+    "date": "2026-09-27",
+    "score": 45,
+    "durationH": 4.0,
+    "quality": "Poor",
+    "rhr": 60,
+    "resp": 16.7,
+    "bb": 31
+   },
+   {
+    "date": "2026-09-28",
+    "score": 87,
+    "durationH": 8.6,
+    "quality": "Good",
+    "rhr": 52,
+    "resp": 14.6,
+    "bb": 100
    }
   ],
   "hrv": [
@@ -3025,6 +3059,18 @@ window.EXTERNAL_DATA = {
     "avg": 57,
     "status": "Dengesiz",
     "weekAvg": 59
+   },
+   {
+    "date": "2026-09-27",
+    "avg": 40,
+    "status": "Düşük",
+    "weekAvg": 55
+   },
+   {
+    "date": "2026-09-28",
+    "avg": 79,
+    "status": "Dengesiz",
+    "weekAvg": 59
    }
   ],
   "bodyBattery": [
@@ -3422,7 +3468,11 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-09-27",
-    "val": 29
+    "val": 31
+   },
+   {
+    "date": "2026-09-28",
+    "val": 100
    }
   ],
   "readiness": [],
@@ -3920,8 +3970,13 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-09-27",
-    "steps": 388,
+    "steps": 7151,
     "goal": 8790
+   },
+   {
+    "date": "2026-09-28",
+    "steps": 1383,
+    "goal": 8630
    }
   ]
  },
