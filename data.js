@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-09-28T21:00:19+03:00",
+ "generated": "2026-09-29T21:00:18+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,34 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24536991071",
+   "date": "2026-09-29",
+   "time": "08:17",
+   "name": "Konyaalti Running",
+   "type": "Run",
+   "cat": "Koşu",
+   "sec": 2030,
+   "km": 5.01,
+   "cal": 260,
+   "avgHr": 172,
+   "maxHr": 189
+  },
+  {
+   "src": "garmin",
+   "id": "24532491136",
+   "date": "2026-09-28",
+   "time": "20:58",
+   "name": "Kardiyo",
+   "type": "Workout",
+   "cat": "Kardiyo",
+   "sec": 606,
+   "km": 0.0,
+   "cal": 70,
+   "avgHr": 147,
+   "maxHr": 158
+  },
   {
    "src": "garmin",
    "id": "24532300819",
@@ -2487,6 +2515,15 @@ window.EXTERNAL_DATA = {
     "rhr": 52,
     "resp": 14.6,
     "bb": 100
+   },
+   {
+    "date": "2026-09-29",
+    "score": 93,
+    "durationH": 7.2,
+    "quality": "Excellent",
+    "rhr": 55,
+    "resp": 15.7,
+    "bb": 99
    }
   ],
   "hrv": [
@@ -3071,6 +3108,12 @@ window.EXTERNAL_DATA = {
     "avg": 79,
     "status": "Dengesiz",
     "weekAvg": 59
+   },
+   {
+    "date": "2026-09-29",
+    "avg": 66,
+    "status": "Dengesiz",
+    "weekAvg": 60
    }
   ],
   "bodyBattery": [
@@ -3473,6 +3516,10 @@ window.EXTERNAL_DATA = {
    {
     "date": "2026-09-28",
     "val": 100
+   },
+   {
+    "date": "2026-09-29",
+    "val": 99
    }
   ],
   "readiness": [],
@@ -3975,8 +4022,13 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-09-28",
-    "steps": 1383,
+    "steps": 3785,
     "goal": 8630
+   },
+   {
+    "date": "2026-09-29",
+    "steps": 9123,
+    "goal": 7670
    }
   ]
  },
