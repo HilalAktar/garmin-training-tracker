@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-09-29T21:00:18+03:00",
+ "generated": "2026-10-01T23:13:49+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,52 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24571180826",
+   "date": "2026-10-01",
+   "time": "22:08",
+   "name": "Güç",
+   "type": "WeightTraining",
+   "cat": "Kuvvet",
+   "sec": 2282,
+   "km": 0.0,
+   "cal": 107,
+   "avgHr": 101,
+   "maxHr": 154,
+   "sets": 10,
+   "reps": 93
+  },
+  {
+   "src": "garmin",
+   "id": "24558734214",
+   "date": "2026-09-30",
+   "time": "21:02",
+   "name": "Mobility",
+   "type": "PhysicalTherapy",
+   "cat": "Esneklik",
+   "sec": 1646,
+   "km": 0.0,
+   "cal": 100,
+   "avgHr": 112,
+   "maxHr": 148
+  },
+  {
+   "src": "garmin",
+   "id": "24558733538",
+   "date": "2026-09-30",
+   "time": "20:14",
+   "name": "Güç",
+   "type": "WeightTraining",
+   "cat": "Kuvvet",
+   "sec": 2134,
+   "km": 0.0,
+   "cal": 96,
+   "avgHr": 99,
+   "maxHr": 141,
+   "sets": 15,
+   "reps": 103
+  },
   {
    "src": "garmin",
    "id": "24536991071",
@@ -2524,6 +2570,24 @@ window.EXTERNAL_DATA = {
     "rhr": 55,
     "resp": 15.7,
     "bb": 99
+   },
+   {
+    "date": "2026-09-30",
+    "score": 70,
+    "durationH": 6.5,
+    "quality": "Fair",
+    "rhr": 55,
+    "resp": 15.9,
+    "bb": 90
+   },
+   {
+    "date": "2026-10-01",
+    "score": 49,
+    "durationH": 3.5,
+    "quality": "Poor",
+    "rhr": 53,
+    "resp": 16.1,
+    "bb": 100
    }
   ],
   "hrv": [
@@ -3114,6 +3178,18 @@ window.EXTERNAL_DATA = {
     "avg": 66,
     "status": "Dengesiz",
     "weekAvg": 60
+   },
+   {
+    "date": "2026-09-30",
+    "avg": 63,
+    "status": "Dengesiz",
+    "weekAvg": 61
+   },
+   {
+    "date": "2026-10-01",
+    "avg": 75,
+    "status": "Dengeli",
+    "weekAvg": 62
    }
   ],
   "bodyBattery": [
@@ -3520,6 +3596,14 @@ window.EXTERNAL_DATA = {
    {
     "date": "2026-09-29",
     "val": 99
+   },
+   {
+    "date": "2026-09-30",
+    "val": 90
+   },
+   {
+    "date": "2026-10-01",
+    "val": 100
    }
   ],
   "readiness": [],
@@ -4027,8 +4111,18 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-09-29",
-    "steps": 9123,
+    "steps": 9882,
     "goal": 7670
+   },
+   {
+    "date": "2026-09-30",
+    "steps": 3992,
+    "goal": 7900
+   },
+   {
+    "date": "2026-10-01",
+    "steps": 4153,
+    "goal": 7510
    }
   ]
  },
