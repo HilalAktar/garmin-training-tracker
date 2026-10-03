@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-10-02T21:00:15+03:00",
+ "generated": "2026-10-03T21:00:16+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -2611,6 +2611,15 @@ window.EXTERNAL_DATA = {
     "rhr": 56,
     "resp": 15.6,
     "bb": 100
+   },
+   {
+    "date": "2026-10-03",
+    "score": 44,
+    "durationH": 4.3,
+    "quality": "Poor",
+    "rhr": 59,
+    "resp": 15.3,
+    "bb": 37
    }
   ],
   "hrv": [
@@ -3219,6 +3228,12 @@ window.EXTERNAL_DATA = {
     "avg": 65,
     "status": "Dengeli",
     "weekAvg": 62
+   },
+   {
+    "date": "2026-10-03",
+    "avg": 40,
+    "status": "Dengesiz",
+    "weekAvg": 59
    }
   ],
   "bodyBattery": [
@@ -3637,6 +3652,10 @@ window.EXTERNAL_DATA = {
    {
     "date": "2026-10-02",
     "val": 100
+   },
+   {
+    "date": "2026-10-03",
+    "val": 37
    }
   ],
   "readiness": [],
@@ -4159,8 +4178,13 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-10-02",
-    "steps": 17404,
+    "steps": 19576,
     "goal": 6840
+   },
+   {
+    "date": "2026-10-03",
+    "steps": 8124,
+    "goal": 8120
    }
   ]
  },
