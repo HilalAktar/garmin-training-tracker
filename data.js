@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-10-05T21:00:20+03:00",
+ "generated": "2026-10-06T21:00:17+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,50 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24628051267",
+   "date": "2026-10-06",
+   "time": "17:42",
+   "name": "Konyaalti Hiking",
+   "type": "Other",
+   "cat": "Diğer",
+   "sec": 2290,
+   "km": 0.95,
+   "cal": 104,
+   "avgHr": 100,
+   "maxHr": 138
+  },
+  {
+   "src": "garmin",
+   "id": "24623020697",
+   "date": "2026-10-06",
+   "time": "10:00",
+   "name": "Konyaalti Running",
+   "type": "Run",
+   "cat": "Koşu",
+   "sec": 1230,
+   "km": 2.89,
+   "cal": 141,
+   "avgHr": 154,
+   "maxHr": 185
+  },
+  {
+   "src": "garmin",
+   "id": "24618578581",
+   "date": "2026-10-05",
+   "time": "21:26",
+   "name": "Güç",
+   "type": "WeightTraining",
+   "cat": "Kuvvet",
+   "sec": 3489,
+   "km": 0.0,
+   "cal": 190,
+   "avgHr": 112,
+   "maxHr": 161,
+   "sets": 14,
+   "reps": 120
+  },
   {
    "src": "garmin",
    "id": "24580305183",
@@ -1548,6 +1592,20 @@ window.EXTERNAL_DATA = {
  "motor": [
   {
    "src": "garmin",
+   "id": "24626220755",
+   "date": "2026-10-06",
+   "time": "14:50",
+   "name": "Muratpasa Motosiklet",
+   "type": "Motorcycling",
+   "cat": "Motor",
+   "sec": 3099,
+   "km": 18.77,
+   "cal": 97,
+   "avgHr": 86,
+   "maxHr": 131
+  },
+  {
+   "src": "garmin",
    "id": "24334641570",
    "date": "2026-09-12",
    "time": "16:51",
@@ -2629,6 +2687,15 @@ window.EXTERNAL_DATA = {
     "rhr": 59,
     "resp": 15.2,
     "bb": 63
+   },
+   {
+    "date": "2026-10-06",
+    "score": 81,
+    "durationH": 8.1,
+    "quality": "Good",
+    "rhr": 58,
+    "resp": 15.4,
+    "bb": 89
    }
   ],
   "hrv": [
@@ -3249,6 +3316,12 @@ window.EXTERNAL_DATA = {
     "avg": 58,
     "status": "Dengeli",
     "weekAvg": 62
+   },
+   {
+    "date": "2026-10-06",
+    "avg": 61,
+    "status": "Dengesiz",
+    "weekAvg": 59
    }
   ],
   "bodyBattery": [
@@ -3679,6 +3752,10 @@ window.EXTERNAL_DATA = {
    {
     "date": "2026-10-05",
     "val": 80
+   },
+   {
+    "date": "2026-10-06",
+    "val": 89
    }
   ],
   "readiness": [],
@@ -4216,8 +4293,13 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-10-05",
-    "steps": 2089,
+    "steps": 4233,
     "goal": 8340
+   },
+   {
+    "date": "2026-10-06",
+    "steps": 15225,
+    "goal": 7520
    }
   ]
  },
