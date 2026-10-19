@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-10-19T08:50:55+03:00",
+ "generated": "2026-10-19T21:00:17+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,20 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24775135614",
+   "date": "2026-10-19",
+   "time": "09:06",
+   "name": "Konyaalti Running",
+   "type": "Run",
+   "cat": "Koşu",
+   "sec": 1968,
+   "km": 5.01,
+   "cal": 256,
+   "avgHr": 173,
+   "maxHr": 188
+  },
   {
    "src": "garmin",
    "id": "24711785815",
@@ -2848,6 +2862,15 @@ window.EXTERNAL_DATA = {
     "rhr": 56,
     "resp": 16.1,
     "bb": 92
+   },
+   {
+    "date": "2026-10-19",
+    "score": 83,
+    "durationH": 5.8,
+    "quality": "Good",
+    "rhr": 52,
+    "resp": 15.9,
+    "bb": 100
    }
   ],
   "hrv": [
@@ -3546,6 +3569,12 @@ window.EXTERNAL_DATA = {
     "avg": 62,
     "status": "Dengeli",
     "weekAvg": 60
+   },
+   {
+    "date": "2026-10-19",
+    "avg": 72,
+    "status": "Dengeli",
+    "weekAvg": 60
    }
   ],
   "bodyBattery": [
@@ -4031,7 +4060,7 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-10-19",
-    "val": 64
+    "val": 100
    }
   ],
   "readiness": [],
@@ -4639,7 +4668,7 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-10-19",
-    "steps": 188,
+    "steps": 12219,
     "goal": 5890
    }
   ]
