@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-10-22T09:58:16+03:00",
+ "generated": "2026-10-22T21:00:15+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,20 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24816207678",
+   "date": "2026-10-22",
+   "time": "17:41",
+   "name": "Bouldering",
+   "type": "Bouldering",
+   "cat": "Tırmanış",
+   "sec": 6074,
+   "km": 0.0,
+   "cal": 292,
+   "avgHr": 107,
+   "maxHr": 164
+  },
   {
    "src": "garmin",
    "id": "24807177601",
@@ -2919,6 +2933,15 @@ window.EXTERNAL_DATA = {
     "rhr": 52,
     "resp": 15.7,
     "bb": 100
+   },
+   {
+    "date": "2026-10-22",
+    "score": 81,
+    "durationH": 6.4,
+    "quality": "Good",
+    "rhr": 54,
+    "resp": 15.4,
+    "bb": 100
    }
   ],
   "hrv": [
@@ -3635,6 +3658,12 @@ window.EXTERNAL_DATA = {
     "avg": 68,
     "status": "Dengeli",
     "weekAvg": 64
+   },
+   {
+    "date": "2026-10-22",
+    "avg": 69,
+    "status": "Dengeli",
+    "weekAvg": 66
    }
   ],
   "bodyBattery": [
@@ -4132,7 +4161,7 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-10-22",
-    "val": 97
+    "val": 100
    }
   ],
   "readiness": [],
@@ -4755,7 +4784,7 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-10-22",
-    "steps": 218,
+    "steps": 6285,
     "goal": 5700
    }
   ]
