@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-10-23T21:00:16+03:00",
+ "generated": "2026-10-25T18:12:42+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,36 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24837014276",
+   "date": "2026-10-24",
+   "time": "16:58",
+   "name": "Güç",
+   "type": "WeightTraining",
+   "cat": "Kuvvet",
+   "sec": 3185,
+   "km": 0.0,
+   "cal": 192,
+   "avgHr": 114,
+   "maxHr": 157,
+   "sets": 19,
+   "reps": 155
+  },
+  {
+   "src": "garmin",
+   "id": "24828537804",
+   "date": "2026-10-23",
+   "time": "21:25",
+   "name": "Konyaalti Running",
+   "type": "Run",
+   "cat": "Koşu",
+   "sec": 3060,
+   "km": 6.21,
+   "cal": 304,
+   "avgHr": 153,
+   "maxHr": 167
+  },
   {
    "src": "garmin",
    "id": "24816207678",
@@ -2951,6 +2981,24 @@ window.EXTERNAL_DATA = {
     "rhr": 55,
     "resp": 15.7,
     "bb": 100
+   },
+   {
+    "date": "2026-10-24",
+    "score": 67,
+    "durationH": 6.1,
+    "quality": "Fair",
+    "rhr": 56,
+    "resp": 16.1,
+    "bb": 83
+   },
+   {
+    "date": "2026-10-25",
+    "score": 94,
+    "durationH": 7.6,
+    "quality": "Excellent",
+    "rhr": 54,
+    "resp": 15.9,
+    "bb": 100
    }
   ],
   "hrv": [
@@ -3679,6 +3727,18 @@ window.EXTERNAL_DATA = {
     "avg": 71,
     "status": "Dengeli",
     "weekAvg": 68
+   },
+   {
+    "date": "2026-10-24",
+    "avg": 63,
+    "status": "Dengeli",
+    "weekAvg": 67
+   },
+   {
+    "date": "2026-10-25",
+    "avg": 73,
+    "status": "Dengeli",
+    "weekAvg": 69
    }
   ],
   "bodyBattery": [
@@ -4180,6 +4240,14 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-10-23",
+    "val": 100
+   },
+   {
+    "date": "2026-10-24",
+    "val": 83
+   },
+   {
+    "date": "2026-10-25",
     "val": 100
    }
   ],
@@ -4808,8 +4876,18 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-10-23",
-    "steps": 5928,
+    "steps": 19020,
     "goal": 5860
+   },
+   {
+    "date": "2026-10-24",
+    "steps": 8425,
+    "goal": 7860
+   },
+   {
+    "date": "2026-10-25",
+    "steps": 2913,
+    "goal": 7980
    }
   ]
  },
