@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-10-25T18:12:42+03:00",
+ "generated": "2026-10-25T21:00:16+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -4886,7 +4886,7 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-10-25",
-    "steps": 2913,
+    "steps": 4161,
     "goal": 7980
    }
   ]
