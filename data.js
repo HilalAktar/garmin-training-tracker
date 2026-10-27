@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-10-26T21:00:30+03:00",
+ "generated": "2026-10-27T21:00:17+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,34 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24871887002",
+   "date": "2026-10-27",
+   "time": "19:15",
+   "name": "Bouldering",
+   "type": "Bouldering",
+   "cat": "Tırmanış",
+   "sec": 4324,
+   "km": 0.0,
+   "cal": 253,
+   "avgHr": 116,
+   "maxHr": 167
+  },
+  {
+   "src": "garmin",
+   "id": "24860726817",
+   "date": "2026-10-26",
+   "time": "21:16",
+   "name": "Konyaalti Running",
+   "type": "Run",
+   "cat": "Koşu",
+   "sec": 1850,
+   "km": 5.01,
+   "cal": 259,
+   "avgHr": 176,
+   "maxHr": 193
+  },
   {
    "src": "garmin",
    "id": "24837014276",
@@ -3008,6 +3036,15 @@ window.EXTERNAL_DATA = {
     "rhr": 50,
     "resp": 15.8,
     "bb": 100
+   },
+   {
+    "date": "2026-10-27",
+    "score": 71,
+    "durationH": 5.3,
+    "quality": "Fair",
+    "rhr": 53,
+    "resp": 15.4,
+    "bb": 95
    }
   ],
   "hrv": [
@@ -3754,6 +3791,12 @@ window.EXTERNAL_DATA = {
     "avg": 82,
     "status": "Dengeli",
     "weekAvg": 70
+   },
+   {
+    "date": "2026-10-27",
+    "avg": 77,
+    "status": "Dengeli",
+    "weekAvg": 71
    }
   ],
   "bodyBattery": [
@@ -4268,6 +4311,10 @@ window.EXTERNAL_DATA = {
    {
     "date": "2026-10-26",
     "val": 100
+   },
+   {
+    "date": "2026-10-27",
+    "val": 95
    }
   ],
   "readiness": [],
@@ -4910,8 +4957,13 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-10-26",
-    "steps": 1255,
+    "steps": 9585,
     "goal": 7660
+   },
+   {
+    "date": "2026-10-27",
+    "steps": 4933,
+    "goal": 7860
    }
   ]
  },
