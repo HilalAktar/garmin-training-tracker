@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-10-29T21:00:19+03:00",
+ "generated": "2026-11-01T12:36:44+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,20 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24900862253",
+   "date": "2026-10-30",
+   "time": "08:28",
+   "name": "Konyaalti Running",
+   "type": "Run",
+   "cat": "Koşu",
+   "sec": 3127,
+   "km": 7.02,
+   "cal": 345,
+   "avgHr": 155,
+   "maxHr": 177
+  },
   {
    "src": "garmin",
    "id": "24895045691",
@@ -1957,8 +1971,7 @@ window.EXTERNAL_DATA = {
     "durationH": 3.2,
     "quality": "Poor",
     "rhr": 60,
-    "resp": 16.1,
-    "bb": 39
+    "resp": 16.1
    },
    {
     "date": "2026-06-21",
@@ -1966,8 +1979,7 @@ window.EXTERNAL_DATA = {
     "durationH": 7.5,
     "quality": "Fair",
     "rhr": 60,
-    "resp": 16.1,
-    "bb": 46
+    "resp": 16.1
    },
    {
     "date": "2026-06-22",
@@ -1975,8 +1987,7 @@ window.EXTERNAL_DATA = {
     "durationH": 7.5,
     "quality": "Good",
     "rhr": 54,
-    "resp": 16.0,
-    "bb": 87
+    "resp": 16.0
    },
    {
     "date": "2026-06-23",
@@ -1984,8 +1995,7 @@ window.EXTERNAL_DATA = {
     "durationH": 6.2,
     "quality": "Good",
     "rhr": 54,
-    "resp": 16.5,
-    "bb": 92
+    "resp": 16.5
    },
    {
     "date": "2026-06-24",
@@ -1993,8 +2003,7 @@ window.EXTERNAL_DATA = {
     "durationH": 8.1,
     "quality": "Excellent",
     "rhr": 50,
-    "resp": 15.8,
-    "bb": 100
+    "resp": 15.8
    },
    {
     "date": "2026-06-25",
@@ -2002,8 +2011,7 @@ window.EXTERNAL_DATA = {
     "durationH": 6.6,
     "quality": "Fair",
     "rhr": 52,
-    "resp": 15.9,
-    "bb": 94
+    "resp": 15.9
    },
    {
     "date": "2026-06-26",
@@ -2011,8 +2019,7 @@ window.EXTERNAL_DATA = {
     "durationH": 6.0,
     "quality": "Fair",
     "rhr": 52,
-    "resp": 16.1,
-    "bb": 81
+    "resp": 16.1
    },
    {
     "date": "2026-06-27",
@@ -2020,8 +2027,7 @@ window.EXTERNAL_DATA = {
     "durationH": 7.5,
     "quality": "Good",
     "rhr": 52,
-    "resp": 16.1,
-    "bb": 90
+    "resp": 16.1
    },
    {
     "date": "2026-06-28",
@@ -2029,8 +2035,7 @@ window.EXTERNAL_DATA = {
     "durationH": 1.9,
     "quality": "Poor",
     "rhr": 56,
-    "resp": 16.4,
-    "bb": 32
+    "resp": 16.4
    },
    {
     "date": "2026-06-29",
@@ -2038,8 +2043,7 @@ window.EXTERNAL_DATA = {
     "durationH": 6.6,
     "quality": "Good",
     "rhr": 53,
-    "resp": 16.8,
-    "bb": 80
+    "resp": 16.8
    },
    {
     "date": "2026-06-30",
@@ -2047,8 +2051,7 @@ window.EXTERNAL_DATA = {
     "durationH": 5.9,
     "quality": "Fair",
     "rhr": 52,
-    "resp": 16.7,
-    "bb": 81
+    "resp": 16.7
    },
    {
     "date": "2026-07-01",
@@ -3093,6 +3096,24 @@ window.EXTERNAL_DATA = {
     "rhr": 57,
     "resp": 15.7,
     "bb": 95
+   },
+   {
+    "date": "2026-10-30",
+    "score": 80,
+    "durationH": 6.0,
+    "quality": "Good",
+    "rhr": 58,
+    "resp": 15.7,
+    "bb": 74
+   },
+   {
+    "date": "2026-10-31",
+    "score": 82,
+    "durationH": 7.3,
+    "quality": "Good",
+    "rhr": 56,
+    "resp": 15.4,
+    "bb": 74
    }
   ],
   "hrv": [
@@ -3857,53 +3878,21 @@ window.EXTERNAL_DATA = {
     "avg": 68,
     "status": "Dengeli",
     "weekAvg": 72
+   },
+   {
+    "date": "2026-10-30",
+    "avg": 60,
+    "status": "Dengeli",
+    "weekAvg": 70
+   },
+   {
+    "date": "2026-10-31",
+    "avg": 51,
+    "status": "Dengeli",
+    "weekAvg": 68
    }
   ],
   "bodyBattery": [
-   {
-    "date": "2026-06-20",
-    "val": 39
-   },
-   {
-    "date": "2026-06-21",
-    "val": 46
-   },
-   {
-    "date": "2026-06-22",
-    "val": 87
-   },
-   {
-    "date": "2026-06-23",
-    "val": 92
-   },
-   {
-    "date": "2026-06-24",
-    "val": 100
-   },
-   {
-    "date": "2026-06-25",
-    "val": 94
-   },
-   {
-    "date": "2026-06-26",
-    "val": 81
-   },
-   {
-    "date": "2026-06-27",
-    "val": 90
-   },
-   {
-    "date": "2026-06-28",
-    "val": 32
-   },
-   {
-    "date": "2026-06-29",
-    "val": 80
-   },
-   {
-    "date": "2026-06-30",
-    "val": 81
-   },
    {
     "date": "2026-07-01",
     "val": 90
@@ -4383,6 +4372,18 @@ window.EXTERNAL_DATA = {
    {
     "date": "2026-10-29",
     "val": 95
+   },
+   {
+    "date": "2026-10-30",
+    "val": 74
+   },
+   {
+    "date": "2026-10-31",
+    "val": 74
+   },
+   {
+    "date": "2026-11-01",
+    "val": 42
    }
   ],
   "readiness": [],
@@ -5040,8 +5041,18 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-10-29",
-    "steps": 3644,
+    "steps": 4837,
     "goal": 6920
+   },
+   {
+    "date": "2026-10-30",
+    "steps": 16119,
+    "goal": 6510
+   },
+   {
+    "date": "2026-10-31",
+    "steps": 4587,
+    "goal": 7470
    }
   ]
  },
