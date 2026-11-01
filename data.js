@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-11-01T12:36:44+03:00",
+ "generated": "2026-11-01T21:00:18+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,22 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "24932048878",
+   "date": "2026-11-01",
+   "time": "19:57",
+   "name": "Güç",
+   "type": "WeightTraining",
+   "cat": "Kuvvet",
+   "sec": 3304,
+   "km": 0.0,
+   "cal": 209,
+   "avgHr": 119,
+   "maxHr": 165,
+   "sets": 16,
+   "reps": 145
+  },
   {
    "src": "garmin",
    "id": "24900862253",
@@ -4383,7 +4399,7 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-11-01",
-    "val": 42
+    "val": 58
    }
   ],
   "readiness": [],
@@ -5053,6 +5069,11 @@ window.EXTERNAL_DATA = {
     "date": "2026-10-31",
     "steps": 4587,
     "goal": 7470
+   },
+   {
+    "date": "2026-11-01",
+    "steps": 620,
+    "goal": 7190
    }
   ]
  },
