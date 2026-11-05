@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-11-02T21:00:18+03:00",
+ "generated": "2026-11-05T07:35:12+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -3153,6 +3153,33 @@ window.EXTERNAL_DATA = {
     "rhr": 58,
     "resp": 15.6,
     "bb": 65
+   },
+   {
+    "date": "2026-11-03",
+    "score": 33,
+    "durationH": 2.4,
+    "quality": "Poor",
+    "rhr": 59,
+    "resp": 16.5,
+    "bb": 24
+   },
+   {
+    "date": "2026-11-04",
+    "score": 61,
+    "durationH": 7.5,
+    "quality": "Fair",
+    "rhr": 64,
+    "resp": 15.8,
+    "bb": 33
+   },
+   {
+    "date": "2026-11-05",
+    "score": 39,
+    "durationH": 5.2,
+    "quality": "Poor",
+    "rhr": 63,
+    "resp": 16.3,
+    "bb": 20
    }
   ],
   "hrv": [
@@ -3935,6 +3962,24 @@ window.EXTERNAL_DATA = {
     "avg": 54,
     "status": "Dengeli",
     "weekAvg": 63
+   },
+   {
+    "date": "2026-11-03",
+    "avg": 51,
+    "status": "Dengeli",
+    "weekAvg": 59
+   },
+   {
+    "date": "2026-11-04",
+    "avg": 43,
+    "status": "Düşük",
+    "weekAvg": 54
+   },
+   {
+    "date": "2026-11-05",
+    "avg": 32,
+    "status": "Düşük",
+    "weekAvg": 47
    }
   ],
   "bodyBattery": [
@@ -4433,6 +4478,18 @@ window.EXTERNAL_DATA = {
    {
     "date": "2026-11-02",
     "val": 65
+   },
+   {
+    "date": "2026-11-03",
+    "val": 24
+   },
+   {
+    "date": "2026-11-04",
+    "val": 33
+   },
+   {
+    "date": "2026-11-05",
+    "val": 20
    }
   ],
   "readiness": [],
@@ -5110,8 +5167,23 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-11-02",
-    "steps": 10020,
+    "steps": 13117,
     "goal": 6210
+   },
+   {
+    "date": "2026-11-03",
+    "steps": 28593,
+    "goal": 6900
+   },
+   {
+    "date": "2026-11-04",
+    "steps": 11413,
+    "goal": 8900
+   },
+   {
+    "date": "2026-11-05",
+    "steps": 18,
+    "goal": 9410
    }
   ]
  },
