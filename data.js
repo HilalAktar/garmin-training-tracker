@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-11-05T07:35:12+03:00",
+ "generated": "2026-11-09T10:54:59+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -32,6 +32,34 @@ window.EXTERNAL_DATA = {
   "m400": "2:20 (2 Tem 2026)"
  },
  "activities": [
+  {
+   "src": "garmin",
+   "id": "25004354481",
+   "date": "2026-11-08",
+   "time": "06:28",
+   "name": "Kardiyo",
+   "type": "Workout",
+   "cat": "Kardiyo",
+   "sec": 2279,
+   "km": 0.0,
+   "cal": 280,
+   "avgHr": 160,
+   "maxHr": 180
+  },
+  {
+   "src": "garmin",
+   "id": "25003999484",
+   "date": "2026-11-08",
+   "time": "01:09",
+   "name": "Kardiyo",
+   "type": "Workout",
+   "cat": "Kardiyo",
+   "sec": 12650,
+   "km": 0.0,
+   "cal": 1164,
+   "avgHr": 158,
+   "maxHr": 197
+  },
   {
    "src": "garmin",
    "id": "24935637349",
@@ -3180,6 +3208,33 @@ window.EXTERNAL_DATA = {
     "rhr": 63,
     "resp": 16.3,
     "bb": 20
+   },
+   {
+    "date": "2026-11-06",
+    "score": 82,
+    "durationH": 9.3,
+    "quality": "Good",
+    "rhr": 61,
+    "resp": 16.1,
+    "bb": 58
+   },
+   {
+    "date": "2026-11-07",
+    "score": 80,
+    "durationH": 6.6,
+    "quality": "Good",
+    "rhr": 59,
+    "resp": 15.5,
+    "bb": 79
+   },
+   {
+    "date": "2026-11-09",
+    "score": 51,
+    "durationH": 5.3,
+    "quality": "Poor",
+    "rhr": 65,
+    "resp": 16.9,
+    "bb": 26
    }
   ],
   "hrv": [
@@ -3980,6 +4035,24 @@ window.EXTERNAL_DATA = {
     "avg": 32,
     "status": "Düşük",
     "weekAvg": 47
+   },
+   {
+    "date": "2026-11-06",
+    "avg": 55,
+    "status": "Düşük",
+    "weekAvg": 47
+   },
+   {
+    "date": "2026-11-07",
+    "avg": 64,
+    "status": "Düşük",
+    "weekAvg": 49
+   },
+   {
+    "date": "2026-11-09",
+    "avg": 44,
+    "status": "Düşük",
+    "weekAvg": 47
    }
   ],
   "bodyBattery": [
@@ -4490,6 +4563,22 @@ window.EXTERNAL_DATA = {
    {
     "date": "2026-11-05",
     "val": 20
+   },
+   {
+    "date": "2026-11-06",
+    "val": 58
+   },
+   {
+    "date": "2026-11-07",
+    "val": 79
+   },
+   {
+    "date": "2026-11-08",
+    "val": 18
+   },
+   {
+    "date": "2026-11-09",
+    "val": 26
    }
   ],
   "readiness": [],
@@ -5182,8 +5271,28 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-11-05",
-    "steps": 18,
+    "steps": 15794,
     "goal": 9410
+   },
+   {
+    "date": "2026-11-06",
+    "steps": 17647,
+    "goal": 10690
+   },
+   {
+    "date": "2026-11-07",
+    "steps": 19861,
+    "goal": 12090
+   },
+   {
+    "date": "2026-11-08",
+    "steps": 49265,
+    "goal": 13650
+   },
+   {
+    "date": "2026-11-09",
+    "steps": 2066,
+    "goal": 15650
    }
   ]
  },
