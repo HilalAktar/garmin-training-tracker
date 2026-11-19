@@ -1,6 +1,6 @@
 /* Garmin Antrenman Takip — veri dosyasi. Elle duzenlemeyin. */
 window.EXTERNAL_DATA = {
- "generated": "2026-11-12T21:00:20+03:00",
+ "generated": "2026-11-19T06:31:46+03:00",
  "athlete": {
   "name": "Işıl",
   "city": "İstanbul",
@@ -3291,6 +3291,60 @@ window.EXTERNAL_DATA = {
     "rhr": 56,
     "resp": 15.9,
     "bb": 90
+   },
+   {
+    "date": "2026-11-13",
+    "score": 81,
+    "durationH": 6.0,
+    "quality": "Good",
+    "rhr": 55,
+    "resp": 15.9,
+    "bb": 89
+   },
+   {
+    "date": "2026-11-14",
+    "score": 76,
+    "durationH": 10.1,
+    "quality": "Fair",
+    "rhr": 53,
+    "resp": 15.8,
+    "bb": 100
+   },
+   {
+    "date": "2026-11-15",
+    "score": 39,
+    "durationH": 3.0,
+    "quality": "Poor",
+    "rhr": 53,
+    "resp": 14.5,
+    "bb": 80
+   },
+   {
+    "date": "2026-11-16",
+    "score": 81,
+    "durationH": 7.0,
+    "quality": "Good",
+    "rhr": 54,
+    "resp": 15.2,
+    "bb": 91
+   },
+   {
+    "date": "2026-11-18",
+    "score": 68,
+    "durationH": 7.2,
+    "quality": "Fair",
+    "rhr": 54,
+    "resp": 14.8,
+    "bb": 81
+   },
+   {
+    "date": "2026-11-19",
+    "score": 85,
+    "durationH": 7.2,
+    "quality": "Good",
+    "rhr": 55,
+    "resp": 16.1,
+    "bb": 95
    }
   ],
   "hrv": [
@@ -4127,6 +4181,42 @@ window.EXTERNAL_DATA = {
     "avg": 62,
     "status": "Dengeli",
     "weekAvg": 61
+   },
+   {
+    "date": "2026-11-13",
+    "avg": 59,
+    "status": "Dengeli",
+    "weekAvg": 62
+   },
+   {
+    "date": "2026-11-14",
+    "avg": 67,
+    "status": "Dengeli",
+    "weekAvg": 62
+   },
+   {
+    "date": "2026-11-15",
+    "avg": 76,
+    "status": "Dengeli",
+    "weekAvg": 64
+   },
+   {
+    "date": "2026-11-16",
+    "avg": 67,
+    "status": "Dengeli",
+    "weekAvg": 68
+   },
+   {
+    "date": "2026-11-18",
+    "avg": 57,
+    "status": "Dengeli",
+    "weekAvg": 64
+   },
+   {
+    "date": "2026-11-19",
+    "avg": 63,
+    "status": "Dengeli",
+    "weekAvg": 64
    }
   ],
   "bodyBattery": [
@@ -4665,6 +4755,34 @@ window.EXTERNAL_DATA = {
    {
     "date": "2026-11-12",
     "val": 90
+   },
+   {
+    "date": "2026-11-13",
+    "val": 89
+   },
+   {
+    "date": "2026-11-14",
+    "val": 100
+   },
+   {
+    "date": "2026-11-15",
+    "val": 80
+   },
+   {
+    "date": "2026-11-16",
+    "val": 91
+   },
+   {
+    "date": "2026-11-17",
+    "val": 26
+   },
+   {
+    "date": "2026-11-18",
+    "val": 81
+   },
+   {
+    "date": "2026-11-19",
+    "val": 95
    }
   ],
   "readiness": [],
@@ -5392,8 +5510,43 @@ window.EXTERNAL_DATA = {
    },
    {
     "date": "2026-11-12",
-    "steps": 3317,
+    "steps": 5339,
     "goal": 10870
+   },
+   {
+    "date": "2026-11-13",
+    "steps": 3906,
+    "goal": 9770
+   },
+   {
+    "date": "2026-11-14",
+    "steps": 7528,
+    "goal": 8600
+   },
+   {
+    "date": "2026-11-15",
+    "steps": 4362,
+    "goal": 8390
+   },
+   {
+    "date": "2026-11-16",
+    "steps": 4105,
+    "goal": 7590
+   },
+   {
+    "date": "2026-11-17",
+    "steps": 18522,
+    "goal": 6900
+   },
+   {
+    "date": "2026-11-18",
+    "steps": 2085,
+    "goal": 8070
+   },
+   {
+    "date": "2026-11-19",
+    "steps": 3034,
+    "goal": 7480
    }
   ]
  },
